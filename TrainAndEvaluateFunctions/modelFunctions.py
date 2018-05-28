@@ -25,3 +25,7 @@ def defineModel(top_words, max_review_length):
     model.add(Dense(1, activation='sigmoid'))
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model;
+
+def trainModel(model, X_train, y_train):
+    model.fit(X_train, y_train, epochs=3, batch_size=64)
+    return model
