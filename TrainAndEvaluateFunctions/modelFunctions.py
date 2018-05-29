@@ -11,7 +11,7 @@ from keras.layers import LSTM
 from keras.layers.convolutional import Conv1D
 from keras.layers.convolutional import MaxPooling1D
 from keras.layers.embeddings import Embedding
-from keras.preprocessing import sequence
+#from keras.preprocessing import sequence
 
 
 # Create the model
