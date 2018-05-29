@@ -13,7 +13,7 @@ https://machinelearningmastery.com/sequence-classification-lstm-recurrent-neural
 import numpy
 
 from dataManagement import getData
-from modelFunctions import defineModel, trainModel
+from modelFunctions import defineModel, trainModel, evaluateModel
 from sklearn.model_selection import StratifiedKFold
 
 # fix random seed for reproducibility
@@ -28,9 +28,10 @@ max_review_length = 500
 # Create the model
 #model = defineModel(top_words, max_review_length)
 
+
+
 nFolds = 3
 skf = StratifiedKFold(n_splits = nFolds, shuffle = True, random_state = seed)
-
 foldNumber = 1;
 for trainIndex, testIndex in skf.split(x, y):
     print("Running Fold", foldNumber, "/", nFolds)
@@ -43,6 +44,6 @@ for trainIndex, testIndex in skf.split(x, y):
     trainModel(model, x[trainIndex], y[trainIndex])
     
     # Test the model
-    scores = model.evaluate(x[testIndex], y[testIndex], verbose=0)
-    print("Accuracy of fold ", foldNumber, ": ", (scores[1]*100))
+    accuracy = evaluateModel(model, x, y)
+    print("Accuracy of fold ", foldNumber, ": ", (accuracy*100))
     foldNumber = foldNumber + 1

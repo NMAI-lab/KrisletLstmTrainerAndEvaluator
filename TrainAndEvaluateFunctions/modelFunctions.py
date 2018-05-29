@@ -26,6 +26,11 @@ def defineModel(top_words, max_review_length):
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model;
 
-def trainModel(model, X_train, y_train):
-    model.fit(X_train, y_train, epochs=3, batch_size=64)
+def trainModel(model, x, y):
+    model.fit(x, y, epochs = 3, batch_size = 64)
     return model
+
+def evaluateModel(model, x, y):
+    scores = model.evaluate(x, y, verbose=0)
+    return scores[1]
+
