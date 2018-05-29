@@ -14,10 +14,11 @@ import numpy
 
 from dataManagement import getData
 from modelFunctions import defineModel, trainModel
-from sklearn.cross_validation import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold
 
 # fix random seed for reproducibility
-numpy.random.seed(7)
+seed = 42;
+numpy.random.seed(seed)
 top_words = 5000
 max_review_length = 500
 
@@ -27,14 +28,21 @@ max_review_length = 500
 # Create the model
 #model = defineModel(top_words, max_review_length)
 
-n_folds = 10
-skf = StratifiedKFold(y, n_folds=n_folds, shuffle=True)
+nFolds = 3
+skf = StratifiedKFold(n_splits = nFolds, shuffle = True, random_state = seed)
 
-for i, (train, test) in enumerate(skf):
-    print("Running Fold", i+1, "/", n_folds)
+foldNumber = 1;
+for trainIndex, testIndex in skf.split(x, y):
+    print("Running Fold", foldNumber, "/", nFolds)
+
+    # Build the model
     model = None # Clearing the NN.
     model = defineModel(top_words, max_review_length)
     
-    trainModel(model, x[train], y[train])
-    scores = model.evaluate(x[test], y[test], verbose=0)
-    print("Accuracy: %.2f%%" % (scores[1]*100))
+    # Train the model
+    trainModel(model, x[trainIndex], y[trainIndex])
+    
+    # Test the model
+    scores = model.evaluate(x[testIndex], y[testIndex], verbose=0)
+    print("Accuracy of fold ", foldNumber, ": ", (scores[1]*100))
+    foldNumber = foldNumber + 1
