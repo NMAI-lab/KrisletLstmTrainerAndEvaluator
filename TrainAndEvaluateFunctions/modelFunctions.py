@@ -15,6 +15,8 @@ from keras.layers.embeddings import Embedding
 
 from sklearn.model_selection import StratifiedKFold
 
+import numpy as np
+
 # Create the model
 def defineModel(top_words, max_review_length):
     embedding_vecor_length = 32
@@ -41,7 +43,9 @@ def trainWithCrossValidation(nFolds, x, y):
     max_review_length = 500
 
     skf = StratifiedKFold(n_splits = nFolds)#, shuffle = True, random_state = seed)
-    foldNumber = 1;
+    accuracyOfFolds = np.zeros(nFolds)
+    foldNumber = 1
+    i = 0
     for trainIndex, testIndex in skf.split(x, y):
         print("Running Fold", foldNumber, "/", nFolds)
 
@@ -54,5 +58,13 @@ def trainWithCrossValidation(nFolds, x, y):
     
         # Test the model
         accuracy = evaluateModel(model, x, y)
+        accuracyOfFolds[i] = accuracy
         print("Accuracy of fold ", foldNumber, ": ", (accuracy*100))
         foldNumber = foldNumber + 1
+        i = i + 1
+        
+    accuracyMean = np.mean(accuracyOfFolds)
+    accuracyStandardDeviation = np.std(accuracyOfFolds)
+    
+    # Currently just returning the last trained model, need to change this
+    return (model, accuracyMean, accuracyStandardDeviation)

@@ -34,4 +34,4 @@ def getData():
     y = np.concatenate((y_train, y_test), axis=0)
 
     # Return result
-    return (x, y)
+    return (X_train, y_train), (X_test, y_test), (x, y)
