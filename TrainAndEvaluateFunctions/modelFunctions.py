@@ -18,7 +18,11 @@ from sklearn.model_selection import StratifiedKFold
 import numpy as np
 
 # Create the model
-def defineModel(top_words, max_review_length):
+def defineModel(configuration):
+    # Need to get rid of these variables
+    top_words = 5000
+    max_review_length = 500
+    
     embedding_vecor_length = 32
     model = Sequential()
     model.add(Embedding(top_words, embedding_vecor_length, input_length=max_review_length))
@@ -29,18 +33,28 @@ def defineModel(top_words, max_review_length):
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model;
 
+# Train the model
 def trainModel(model, x, y):
     model.fit(x, y, epochs = 3, batch_size = 64)
     return model
+
+# Define and train the model (useful for cross-validation)
+def defineAndTrainModel(x, y, configuration):
+    # Define the model
+    model = defineModel(configuration)
+    
+    # Train the model
+    model = trainModel(model, x, y)
+    
+    # Return the model
+    return model
+    
 
 def evaluateModel(model, x, y):
     scores = model.evaluate(x, y, verbose=0)
     return scores[1]
 
 def trainWithCrossValidation(nFolds, x, y):
-    # Need to get rid of these variables
-    top_words = 5000
-    max_review_length = 500
 
     skf = StratifiedKFold(n_splits = nFolds)#, shuffle = True, random_state = seed)
     accuracyOfFolds = np.zeros(nFolds)
@@ -49,22 +63,24 @@ def trainWithCrossValidation(nFolds, x, y):
     for trainIndex, testIndex in skf.split(x, y):
         print("Running Fold", foldNumber, "/", nFolds)
 
-        # Build the model
-        model = None # Clearing the NN.
-        model = defineModel(top_words, max_review_length)
-    
-        # Train the model
-        trainModel(model, x[trainIndex], y[trainIndex])
+        # Define and train the model
+        configuration = 0
+        model = defineAndTrainModel(x[trainIndex], y[trainIndex], configuration)
     
         # Test the model
-        accuracy = evaluateModel(model, x, y)
+        accuracy = evaluateModel(model, x[testIndex], y[testIndex])
         accuracyOfFolds[i] = accuracy
-        print("Accuracy of fold ", foldNumber, ": ", (accuracy*100))
+        print("Accuracy of fold ", foldNumber, ": ", (accuracy * 100))
         foldNumber = foldNumber + 1
         i = i + 1
         
+    # Train the final model
+    configuration = 0
+    defineAndTrainModel(x, y, configuration)
+    
+    # Get performance estimations
     accuracyMean = np.mean(accuracyOfFolds)
     accuracyStandardDeviation = np.std(accuracyOfFolds)
     
-    # Currently just returning the last trained model, need to change this
+    # Return results
     return (model, accuracyMean, accuracyStandardDeviation)
