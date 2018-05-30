@@ -16,13 +16,16 @@ def getData():
     # training and testing data into a single data set in order to have a
     # sample data set for testing nexted cross-validation functionality in 
     # other parts of this program.
+
+    
+    # Need to get rid of these variables
+    top_words = 5000
+    max_review_length = 500
         
     # Load the dataset but only keep the top n words, zero the rest
-    top_words = 5000
     (X_train, y_train), (X_test, y_test) = imdb.load_data(num_words=top_words)
 
     # Truncate and pad input sequences
-    max_review_length = 500
     X_train = sequence.pad_sequences(X_train, maxlen=max_review_length)
     X_test = sequence.pad_sequences(X_test, maxlen=max_review_length)
 

@@ -10,17 +10,14 @@ https://machinelearningmastery.com/sequence-classification-lstm-recurrent-neural
 """
 
 # LSTM and CNN for sequence classification in the IMDB dataset
-import numpy
+#import numpy
 
 from dataManagement import getData
-from modelFunctions import defineModel, trainModel, evaluateModel
-from sklearn.model_selection import StratifiedKFold
+from modelFunctions import trainWithCrossValidation
 
 # fix random seed for reproducibility
-seed = 42;
-numpy.random.seed(seed)
-top_words = 5000
-max_review_length = 500
+#seed = 42;
+#numpy.random.seed(seed)
 
 # Load the data and preprocess
 (x, y) = getData()
@@ -28,22 +25,6 @@ max_review_length = 500
 # Create the model
 #model = defineModel(top_words, max_review_length)
 
-
-
+# Train network and evaluate with cross-validation
 nFolds = 3
-skf = StratifiedKFold(n_splits = nFolds, shuffle = True, random_state = seed)
-foldNumber = 1;
-for trainIndex, testIndex in skf.split(x, y):
-    print("Running Fold", foldNumber, "/", nFolds)
-
-    # Build the model
-    model = None # Clearing the NN.
-    model = defineModel(top_words, max_review_length)
-    
-    # Train the model
-    trainModel(model, x[trainIndex], y[trainIndex])
-    
-    # Test the model
-    accuracy = evaluateModel(model, x, y)
-    print("Accuracy of fold ", foldNumber, ": ", (accuracy*100))
-    foldNumber = foldNumber + 1
+trainWithCrossValidation(nFolds, x, y)

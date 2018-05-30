@@ -13,6 +13,7 @@ from keras.layers.convolutional import MaxPooling1D
 from keras.layers.embeddings import Embedding
 #from keras.preprocessing import sequence
 
+from sklearn.model_selection import StratifiedKFold
 
 # Create the model
 def defineModel(top_words, max_review_length):
@@ -34,3 +35,24 @@ def evaluateModel(model, x, y):
     scores = model.evaluate(x, y, verbose=0)
     return scores[1]
 
+def trainWithCrossValidation(nFolds, x, y):
+    # Need to get rid of these variables
+    top_words = 5000
+    max_review_length = 500
+
+    skf = StratifiedKFold(n_splits = nFolds)#, shuffle = True, random_state = seed)
+    foldNumber = 1;
+    for trainIndex, testIndex in skf.split(x, y):
+        print("Running Fold", foldNumber, "/", nFolds)
+
+        # Build the model
+        model = None # Clearing the NN.
+        model = defineModel(top_words, max_review_length)
+    
+        # Train the model
+        trainModel(model, x[trainIndex], y[trainIndex])
+    
+        # Test the model
+        accuracy = evaluateModel(model, x, y)
+        print("Accuracy of fold ", foldNumber, ": ", (accuracy*100))
+        foldNumber = foldNumber + 1
