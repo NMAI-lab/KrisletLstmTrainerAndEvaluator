@@ -9,6 +9,8 @@ import numpy as np
 from keras.datasets import imdb
 from keras.preprocessing import sequence
 
+from sklearn.model_selection import StratifiedShuffleSplit
+
 def getData():
 
     # This function needs to be reimplemented for the Krislet logs. For now,
@@ -35,3 +37,15 @@ def getData():
 
     # Return result
     return (X_train, y_train), (X_test, y_test), (x, y)
+
+def stratefiedSplit(x, y):
+    nSplits = 1
+    testProportion = 0.2
+    splits = StratifiedShuffleSplit(nSplits, testProportion)
+    splits.get_n_splits(x, y)
+    
+    for trainIndex, testIndex in splits.split(x, y):
+        xTrain, xTest = x[trainIndex], x[testIndex]
+        yTrain, yTest = y[trainIndex], y[testIndex]
+        
+    return (xTrain, yTrain), (xTest, yTest)

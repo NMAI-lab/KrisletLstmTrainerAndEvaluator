@@ -15,6 +15,8 @@ from keras.layers.embeddings import Embedding
 
 from sklearn.model_selection import StratifiedKFold
 
+from dataManagement import stratefiedSplit
+
 import numpy as np
 
 # Create the model
@@ -35,7 +37,9 @@ def defineModel(configuration):
 
 # Train the model
 def trainModel(model, x, y):
-    model.fit(x, y, epochs = 3, batch_size = 64)
+    (xTrain, yTrain), (xTest, yTest) = stratefiedSplit(x, y)
+    # to do: Use validation sample as an early stopping criteria
+    model.fit(xTrain, yTrain, epochs = 3, batch_size = 64, validation_data = (xTest, yTest))
     return model
 
 # Define and train the model (useful for cross-validation)
