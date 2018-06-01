@@ -12,6 +12,7 @@ from keras.layers.convolutional import Conv1D
 from keras.layers.convolutional import MaxPooling1D
 from keras.layers.embeddings import Embedding
 #from keras.preprocessing import sequence
+from keras.callbacks import EarlyStopping, ReduceLROnPlateau
 
 from sklearn.model_selection import StratifiedKFold
 
@@ -38,8 +39,8 @@ def defineModel(configuration):
 # Train the model
 def trainModel(model, x, y):
     (xTrain, yTrain), (xTest, yTest) = stratefiedSplit(x, y)
-    # to do: Use validation sample as an early stopping criteria
-    model.fit(xTrain, yTrain, epochs = 3, batch_size = 64, validation_data = (xTest, yTest))
+    callbacksList = configureCallBacks()
+    model.fit(xTrain, yTrain, epochs = 10, batch_size = 64, callbacks = callbacksList, validation_data = (xTest, yTest))
     return model
 
 # Define and train the model (useful for cross-validation)
@@ -52,6 +53,23 @@ def defineAndTrainModel(x, y, configuration):
     
     # Return the model
     return model
+
+def configureCallBacks():
+    verbosity = 1
+    stopper = EarlyStopping(monitor = 'loss',
+                            min_delta = 0.01,
+                            patience = 10,
+                            verbose = verbosity,
+                            mode = 'auto')
+    
+    rateReducer = ReduceLROnPlateau(monitor = 'loss', 
+                                    factor = 0.2, 
+                                    patience = 5, 
+                                    verbose = verbosity, 
+                                    min_lr = 0.001)
+       
+    callbacksList = [stopper, rateReducer]
+    return callbacksList
     
 
 def evaluateModel(model, x, y):
@@ -59,7 +77,6 @@ def evaluateModel(model, x, y):
     return scores[1]
 
 def trainWithCrossValidation(nFolds, x, y):
-
     skf = StratifiedKFold(n_splits = nFolds)#, shuffle = True, random_state = seed)
     accuracyOfFolds = np.zeros(nFolds)
     foldNumber = 1
