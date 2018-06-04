@@ -13,8 +13,9 @@ https://machinelearningmastery.com/sequence-classification-lstm-recurrent-neural
 #import numpy
 
 from dataManagement import getData
-from modelFunctions import trainWithCrossValidation
+from modelFunctions import trainWithCrossValidation, crossValidateModelConfiguration
 from modelFunctions import evaluateModel
+from modelGenerators import getNumConfigurations
 
 # fix random seed for reproducibility
 #seed = 42;
@@ -25,14 +26,18 @@ from modelFunctions import evaluateModel
 
 # Train network and evaluate with cross-validation
 nFolds = 10
-(model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, xTrain, yTrain)
+configuration = 0
+(model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, xTrain, yTrain, configuration)
 
 # Evaluate with hold out sample for sanity check
 holdOutAccuracy = evaluateModel(model, xTest, yTest)
 
 # Train network and evaluate with cross-validation
-nFolds = 10
-(model, accuracyMeanFullData, accuracyStandardDeviationFullData) = trainWithCrossValidation(nFolds, x, y)
+#nFolds = 10
+(model, accuracyMeanFullData, accuracyStandardDeviationFullData) = trainWithCrossValidation(nFolds, x, y, configuration)
+
+# Perform nested cross validation for parameter tuning and model evaluation
+(accuracyOfConfigurations, deviationOfConfigurations, modelList) = crossValidateModelConfiguration(x, y)
 
 # Print summary
 print('Cross validation accuracy mean: ', accuracyMean)
@@ -40,3 +45,7 @@ print('Cross validation accuracy standard deviation ', accuracyStandardDeviation
 print('Hold out accuracy: ', holdOutAccuracy)
 print('Full data cross validation accuracy mean: ', accuracyMeanFullData)
 print('Full data cross validation accuracy standard deviation ', accuracyStandardDeviationFullData)
+
+numConfigurations = getNumConfigurations()
+for i in range(numConfigurations):
+    print('Configuration ', i, " Accuracy : ", accuracyOfConfigurations[i], " +/- ", deviationOfConfigurations[i])

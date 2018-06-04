@@ -5,36 +5,27 @@ Created on Mon May 28 15:32:58 2018
 @author: patrickgavigan
 """
 
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.layers import LSTM
-from keras.layers.convolutional import Conv1D
-from keras.layers.convolutional import MaxPooling1D
-from keras.layers.embeddings import Embedding
-#from keras.preprocessing import sequence
 from keras.callbacks import EarlyStopping, ReduceLROnPlateau
-
 from sklearn.model_selection import StratifiedKFold
+import numpy as np
 
 from dataManagement import stratefiedSplit
-
-import numpy as np
+from modelGenerators import defineModelVersion0, defineModelVersion1, defineModelVersion2, getNumConfigurations
 
 # Create the model
 def defineModel(configuration):
-    # Need to get rid of these variables
-    top_words = 5000
-    max_review_length = 500
     
-    embedding_vecor_length = 32
-    model = Sequential()
-    model.add(Embedding(top_words, embedding_vecor_length, input_length=max_review_length))
-    model.add(Conv1D(filters=32, kernel_size=3, padding='same', activation='relu'))
-    model.add(MaxPooling1D(pool_size=2))
-    model.add(LSTM(100))
-    model.add(Dense(1, activation='sigmoid'))
-    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-    return model;
+    # Return the requested version of the model
+    if configuration == 0:
+        return defineModelVersion0()
+    elif configuration == 1:
+        return defineModelVersion1()
+    elif configuration == 2:
+        return defineModelVersion2()
+    
+    # Default, configuration 0
+    else:
+        return defineModelVersion0()
 
 # Train the model
 def trainModel(model, x, y):
@@ -76,7 +67,7 @@ def evaluateModel(model, x, y):
     scores = model.evaluate(x, y, verbose=0)
     return scores[1]
 
-def trainWithCrossValidation(nFolds, x, y):
+def trainWithCrossValidation(nFolds, x, y, configuration):
     skf = StratifiedKFold(n_splits = nFolds)#, shuffle = True, random_state = seed)
     accuracyOfFolds = np.zeros(nFolds)
     foldNumber = 1
@@ -85,7 +76,6 @@ def trainWithCrossValidation(nFolds, x, y):
         print("Running Fold", foldNumber, "/", nFolds)
 
         # Define and train the model
-        configuration = 0
         model = defineAndTrainModel(x[trainIndex], y[trainIndex], configuration)
     
         # Test the model
@@ -96,7 +86,6 @@ def trainWithCrossValidation(nFolds, x, y):
         i = i + 1
         
     # Train the final model
-    configuration = 0
     defineAndTrainModel(x, y, configuration)
     
     # Get performance estimations
@@ -105,3 +94,26 @@ def trainWithCrossValidation(nFolds, x, y):
     
     # Return results
     return (model, accuracyMean, accuracyStandardDeviation)
+
+def crossValidateModelConfiguration(x, y):
+    numConfigurations = getNumConfigurations()
+    skf = StratifiedKFold(n_splits = numConfigurations)#, shuffle = True, random_state = seed)
+    accuracyOfConfigurations = np.zeros(numConfigurations)
+    deviationOfConfigurations = np.zeros(numConfigurations)
+    modelList = list()
+    nFolds = 10
+    configuration = 0
+    i = 0
+    for trainIndex, testIndex in skf.split(x, y):
+        print("Running configuration", configuration, "/", numConfigurations)
+        
+        (model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, x, y, configuration)
+        accuracyOfConfigurations[i] = accuracyMean
+        deviationOfConfigurations[i] = accuracyStandardDeviation
+        modelList.append(model)
+        
+        print("Accuracy of configuration ", configuration, ": ", (accuracyMean * 100), " +/- ", (accuracyStandardDeviation * 100))
+        configuration = configuration + 1
+        i = i + 1
+    
+    return (accuracyOfConfigurations, deviationOfConfigurations, modelList)
