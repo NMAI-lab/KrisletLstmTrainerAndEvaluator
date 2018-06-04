@@ -9,6 +9,8 @@ import numpy as np
 from keras.datasets import imdb
 from keras.preprocessing import sequence
 
+from sklearn.model_selection import StratifiedShuffleSplit
+
 def getData():
 
     # This function needs to be reimplemented for the Krislet logs. For now,
@@ -16,13 +18,16 @@ def getData():
     # training and testing data into a single data set in order to have a
     # sample data set for testing nexted cross-validation functionality in 
     # other parts of this program.
+
+    
+    # Need to get rid of these variables
+    top_words = 5000
+    max_review_length = 500
         
     # Load the dataset but only keep the top n words, zero the rest
-    top_words = 5000
     (X_train, y_train), (X_test, y_test) = imdb.load_data(num_words=top_words)
 
     # Truncate and pad input sequences
-    max_review_length = 500
     X_train = sequence.pad_sequences(X_train, maxlen=max_review_length)
     X_test = sequence.pad_sequences(X_test, maxlen=max_review_length)
 
@@ -31,4 +36,16 @@ def getData():
     y = np.concatenate((y_train, y_test), axis=0)
 
     # Return result
-    return (x, y)
+    return (X_train, y_train), (X_test, y_test), (x, y)
+
+def stratefiedSplit(x, y):
+    nSplits = 1
+    testProportion = 0.2
+    splits = StratifiedShuffleSplit(nSplits, testProportion)
+    splits.get_n_splits(x, y)
+    
+    for trainIndex, testIndex in splits.split(x, y):
+        xTrain, xTest = x[trainIndex], x[testIndex]
+        yTrain, yTest = y[trainIndex], y[testIndex]
+        
+    return (xTrain, yTrain), (xTest, yTest)

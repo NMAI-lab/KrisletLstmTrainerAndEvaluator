@@ -10,40 +10,42 @@ https://machinelearningmastery.com/sequence-classification-lstm-recurrent-neural
 """
 
 # LSTM and CNN for sequence classification in the IMDB dataset
-import numpy
+#import numpy
 
 from dataManagement import getData
-from modelFunctions import defineModel, trainModel, evaluateModel
-from sklearn.model_selection import StratifiedKFold
+from modelFunctions import trainWithCrossValidation, crossValidateModelConfiguration
+from modelFunctions import evaluateModel
+from modelGenerators import getNumConfigurations
 
 # fix random seed for reproducibility
-seed = 42;
-numpy.random.seed(seed)
-top_words = 5000
-max_review_length = 500
+#seed = 42;
+#numpy.random.seed(seed)
 
 # Load the data and preprocess
-(x, y) = getData()
+(xTrain, yTrain), (xTest, yTest), (x, y) = getData()
 
-# Create the model
-#model = defineModel(top_words, max_review_length)
+# Train network and evaluate with cross-validation
+nFolds = 10
+configuration = 0
+(model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, xTrain, yTrain, configuration)
 
+# Evaluate with hold out sample for sanity check
+holdOutAccuracy = evaluateModel(model, xTest, yTest)
 
+# Train network and evaluate with cross-validation
+#nFolds = 10
+(model, accuracyMeanFullData, accuracyStandardDeviationFullData) = trainWithCrossValidation(nFolds, x, y, configuration)
 
-nFolds = 3
-skf = StratifiedKFold(n_splits = nFolds, shuffle = True, random_state = seed)
-foldNumber = 1;
-for trainIndex, testIndex in skf.split(x, y):
-    print("Running Fold", foldNumber, "/", nFolds)
+# Perform nested cross validation for parameter tuning and model evaluation
+(accuracyOfConfigurations, deviationOfConfigurations, modelList) = crossValidateModelConfiguration(x, y)
 
-    # Build the model
-    model = None # Clearing the NN.
-    model = defineModel(top_words, max_review_length)
-    
-    # Train the model
-    trainModel(model, x[trainIndex], y[trainIndex])
-    
-    # Test the model
-    accuracy = evaluateModel(model, x, y)
-    print("Accuracy of fold ", foldNumber, ": ", (accuracy*100))
-    foldNumber = foldNumber + 1
+# Print summary
+print('Cross validation accuracy mean: ', accuracyMean)
+print('Cross validation accuracy standard deviation ', accuracyStandardDeviation)
+print('Hold out accuracy: ', holdOutAccuracy)
+print('Full data cross validation accuracy mean: ', accuracyMeanFullData)
+print('Full data cross validation accuracy standard deviation ', accuracyStandardDeviationFullData)
+
+numConfigurations = getNumConfigurations()
+for i in range(numConfigurations):
+    print('Configuration ', i, " Accuracy : ", accuracyOfConfigurations[i], " +/- ", deviationOfConfigurations[i])

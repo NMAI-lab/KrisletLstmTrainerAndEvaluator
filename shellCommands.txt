@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Go to function directory
+cd GitHub/KrisletLstmTrainerAndEvaluator/TrainAndEvaluateFunctions/
+
+# Go to results directory
+cd Machine\ Learning\ Data/Results/KrisletLstmTrainerAndEvaluator/
+
+# Run the command
+python trainAndEvaluateMain.py | tee trainAndEvaluateMainLog.log
+
+# Run the command in the background
+nohup python trainAndEvaluateMain.py > trainAndEvaluateMainLog.log
+
+# Find out the process of any python scripts
+ps -A | grep python
+
+# watch what is happening to output file
+tail -f trainAndEvaluateMainLog.log
+
+# Update the repos
+git pull
