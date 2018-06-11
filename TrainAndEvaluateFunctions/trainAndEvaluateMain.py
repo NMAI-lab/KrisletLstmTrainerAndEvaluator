@@ -31,13 +31,14 @@ configuration = 0
 
 # Evaluate with hold out sample for sanity check
 holdOutAccuracy = evaluateModel(model, xTest, yTest)
+model = None    # Clear up some memory
 
-# Train network and evaluate with cross-validation
+# Train network and evaluate with cross-validation, ignore model parameter that is returned
 #nFolds = 10
-(model, accuracyMeanFullData, accuracyStandardDeviationFullData) = trainWithCrossValidation(nFolds, x, y, configuration)
+(_, accuracyMeanFullData, accuracyStandardDeviationFullData) = trainWithCrossValidation(nFolds, x, y, configuration)
 
 # Perform nested cross validation for parameter tuning and model evaluation
-(accuracyOfConfigurations, deviationOfConfigurations, modelList) = crossValidateModelConfiguration(x, y)
+(accuracyOfConfigurations, deviationOfConfigurations) = crossValidateModelConfiguration(x, y)
 
 # Print summary
 print('Cross validation accuracy mean: ', accuracyMean)

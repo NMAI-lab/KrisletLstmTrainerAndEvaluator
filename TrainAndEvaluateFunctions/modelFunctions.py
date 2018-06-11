@@ -100,20 +100,23 @@ def crossValidateModelConfiguration(x, y):
     skf = StratifiedKFold(n_splits = numConfigurations)#, shuffle = True, random_state = seed)
     accuracyOfConfigurations = np.zeros(numConfigurations)
     deviationOfConfigurations = np.zeros(numConfigurations)
-    modelList = list()
     nFolds = 10
     configuration = 0
     i = 0
     for trainIndex, testIndex in skf.split(x, y):
         print("Running configuration", configuration, "/", numConfigurations)
         
-        (model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, x, y, configuration)
+        # Perform cross validation for this configuration, save results. Do not save the model due to memory limit issues.
+        (_, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, x, y, configuration)
         accuracyOfConfigurations[i] = accuracyMean
         deviationOfConfigurations[i] = accuracyStandardDeviation
-        modelList.append(model)
         
         print("Accuracy of configuration ", configuration, ": ", (accuracyMean * 100), " +/- ", (accuracyStandardDeviation * 100))
         configuration = configuration + 1
         i = i + 1
     
-    return (accuracyOfConfigurations, deviationOfConfigurations, modelList)
+    return (accuracyOfConfigurations, deviationOfConfigurations)
+
+def saveModel(model, configuration):
+    filename = 'my_model.h5'
+    model.save(filename)  # creates a HDF5 file 'my_model.h5'
