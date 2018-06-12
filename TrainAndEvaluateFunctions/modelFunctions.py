@@ -8,6 +8,7 @@ Created on Mon May 28 15:32:58 2018
 from keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from sklearn.model_selection import StratifiedKFold
 import numpy as np
+import datetime
 
 from dataManagement import stratefiedSplit
 from modelGenerators import defineModelVersion0, defineModelVersion1, defineModelVersion2, getNumConfigurations
@@ -103,13 +104,17 @@ def crossValidateModelConfiguration(x, y):
     nFolds = 10
     configuration = 0
     i = 0
+    note = 'NestedCrossValidation'
     for trainIndex, testIndex in skf.split(x, y):
         print("Running configuration", configuration, "/", numConfigurations)
         
         # Perform cross validation for this configuration, save results. Do not save the model due to memory limit issues.
-        (_, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, x, y, configuration)
+        (model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, x, y, configuration)
         accuracyOfConfigurations[i] = accuracyMean
         deviationOfConfigurations[i] = accuracyStandardDeviation
+        
+        saveModel(model, configuration, accuracyMean, accuracyStandardDeviation, note)
+        model = None    # Clear up some memory
         
         print("Accuracy of configuration ", configuration, ": ", (accuracyMean * 100), " +/- ", (accuracyStandardDeviation * 100))
         configuration = configuration + 1
@@ -117,6 +122,20 @@ def crossValidateModelConfiguration(x, y):
     
     return (accuracyOfConfigurations, deviationOfConfigurations)
 
-def saveModel(model, configuration):
-    filename = 'my_model.h5'
-    model.save(filename)  # creates a HDF5 file 'my_model.h5'
+def saveModel(model, configuration, accuracy, deviation, note = None):
+    fileName = getModelFileName(configuration, accuracy, deviation, note)
+    model.save(fileName)  # creates a HDF5 file 'my_model.h5'
+
+def getModelFileName(configuration, accuracy, deviation, note = None):
+    fileExtension = '.h5'
+    fileNameSuffix = 'Configuration' + str(configuration) + 'Accuracy' + str(accuracy) + 'Deviation' + str(deviation)
+    
+    if note != None:
+        fileNameSuffix = fileNameSuffix + str(note)
+    fileNameSuffix = fileNameSuffix + fileExtension
+    
+    fileName = timeStamped(fileNameSuffix)
+    return fileName  
+
+def timeStamped(fname, fmt='%Y-%m-%d-%H-%M-%S_{fname}'):
+    return datetime.datetime.now().strftime(fmt).format(fname=fname)

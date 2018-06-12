@@ -13,7 +13,7 @@ https://machinelearningmastery.com/sequence-classification-lstm-recurrent-neural
 #import numpy
 
 from dataManagement import getData
-from modelFunctions import trainWithCrossValidation, crossValidateModelConfiguration
+from modelFunctions import trainWithCrossValidation, crossValidateModelConfiguration, saveModel
 from modelFunctions import evaluateModel
 from modelGenerators import getNumConfigurations
 
@@ -31,13 +31,18 @@ configuration = 0
 
 # Evaluate with hold out sample for sanity check
 holdOutAccuracy = evaluateModel(model, xTest, yTest)
+note = 'VanillaCrossValidationWithHoldOutAccuracy' + str(holdOutAccuracy)
+saveModel(model, configuration, accuracyMean, accuracyStandardDeviation, note)
 model = None    # Clear up some memory
 
-# Train network and evaluate with cross-validation, ignore model parameter that is returned
+# Train network and evaluate with cross-validation
 #nFolds = 10
-(_, accuracyMeanFullData, accuracyStandardDeviationFullData) = trainWithCrossValidation(nFolds, x, y, configuration)
+(model, accuracyMeanFullData, accuracyStandardDeviationFullData) = trainWithCrossValidation(nFolds, x, y, configuration)
+note = 'CrossValidationWithFullData'
+saveModel(model, configuration, accuracyMeanFullData, accuracyStandardDeviationFullData, note)
+model = None    # Clear up some memory
 
-# Perform nested cross validation for parameter tuning and model evaluation
+# Perform nested cross validation for parameter tuning and model evaluation. Saves models within function
 (accuracyOfConfigurations, deviationOfConfigurations) = crossValidateModelConfiguration(x, y)
 
 # Print summary
