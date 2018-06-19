@@ -20,3 +20,9 @@ tail -f trainAndEvaluateMainLog.log
 
 # Update the repos
 git pull
+
+# Connect from the storage server
+connect-research-drive
+
+# Disconnect from the storage server
+connect-research-drive -x
