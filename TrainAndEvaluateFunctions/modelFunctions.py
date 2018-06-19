@@ -109,7 +109,7 @@ def crossValidateModelConfiguration(x, y):
         print("Running configuration", configuration, "/", numConfigurations)
         
         # Perform cross validation for this configuration, save results. Do not save the model due to memory limit issues.
-        (model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, x, y, configuration)
+        (model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, x[testIndex], y[testIndex], configuration)
         accuracyOfConfigurations[i] = accuracyMean
         deviationOfConfigurations[i] = accuracyStandardDeviation
         
