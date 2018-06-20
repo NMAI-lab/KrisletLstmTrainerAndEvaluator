@@ -16,7 +16,7 @@ from keras.layers.embeddings import Embedding
 def getNumConfigurations():
     return 3
 
-def defineModelVersion0():
+def defineModelVersion2():
     # Need to get rid of these variables
     top_words = 5000
     max_review_length = 500
@@ -44,7 +44,7 @@ def defineModelVersion1():
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model;
 
-def defineModelVersion2():
+def defineModelVersion0():
     # Need to get rid of these variables
     top_words = 5000
     max_review_length = 500
@@ -54,5 +54,6 @@ def defineModelVersion2():
     model.add(Embedding(top_words, embedding_vecor_length, input_length=max_review_length))
     model.add(LSTM(100))
     model.add(Dense(50, activation='sigmoid'))
+    model.add(Dense(1, activation='sigmoid'))
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model;
