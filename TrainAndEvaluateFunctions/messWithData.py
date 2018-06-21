@@ -5,7 +5,9 @@ Created on Tue Jun 19 13:54:43 2018
 @author: patrickgavigan
 """
 
-from parsingFunctions import parseFile, buildHistory
+from parsingFunctions import parseFile, buildSequenceDataSet
 
 (x,y) = parseFile()
-(newX, newY) = buildHistory(x, y)
+
+depth = 2
+(newX, newY) = buildSequenceDataSet(x, y, depth)
