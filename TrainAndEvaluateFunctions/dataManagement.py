@@ -8,6 +8,7 @@ Created on Tue May 29 09:35:58 2018
 import numpy as np
 from keras.datasets import imdb
 from keras.preprocessing import sequence
+from keras.utils import np_utils
 from sklearn.model_selection import StratifiedShuffleSplit
 from parsingFunctions import parseFile
 import random
@@ -117,3 +118,21 @@ def addPreviousYAsFeature(x,y):
         else:
             x[i].append(y[i-1])
     return x
+
+def convertToCategorical(y):
+    ySet = set(y)
+    numCategories = len(ySet)
+    yCategorical = np_utils.to_categorical(y, numCategories)
+    return (yCategorical, numCategories)
+
+def getInputDimensions(x):
+    xShape = x.shape
+    numElements = xShape[0]
+    sequenceLength = xShape[1]
+
+    if len(xShape) == 3:
+        elementDimension = xShape[2]
+    else:
+        elementDimension = 1
+        
+    return (elementDimension, sequenceLength, numElements)
