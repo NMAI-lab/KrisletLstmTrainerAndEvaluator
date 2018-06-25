@@ -10,6 +10,7 @@ from keras.datasets import imdb
 from keras.preprocessing import sequence
 from sklearn.model_selection import StratifiedShuffleSplit
 from parsingFunctions import parseFile
+import random
 
 def getData():
 
