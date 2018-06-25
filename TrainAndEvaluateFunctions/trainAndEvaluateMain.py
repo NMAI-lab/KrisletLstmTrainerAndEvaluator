@@ -22,11 +22,11 @@ from modelGenerators import getNumConfigurations
 #numpy.random.seed(seed)
 
 # Load the data and preprocess
-(xTrain, yTrain), (xTest, yTest), (x, y) = getData()
+trainData, testData, fullData, dataSpecification = getData()
 
 # Perform nested cross validation for parameter tuning and model evaluation. Saves models within function
 print('Run 1: Train using nested cross validation')
-(accuracyOfConfigurations, deviationOfConfigurations) = crossValidateModelConfiguration(x, y)
+(accuracyOfConfigurations, deviationOfConfigurations) = crossValidateModelConfiguration(fullData, dataSpecification)
 
 print('Run 1 Summary')
 numConfigurations = getNumConfigurations()
@@ -38,10 +38,10 @@ print('*****')
 print('Run 2: Train using cross validation and hold out')
 nFolds = 10
 configuration = 0
-(model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, xTrain, yTrain, configuration)
+(model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, trainData, configuration, dataSpecification)
 
 # Evaluate with hold out sample for sanity check
-holdOutAccuracy = evaluateModel(model, xTest, yTest)
+holdOutAccuracy = evaluateModel(model, testData)
 note = 'VanillaCrossValidationWithHoldOutAccuracy' + str(holdOutAccuracy)
 saveModel(model, configuration, accuracyMean, accuracyStandardDeviation, note)
 model = None    # Clear up some memory
@@ -54,7 +54,7 @@ print('*****')
 
 # Train network and evaluate with cross-validation
 print('Run 3: Train using cross validation')
-(model, accuracyMeanFullData, accuracyStandardDeviationFullData) = trainWithCrossValidation(nFolds, x, y, configuration)
+(model, accuracyMeanFullData, accuracyStandardDeviationFullData) = trainWithCrossValidation(nFolds, fullData, configuration, dataSpecification)
 note = 'CrossValidationWithFullData'
 saveModel(model, configuration, accuracyMeanFullData, accuracyStandardDeviationFullData, note)
 model = None    # Clear up some memory

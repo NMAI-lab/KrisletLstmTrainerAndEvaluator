@@ -27,18 +27,23 @@ def getData():
     max_review_length = 500
         
     # Load the dataset but only keep the top n words, zero the rest
-    (X_train, y_train), (X_test, y_test) = imdb.load_data(num_words=top_words)
+    (xTrain, yTrain), (xTest, yTest) = imdb.load_data(num_words=top_words)
 
     # Truncate and pad input sequences
-    X_train = sequence.pad_sequences(X_train, maxlen=max_review_length)
-    X_test = sequence.pad_sequences(X_test, maxlen=max_review_length)
+    xTrain = sequence.pad_sequences(xTrain, maxlen=max_review_length)
+    xTest = sequence.pad_sequences(xTest, maxlen=max_review_length)
 
     # Concatenate the data
-    x = np.concatenate((X_train, X_test), axis=0)
-    y = np.concatenate((y_train, y_test), axis=0)
+    x = np.concatenate((xTrain, xTest), axis=0)
+    y = np.concatenate((yTrain, yTest), axis=0)
+    
+    (yCategorical, numCategories) = convertToCategorical(y)
+    yTrainCategorical = convertToCategorical(yTrain)
+    yTestCategorical = convertToCategorical(yTest)
+    (elementDimension, sequenceLength, numElements) = getInputDimensions(x)
 
     # Return result
-    return (X_train, y_train), (X_test, y_test), (x, y)
+    return (xTrain, yTrainCategorical), (xTest, yTestCategorical), (x, yCategorical), (numCategories, elementDimension, sequenceLength)
 
 def getLogFileData():
     (x,y) = parseFile()
