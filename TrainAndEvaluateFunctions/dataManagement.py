@@ -119,12 +119,14 @@ def addPreviousYAsFeature(x,y):
             x[i].append(y[i-1])
     return x
 
+# Converts the y data to categorical (for use with softmax activartion)
 def convertToCategorical(y):
     ySet = set(y)
     numCategories = len(ySet)
     yCategorical = np_utils.to_categorical(y, numCategories)
     return (yCategorical, numCategories)
 
+# Gets the dimensions of the x data
 def getInputDimensions(x):
     xShape = x.shape
     numElements = xShape[0]
