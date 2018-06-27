@@ -5,9 +5,11 @@ Created on Tue Jun 19 13:54:43 2018
 @author: patrickgavigan
 """
 
-from parsingFunctions import parseFile, buildSequenceDataSet
+from parsingFunctions import loadData
+from dataManagement import convertToCategorical
 
-(x,y) = parseFile()
-
+testType = "stateBasedKrislet"
 depth = 2
-(newX, newY) = buildSequenceDataSet(x, y, depth)
+data = loadData(testType, depth)
+
+yCategorical = convertToCategorical(data[1])
