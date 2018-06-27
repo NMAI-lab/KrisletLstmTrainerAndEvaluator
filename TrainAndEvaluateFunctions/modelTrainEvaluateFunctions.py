@@ -8,10 +8,11 @@ Created on Mon May 28 15:32:58 2018
 from keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from sklearn.model_selection import StratifiedKFold
 import numpy as np
-import datetime
 
 from dataManagement import stratefiedSplit, convertToCategorical
 from modelGenerators import defineModel, getNumConfigurations
+
+from modelSave import saveModel
 
 # Train the model
 def trainModel(model, data):
@@ -109,21 +110,3 @@ def crossValidateModelConfiguration(data, dataSpecification):
         i = i + 1
     
     return (accuracyOfConfigurations, deviationOfConfigurations)
-
-def saveModel(model, configuration, accuracy, deviation, note = None):
-    fileName = getModelFileName(configuration, accuracy, deviation, note)
-    model.save(fileName)  # creates a HDF5 file 'my_model.h5'
-
-def getModelFileName(configuration, accuracy, deviation, note = None):
-    fileExtension = '.h5'
-    fileNameSuffix = 'Configuration' + str(configuration) + 'Accuracy' + str(accuracy) + 'Deviation' + str(deviation)
-    
-    if note != None:
-        fileNameSuffix = fileNameSuffix + str(note)
-    fileNameSuffix = fileNameSuffix + fileExtension
-    
-    fileName = timeStamped(fileNameSuffix)
-    return fileName  
-
-def timeStamped(fname, fmt='%Y-%m-%d-%H-%M-%S_{fname}'):
-    return datetime.datetime.now().strftime(fmt).format(fname=fname)

@@ -13,9 +13,10 @@ https://machinelearningmastery.com/sequence-classification-lstm-recurrent-neural
 #import numpy
 
 from dataManagement import getData
-from modelFunctions import trainWithCrossValidation, crossValidateModelConfiguration, saveModel
-from modelFunctions import evaluateModel
+from modelTrainEvaluateFunctions import trainWithCrossValidation, crossValidateModelConfiguration
+from modelTrainEvaluateFunctions import evaluateModel
 from modelGenerators import getNumConfigurations
+from modelSave import saveModel
 
 # fix random seed for reproducibility
 #seed = 42;
