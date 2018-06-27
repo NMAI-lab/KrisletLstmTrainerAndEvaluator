@@ -10,7 +10,7 @@ from keras.datasets import imdb
 from keras.preprocessing import sequence
 from keras.utils import np_utils
 from sklearn.model_selection import StratifiedShuffleSplit
-from parsingFunctions import parseFile
+#from parsingFunctions import parseFile
 import random
 
 def getData():
@@ -43,11 +43,11 @@ def getData():
     # Return result
     return (xTrain, yTrain), (xTest, yTest), (x, y), (numCategories, elementDimension, sequenceLength)
 
-def getLogFileData():
-    (x,y) = parseFile()
-    depth = 2
-    (newX, newY) = buildSequenceDataSet(x, y, depth)
-    return (newX,newY)
+#def getLogFileData():
+#    (x,y) = parseFile()
+#    depth = 2
+#    (newX, newY) = buildSequenceDataSet(x, y, depth)
+#    return (newX,newY)
     
 
 def stratefiedSplit(x, y):
