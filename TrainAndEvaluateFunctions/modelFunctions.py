@@ -10,7 +10,7 @@ from sklearn.model_selection import StratifiedKFold
 import numpy as np
 import datetime
 
-from dataManagement import stratefiedSplit
+from dataManagement import stratefiedSplit, convertToCategorical
 from modelGenerators import defineModel, getNumConfigurations
 
 # Train the model
@@ -18,7 +18,9 @@ def trainModel(model, data):
     (x, y) = data
     (xTrain, yTrain), (xTest, yTest) = stratefiedSplit(x, y)
     callbacksList = configureCallBacks()
-    model.fit(xTrain, yTrain, epochs = 10, batch_size = 64, callbacks = callbacksList, validation_data = (xTest, yTest))
+    yTrainCategorical = convertToCategorical(yTrain)
+    yTestCategorical = convertToCategorical(yTest)
+    model.fit(xTrain, yTrainCategorical, epochs = 10, batch_size = 64, callbacks = callbacksList, validation_data = (xTest, yTestCategorical))
     return model
 
 # Define and train the model (useful for cross-validation)
@@ -47,7 +49,8 @@ def configureCallBacks():
 
 def evaluateModel(model, data):
     (x, y) = data
-    scores = model.evaluate(x, y, verbose = 0)
+    yCategorical = convertToCategorical(y)
+    scores = model.evaluate(x, yCategorical, verbose = 0)
     return scores[1]
 
 def trainWithCrossValidation(nFolds, data, configuration, dataSpecification):

@@ -37,13 +37,11 @@ def getData():
     x = np.concatenate((xTrain, xTest), axis=0)
     y = np.concatenate((yTrain, yTest), axis=0)
     
-    (yCategorical, numCategories) = convertToCategorical(y)
-    yTrainCategorical = convertToCategorical(yTrain)
-    yTestCategorical = convertToCategorical(yTest)
+    numCategories = getNumCategories(y)
     (elementDimension, sequenceLength, numElements) = getInputDimensions(x)
 
     # Return result
-    return (xTrain, yTrainCategorical), (xTest, yTestCategorical), (x, yCategorical), (numCategories, elementDimension, sequenceLength)
+    return (xTrain, yTrain), (xTest, yTest), (x, y), (numCategories, elementDimension, sequenceLength)
 
 def getLogFileData():
     (x,y) = parseFile()
@@ -124,12 +122,17 @@ def addPreviousYAsFeature(x,y):
             x[i].append(y[i-1])
     return x
 
-# Converts the y data to categorical (for use with softmax activartion)
-def convertToCategorical(y):
+# Returns the number of categories of data set
+def getNumCategories(y):
     ySet = set(y)
     numCategories = len(ySet)
+    return numCategories
+
+# Converts the y data to categorical (for use with softmax activartion)
+def convertToCategorical(y):
+    numCategories = getNumCategories(y)
     yCategorical = np_utils.to_categorical(y, numCategories)
-    return (yCategorical, numCategories)
+    return yCategorical
 
 # Gets the dimensions of the x data
 def getInputDimensions(x):
