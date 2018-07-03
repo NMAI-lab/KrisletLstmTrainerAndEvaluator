@@ -32,8 +32,9 @@ def underSample(data):
         
         # Copy relevant values from original list
         for j in range(len(indexList)):
-            xNew[i] = x[j]
-            yNew[i] = y[j]
+            currentIndex = indexList[j]
+            xNew[i] = x[currentIndex]
+            yNew[i] = y[currentIndex]
             i = i + 1
     
     # Shuffle the data
