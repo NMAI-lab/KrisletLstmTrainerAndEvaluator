@@ -43,12 +43,23 @@ def underSample(data):
     return (newData)
         
 
-# Get the undersampled indeces for the specified class
+# Get the undersampled indeces for the specified class.
 def getUnderSampledClassIndeces(y, classID, numToKeep):
-    yList = y.tolist()
-    classIndeces = yList.index(classID)
-    keepIndeces = random.sample(classIndeces, numToKeep)
+    classIndeces = getIndecesOfValueInData(y, classID)
+    if (len(classIndeces) <= numToKeep):
+        keepIndeces = classIndeces
+    else:
+        keepIndeces = random.sample(classIndeces, numToKeep)
     return keepIndeces
+
+# Get indeces of all elements of data that correspond to provided classID
+def getIndecesOfValueInData(data, value):
+    valueIndeces = list()
+    for i in range(len(data)):
+        if data[i] == value:
+                valueIndeces.append(i)
+    return valueIndeces
+    
 
 # Shuffles the order of the data elements
 def shuffleOrder(data):
