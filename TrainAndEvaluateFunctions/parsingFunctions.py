@@ -52,3 +52,19 @@ def shiftIndex(data):
     for i in range(len(data)):
         data[i] = data[i] - 1
     return data
+
+# Krislet log files contain 6.6 as placeholder values instead of NULL. Need to
+# fine and replace these values with 0.
+    # Implemented using recursion as the input can be multidimensional
+def replacePlaceholder(x, currentPlaceholder = 6.6, newPlaceholder = 0):
+    # Deal with the case where a scalar has been passed in.
+    if (np.shape(x) == ()):
+        if x == currentPlaceholder:
+            x = newPlaceholder
+    
+    # Deal with vector or matrix case by calling function recursively
+    else:
+        for i in range(len(x)):
+            x[i] = replacePlaceholder(x[i], currentPlaceholder, newPlaceholder)
+    
+    return x
