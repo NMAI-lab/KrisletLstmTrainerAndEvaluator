@@ -13,6 +13,36 @@ from keras.layers.convolutional import MaxPooling1D
 from keras.layers.embeddings import Embedding
 #from keras.preprocessing import sequence
 
+def defineParameterizedModel(configuration, dataSpecification):
+    (_, numLSTMnodes, numHiddenNodes, useConvolution, activation) = configuration
+    (numCategories, _, _) = dataSpecification
+
+    # Setup the model
+    model = Sequential()
+
+    # Add the convolution layer
+    if useConvolution:
+        model.add(Conv1D(filters=32, kernel_size=3, padding = 'same', activation = activation))
+        model.add(MaxPooling1D(pool_size=2))
+    
+    # Add the LSTM layer
+    if numLSTMnodes > 0:
+        model.add(LSTM(numLSTMnodes))
+      
+    # Add hidden fully connected layer
+    if numHiddenNodes > 0:
+        model.add(Dense(numHiddenNodes, activation = activation))
+    
+    # Add final layer, compile and return
+    model.add(Dense(numCategories, activation = 'softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    return model;
+
+
+
+
+
+
 # Create the model
 def defineModel(configuration, dataSpecification):
     
