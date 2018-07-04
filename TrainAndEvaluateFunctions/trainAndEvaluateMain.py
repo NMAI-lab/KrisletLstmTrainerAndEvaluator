@@ -1,78 +1,37 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon May 28 13:18:48 2018
+Created on Wed Jul  4 15:02:37 2018
 
 @author: patrickgavigan
-
-Tutorial from: 
-https://machinelearningmastery.com/sequence-classification-lstm-recurrent-neural-networks-python-keras/
-
 """
 
-# LSTM and CNN for sequence classification in the IMDB dataset
-#import numpy
+from testRunFunctions import runTestCase
+from configurationGenerator import buildConfigurationList
 
-from dataManagement import getData
-from modelTrainEvaluateFunctions import trainWithCrossValidation, crossValidateModelConfiguration
-from modelTrainEvaluateFunctions import evaluateModel
-from modelGenerators import getNumConfigurations
-from modelSave import saveModel
+# List of test scenarios
+testType = ["stateBasedKrislet", "ClassicKrislet"]
 
-# fix random seed for reproducibility
-#seed = 42;
-#numpy.random.seed(seed)
+# List of model configurations with an LSTM layer
+runDepthOptions = [10, 50, 100, 500, 1000]
+numLSTMnodeOptions = [10, 50, 100, 500, 1000]
+numHiddenNodeOptions = [0, 10, 20, 30]
+useConvolutionOptions = [True, False]
+activationOptions = ['relu', 'sigmoid']
+embeddingOptions = [False]
+configurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions)
 
-# Load the data and preprocess
-trainData, testData, fullData, dataSpecification = getData()
+# List of model configurations with NO LSTM layer
+runDepthOptions = [1]
+numLSTMnodeOptions = [0]
+numHiddenNodeOptions = [10, 20, 30]
+useConvolutionOptions = [False]
+activationOptions = ['relu', 'sigmoid']
+embeddingOptions = [False]
+baselineConfigurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions)
 
-# Perform nested cross validation for parameter tuning and model evaluation. Saves models within function
-print('Run 1: Train using nested cross validation')
-(accuracyOfConfigurations, deviationOfConfigurations) = crossValidateModelConfiguration(fullData, dataSpecification)
+# Include baseline options in configurations to test
+configurations.extend(baselineConfigurations)
 
-print('Run 1 Summary')
-numConfigurations = getNumConfigurations()
-for i in range(numConfigurations):
-    print('Configuration ', i, " Accuracy : ", accuracyOfConfigurations[i], " +/- ", deviationOfConfigurations[i])
-print('*****')
-
-# Train network and evaluate with cross-validation
-print('Run 2: Train using cross validation and hold out')
-nFolds = 10
-configuration = 0
-(model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, trainData, configuration, dataSpecification)
-
-# Evaluate with hold out sample for sanity check
-holdOutAccuracy = evaluateModel(model, testData)
-note = 'VanillaCrossValidationWithHoldOutAccuracy' + str(holdOutAccuracy)
-saveModel(model, configuration, accuracyMean, accuracyStandardDeviation, note)
-model = None    # Clear up some memory
-
-print('Run 2 Summary')
-print('Cross validation accuracy mean: ', accuracyMean)
-print('Cross validation accuracy standard deviation ', accuracyStandardDeviation)
-print('Hold out accuracy: ', holdOutAccuracy)
-print('*****')
-
-# Train network and evaluate with cross-validation
-print('Run 3: Train using cross validation')
-(model, accuracyMeanFullData, accuracyStandardDeviationFullData) = trainWithCrossValidation(nFolds, fullData, configuration, dataSpecification)
-note = 'CrossValidationWithFullData'
-saveModel(model, configuration, accuracyMeanFullData, accuracyStandardDeviationFullData, note)
-model = None    # Clear up some memory
-
-print('Run 3 Summary')
-print('Full data cross validation accuracy mean: ', accuracyMeanFullData)
-print('Full data cross validation accuracy standard deviation ', accuracyStandardDeviationFullData)
-print('*****')
-
-# Print summary
-print('Full Summary')
-print('Cross validation accuracy mean: ', accuracyMean)
-print('Cross validation accuracy standard deviation ', accuracyStandardDeviation)
-print('Hold out accuracy: ', holdOutAccuracy)
-print('Full data cross validation accuracy mean: ', accuracyMeanFullData)
-print('Full data cross validation accuracy standard deviation ', accuracyStandardDeviationFullData)
-
-numConfigurations = getNumConfigurations()
-for i in range(numConfigurations):
-    print('Configuration ', i, " Accuracy : ", accuracyOfConfigurations[i], " +/- ", deviationOfConfigurations[i])
+# Run all tests
+for i in range(len(testType)):
+    runTestCase(testType[i], configurations)

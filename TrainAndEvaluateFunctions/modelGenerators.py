@@ -13,34 +13,50 @@ from keras.layers.convolutional import MaxPooling1D
 from keras.layers.embeddings import Embedding
 #from keras.preprocessing import sequence
 
+
 def defineParameterizedModel(configuration, dataSpecification):
-    (_, numLSTMnodes, numHiddenNodes, useConvolution, activation) = configuration
-    (numCategories, _, _) = dataSpecification
+    # Unpack the parameters
+    (_, numLSTMnodes, numHiddenNodes, useConvolution, activation, useEmbedding) = configuration
+    (numCategories, elementDimension, sequenceLength) = dataSpecification
 
     # Setup the model
     model = Sequential()
+    firstLayer = True
+    inputShapeParameter = (sequenceLength, elementDimension)
+
+    # Add embedding layer
+#    if useEmbedding:
+#        model.add(Embedding(input_dim, output_dim))
+#        firstLayer = False
 
     # Add the convolution layer
     if useConvolution:
-        model.add(Conv1D(filters=32, kernel_size=3, padding = 'same', activation = activation))
+        if firstLayer:
+            model.add(Conv1D(filters=32, kernel_size=3, padding = 'same', activation = activation, input_shape = inputShapeParameter))
+        else:
+            model.add(Conv1D(filters=32, kernel_size=3, padding = 'same', activation = activation))
         model.add(MaxPooling1D(pool_size=2))
+        firstLayer = False
     
     # Add the LSTM layer
     if numLSTMnodes > 0:
-        model.add(LSTM(numLSTMnodes))
+        if firstLayer:
+            model.add(LSTM(numLSTMnodes, input_shape = inputShapeParameter))
+        else:
+            model.add(LSTM(numLSTMnodes))
+        firstLayer = False
       
     # Add hidden fully connected layer
     if numHiddenNodes > 0:
-        model.add(Dense(numHiddenNodes, activation = activation))
+        if firstLayer:
+            model.add(Dense(numHiddenNodes, activation = activation, input_shape = inputShapeParameter))
+        else:
+            model.add(Dense(numHiddenNodes, activation = activation))
     
     # Add final layer, compile and return
     model.add(Dense(numCategories, activation = 'softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model;
-
-
-
-
 
 
 # Create the model

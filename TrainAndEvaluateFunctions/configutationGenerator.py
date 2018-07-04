@@ -5,16 +5,16 @@ Created on Wed Jul  4 14:18:04 2018
 @author: patrickgavigan
 """
 
-def buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions):
+# Returns a list of tuples. Tuple format: (runDepthOptions, numLSTMnodeOptions,
+# numHiddenNodeOptions, useConvolutionOptions, activationOptions, 
+# embeddingOptions)
+def buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions):
     configList = list()
     for i in range(len(runDepthOptions)):
         for j in range(len(numLSTMnodeOptions)):
             for k in range(len(numHiddenNodeOptions)):
                 for l in range(len(useConvolutionOptions)):
                     for m in range(len(activationOptions)):
-                        configList.append(setConfiguration(runDepthOptions[i], numLSTMnodeOptions[j], numHiddenNodeOptions[k], useConvolutionOptions[l], activationOptions[m]))
+                        for n in range(len(embeddingOptions)):
+                            configList.append(runDepthOptions[i], numLSTMnodeOptions[j], numHiddenNodeOptions[k], useConvolutionOptions[l], activationOptions[m], embeddingOptions[n])
     return configList
-
-# Build the touple with configuration parameters
-def setConfiguration(runDepth, numLSTMnodes, numHiddenNodes, useConvolution, activation):
-    return (runDepth, numLSTMnodes, numHiddenNodes, useConvolution, activation)
