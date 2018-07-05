@@ -12,20 +12,20 @@ from configurationGenerator import buildConfigurationList
 testType = ["stateBasedKrislet", "ClassicKrislet"]
 
 # List of model configurations with an LSTM layer
-runDepthOptions = [10, 50, 100, 500, 1000]
-numLSTMnodeOptions = [10, 50, 100, 500, 1000]
-numHiddenNodeOptions = [0, 10, 20, 30]
-useConvolutionOptions = [True, False]
-activationOptions = ['relu', 'sigmoid']
+runDepthOptions = [50]
+numLSTMnodeOptions = [50]
+numHiddenNodeOptions = [0]
+useConvolutionOptions = [False]#, True]
+activationOptions = ['relu']#, 'sigmoid']
 embeddingOptions = [False]
 configurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions)
 
 # List of model configurations with NO LSTM layer
-runDepthOptions = [1]
+runDepthOptions = [0]
 numLSTMnodeOptions = [0]
-numHiddenNodeOptions = [10, 20, 30]
+numHiddenNodeOptions = [10]
 useConvolutionOptions = [False]
-activationOptions = ['relu', 'sigmoid']
+activationOptions = ['relu']#, 'sigmoid']
 embeddingOptions = [False]
 baselineConfigurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions)
 
