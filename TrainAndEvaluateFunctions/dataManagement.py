@@ -135,16 +135,12 @@ def convertToCategorical(y):
     return yCategorical
 
 # Gets the dimensions of the x data
+# Todo: Deal with less than 3 dimensional data
 def getInputDimensions(x):
     xShape = x.shape
     numElements = xShape[0]
-    sequenceLength = xShape[1]
-
-    if len(xShape) == 3:
-        elementDimension = xShape[2]
-    else:
-        elementDimension = 1
-        
+    elementDimension = xShape[1]
+    sequenceLength = xShape[2]
     return (elementDimension, sequenceLength, numElements)
 
 def cropSequenceLength(data, depth):
@@ -152,6 +148,15 @@ def cropSequenceLength(data, depth):
     if depth == sequenceLength:
         newData = data
     else:
-        newData = data[:,[],:]
-
+        endIndex = sequenceLength - 1
+        startIndex = sequenceLength - depth
+        newData = data[:,:,[startIndex,endIndex]]
+        maxDimension = elementDimension-1
+        
+        # Deal with special case where new depth is 0. In this case, need
+        # to remove last feature (previous action)        
+        if depth == 0:
+            maxDimension = maxDimension - 1
+            
+        newData = data[:,[0,maxDimension],[startIndex,endIndex]]
     return newData

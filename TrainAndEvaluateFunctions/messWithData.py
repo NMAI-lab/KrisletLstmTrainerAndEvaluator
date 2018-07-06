@@ -9,15 +9,19 @@ from parsingFunctions import loadData, replacePlaceholder
 #from dataManagement import convertToCategorical
 from balancingFunctions import underSample, checkBalance
 
+from dataManagement import cropSequenceLength
+
 testType = "stateBasedKrislet"
-depth = 2
+depth = 3
 data = loadData(testType, depth)
 
-balancedData = underSample(data)
+croppedX = cropSequenceLength(data[0], 0)
 
-originalBalance = checkBalance(data)
-newBalance = checkBalance(balancedData)
+#balancedData = underSample(data)
 
-finalData = replacePlaceholder(balancedData[0])
+#originalBalance = checkBalance(data)
+#newBalance = checkBalance(balancedData)
+
+#finalData = replacePlaceholder(balancedData[0])
 
 #yCategorical = convertToCategorical(data[1])

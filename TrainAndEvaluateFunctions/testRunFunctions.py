@@ -8,7 +8,7 @@ from parsingFunctions import loadData, replacePlaceholder
 #from dataManagement import convertToCategorical
 from balancingFunctions import underSample, checkBalance
 
-from dataManagement import getData
+from dataManagement import getData, cropSequenceLength
 from modelTrainEvaluateFunctions import trainWithCrossValidation, crossValidateModelConfiguration
 from modelTrainEvaluateFunctions import evaluateModel
 from modelGenerators import getNumConfigurations
@@ -43,10 +43,13 @@ def crossValidateConfiguration(data, configurations):
     for trainIndex, testIndex in skf.split(x, y):
         print("Running configuration", configuration, "/", numConfigurations)
         
+        currentDepth = configurations[configuration][0]
+        
         # Crop the data depth, if necessary
+        currentX = cropSequenceLength(x, currentDepth)
         
         # Perform cross validation for this configuration
-        (model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, (x[testIndex], y[testIndex]), configurations[configuration], dataSpecification)
+        (model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, (currentX[testIndex], y[testIndex]), configurations[configuration], dataSpecification)
         
         # Extract performance results
         accuracyOfConfigurations[configuration] = accuracyMean
