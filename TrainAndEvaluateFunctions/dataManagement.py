@@ -146,3 +146,12 @@ def getInputDimensions(x):
         elementDimension = 1
         
     return (elementDimension, sequenceLength, numElements)
+
+def cropSequenceLength(data, depth):
+    (elementDimension, sequenceLength, numElements) = getInputDimensions(data)
+    if depth == sequenceLength:
+        newData = data
+    else:
+        newData = data[:,[],:]
+
+    return newData

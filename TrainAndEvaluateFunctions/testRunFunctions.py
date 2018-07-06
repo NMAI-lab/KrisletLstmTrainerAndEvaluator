@@ -14,53 +14,57 @@ from modelTrainEvaluateFunctions import evaluateModel
 from modelGenerators import getNumConfigurations
 from modelSave import saveModel
 
+import numpy as np
+
 
 def runTestCase(testType, configurations):
-    (accuracyOfConfigurations, deviationOfConfigurations) = crossValidateConfiguration(testType, configurations)
+    
+    # Determine the largest depth, get data set for max depth case. Will need 
+    # to crop data depth for cases where smaller depth is to be used
+    maxDepth = max(configurations[0])
+    data = loadData(testType, maxDepth)
+    
+    # Run nested cross validation
+    (accuracyOfConfigurations, deviationOfConfigurations) = crossValidateConfiguration(data, configurations)
+    
+    # Print results
     printResults(testType, configurations, accuracyOfConfigurations, deviationOfConfigurations)
     
-def crossValidateConfiguration(testType, configurations):
+def crossValidateConfiguration(data, configurations):
     
     numConfigurations = len(configurations)
     skf = StratifiedKFold(n_splits = numConfigurations)#, shuffle = True, random_state = seed)
     accuracyOfConfigurations = np.zeros(numConfigurations)
     deviationOfConfigurations = np.zeros(numConfigurations)
     nFolds = 10
-    i = 0
+    configuration = 0
     note = 'NestedCrossValidation'
     (x, y) = (data)
     for trainIndex, testIndex in skf.split(x, y):
+        print("Running configuration", configuration, "/", numConfigurations)
         
-        # Need to solve chicken and egg problem of run length and splitting each needing to be done before the other.
+        # Crop the data depth, if necessary
         
-        print("Running configuration", i, "/", numConfigurations)
+        # Perform cross validation for this configuration
+        (model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, (x[testIndex], y[testIndex]), configurations[configuration], dataSpecification)
         
-        # Perform cross validation for this configuration, save results. Do not save the model due to memory limit issues.
-        (model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, (x[testIndex], y[testIndex]), configurations[i], dataSpecification)
-        accuracyOfConfigurations[i] = accuracyMean
-        deviationOfConfigurations[i] = accuracyStandardDeviation
+        # Extract performance results
+        accuracyOfConfigurations[configuration] = accuracyMean
+        deviationOfConfigurations[configuration] = accuracyStandardDeviation
         
+        # Save the model as a file and then clear the memory
         saveModel(model, configuration, accuracyMean, accuracyStandardDeviation, note)
-        model = None    # Clear up some memory
+        model = None
         
         print("Accuracy of configuration ", configuration, ": ", (accuracyMean * 100), " +/- ", (accuracyStandardDeviation * 100))
         configuration = configuration + 1
-        i = i + 1
     
-    return (accuracyOfConfigurations, deviationOfConfigurations)
-    
-    
-    
-    
-    
-    #loadData(testType, depth)
 #    balancedData = underSample(data)
     
 #   originalBalance = checkBalance(data)
 #   newBalance = checkBalance(balancedData)
 
 #    finalData = replacePlaceholder(balancedData[0])
-
     #yCategorical = convertToCategorical(data[1])
     
     accuracyOfConfigurations = 0
@@ -69,7 +73,7 @@ def crossValidateConfiguration(testType, configurations):
     
     return (accuracyOfConfigurations, deviationOfConfigurations)
     
-
+# Print a summary of the test run
 def printResults(testType, configurations, accuracyOfConfigurations, deviationOfConfigurations):    
     print('--------------------------------')
     print('Summary of ' + testType + ' test')
