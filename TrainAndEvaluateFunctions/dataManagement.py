@@ -156,6 +156,7 @@ def getInputDimensions(x):
     # Return result
     return (numElements, elementDimension, sequenceLength)
 
+# Known issu: Can't crop from depth 1 to depth 0
 def cropSequenceLength(data, depth):
     # Get data dimensions
     (numElements, elementDimension, sequenceLength) = getInputDimensions(data)
@@ -172,7 +173,12 @@ def cropSequenceLength(data, depth):
         maxDimension = elementDimension - 1
         startIndex = sequenceLength - 1
         newData = data[:, 0:maxDimension, startIndex]
-    
+
+    # Deal with special case for depth = 1 (last action kept but otherwise depth 0)
+    elif depth == 1:
+        startIndex = sequenceLength - 1
+        newData = data[:, :, startIndex]
+        
     # No funny business, just shorten the history depth    
     else:
         endIndex = sequenceLength - 1

@@ -15,7 +15,7 @@ testType = "stateBasedKrislet"
 depth = 3
 data = loadData(testType, depth)
 
-croppedX = cropSequenceLength(data[0], 0)
+croppedX = cropSequenceLength(data[0], 1)
 
 #balancedData = underSample(data)
 
