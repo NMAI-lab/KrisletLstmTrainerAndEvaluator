@@ -38,7 +38,7 @@ def getData():
     y = np.concatenate((yTrain, yTest), axis=0)
     
     numCategories = getNumCategories(y)
-    (elementDimension, sequenceLength, numElements) = getInputDimensions(x)
+    (numElements, elementDimension, sequenceLength) = getInputDimensions(x)
 
     # Return result
     return (xTrain, yTrain), (xTest, yTest), (x, y), (numCategories, elementDimension, sequenceLength)
@@ -141,22 +141,30 @@ def getInputDimensions(x):
     numElements = xShape[0]
     elementDimension = xShape[1]
     sequenceLength = xShape[2]
-    return (elementDimension, sequenceLength, numElements)
+    return (numElements, elementDimension, sequenceLength)
 
 def cropSequenceLength(data, depth):
-    (elementDimension, sequenceLength, numElements) = getInputDimensions(data)
-    if depth == sequenceLength:
+    # Get data dimensions
+    (numElements, elementDimension, sequenceLength) = getInputDimensions(data)
+    
+    # Deal with case where the desired depth is the same length (or longer) 
+    # than the provided data depth
+    if depth >= sequenceLength:
         newData = data
+        
+    # Deal with special case where new depth is 0 (or negative). In this case, 
+    # need to remove last feature (previous action) as well as remove the data
+    # from the previous time steps
+    elif depth <= 0:
+        maxDimension = elementDimension - 1
+        startIndex = sequenceLength - 1
+        newData = data[:, 0:maxDimension, startIndex]
+    
+    # No funny business, just shorten the history depth    
     else:
         endIndex = sequenceLength - 1
-        startIndex = sequenceLength - depth
-        newData = data[:,:,[startIndex,endIndex]]
-        maxDimension = elementDimension-1
-        
-        # Deal with special case where new depth is 0. In this case, need
-        # to remove last feature (previous action)        
-        if depth == 0:
-            maxDimension = maxDimension - 1
-            
-        newData = data[:,[0,maxDimension],[startIndex,endIndex]]
+        startIndex = endIndex - depth
+        newData = data[:, :, startIndex:endIndex]
+
+    # Return the result    
     return newData
