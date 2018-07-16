@@ -68,18 +68,26 @@ def buildSequenceDataSet(x, y, maxDepth = 3):
     xList = list()
     yList = list()
     
-    # Add the previous y to the current x features
-    x = addPreviousYAsFeature(x,y)
-    
-    # Iterate through the elements
-    for index in range(len(x)):
-        (currentX, currentY) = buildSingleSequence(x, y, index, maxDepth)
-        xList.append(currentX)
-        yList.append(currentY)
+    # Add the previous y to the current x features if depth is greater than 0
+    if maxDepth > 0:
+        x = addPreviousYAsFeature(x,y)
         
-    # Convert to arrays
-    newX = np.asarray(xList)
-    newY = np.asarray(yList)
+    if maxDepth > 1:
+    
+        # Iterate through the elements
+        for index in range(len(x)):
+            (currentX, currentY) = buildSingleSequence(x, y, index, maxDepth)
+            xList.append(currentX)
+            yList.append(currentY)
+        
+        # Convert to arrays
+        newX = np.asarray(xList)
+        newY = np.asarray(yList)
+        
+    # Deal with null case where depth is smaller than 1
+    else:
+        newX = x
+        newY = y
 
     # Return results
     return newX, newY
@@ -135,12 +143,17 @@ def convertToCategorical(y):
     return yCategorical
 
 # Gets the dimensions of the x data
-# Todo: Deal with less than 3 dimensional data
 def getInputDimensions(x):
     xShape = x.shape
     numElements = xShape[0]
     elementDimension = xShape[1]
-    sequenceLength = xShape[2]
+    sequenceLength = 0
+
+    # Deal with the less than 3 dimensional case    
+    if len(xShape) > 2:
+        sequenceLength = xShape[2]
+        
+    # Return result
     return (numElements, elementDimension, sequenceLength)
 
 def cropSequenceLength(data, depth):
