@@ -48,7 +48,25 @@ def getData():
 #    depth = 2
 #    (newX, newY) = buildSequenceDataSet(x, y, depth)
 #    return (newX,newY)
+
+
+# Get the specifications of the data set
+def getDataSpecification(data):
+    (x,y) = data
+    xShape = x.shape
     
+    # Sequence length is the 0th parameter
+    sequenceLength = xShape[0]
+    
+    # Use shape of the first element to get element dimensions
+    elementDimension = x[0].shape
+    
+    # Get the number of categories
+    numCategories = getNumCategories(y)
+    
+    # Return result
+    return (numCategories, elementDimension, sequenceLength)
+
 
 def stratefiedSplit(x, y):
     nSplits = 1

@@ -14,7 +14,7 @@ from parsingFunctions import loadData
 #from dataManagement import convertToCategorical
 from balancingFunctions import underSample, checkBalance
 
-from dataManagement import getData, cropSequenceLength
+from dataManagement import getData, cropSequenceLength, getDataSpecification
 from modelTrainEvaluateFunctions import trainWithCrossValidation, crossValidateModelConfiguration
 from modelTrainEvaluateFunctions import evaluateModel
 from modelGenerators import getNumConfigurations
@@ -51,6 +51,9 @@ def crossValidateConfiguration(data, configurations):
         
         # Crop the data depth, if necessary
         currentX = cropSequenceLength(x, currentDepth)
+        
+        # Get the data specifications
+        dataSpecification = getDataSpecification(data)
         
         # Perform cross validation for this configuration
         (model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, (currentX[testIndex], y[testIndex]), configurations[configuration], dataSpecification)
