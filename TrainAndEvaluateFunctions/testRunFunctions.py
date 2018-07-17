@@ -5,6 +5,7 @@ Created on Wed Jul  4 15:04:38 2018
 @author: patrickgavigan
 """
 from parsingFunctions import loadData, replacePlaceholder
+from configruationGenerator import getMaxDepth
 #from dataManagement import convertToCategorical
 from balancingFunctions import underSample, checkBalance
 
@@ -21,7 +22,7 @@ def runTestCase(testType, configurations):
     
     # Determine the largest depth, get data set for max depth case. Will need 
     # to crop data depth for cases where smaller depth is to be used
-    maxDepth = max(configurations[0])
+    maxDepth = getMaxDepth(configurations)
     data = loadData(testType, maxDepth)
     
     # Run nested cross validation

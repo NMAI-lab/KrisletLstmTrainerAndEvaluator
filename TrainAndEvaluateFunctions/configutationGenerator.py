@@ -16,5 +16,15 @@ def buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOpt
                 for l in range(len(useConvolutionOptions)):
                     for m in range(len(activationOptions)):
                         for n in range(len(embeddingOptions)):
-                            configList.append(runDepthOptions[i], numLSTMnodeOptions[j], numHiddenNodeOptions[k], useConvolutionOptions[l], activationOptions[m], embeddingOptions[n])
+                            configList.append((runDepthOptions[i], numLSTMnodeOptions[j], numHiddenNodeOptions[k], useConvolutionOptions[l], activationOptions[m], embeddingOptions[n]))
     return configList
+
+def getMaxDepth(configurations):
+    maxDepth = max(configurations[0])
+    
+    # Cropper doesn't work properly if the depth is less than 2. This helps
+    # prevent a known issue from occuring.
+    if maxDepth < 2:
+        maxDepth = 2
+    
+    return maxDepth
