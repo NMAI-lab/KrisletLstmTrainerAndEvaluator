@@ -20,11 +20,23 @@ def buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOpt
     return configList
 
 def getMaxDepth(configurations):
-    maxDepth = max(configurations[0])
+
+    # Get the number of configurations in the list
+    numConfigurations = len(configurations)
     
     # Cropper doesn't work properly if the depth is less than 2. This helps
     # prevent a known issue from occuring.
-    if maxDepth < 2:
-        maxDepth = 2
+    maxDepth = 2
     
+    # Index of the configuration touple for the depth
+    depthIndex = 0
+
+    # Check all configurations to find the largest depth    
+    for i in range(numConfigurations):
+        currentConfiguration = configurations[i]
+        currentDepth = currentConfiguration[depthIndex]
+        if currentDepth > maxDepth:
+            maxDepth = currentDepth
+    
+    # Return result
     return maxDepth
