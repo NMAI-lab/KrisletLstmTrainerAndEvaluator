@@ -4,8 +4,13 @@ Created on Wed Jul  4 15:04:38 2018
 
 @author: patrickgavigan
 """
-from parsingFunctions import loadData, replacePlaceholder
+
+import numpy as np
+from sklearn.model_selection import StratifiedKFold
+
 from configruationGenerator import getMaxDepth
+
+from parsingFunctions import loadData
 #from dataManagement import convertToCategorical
 from balancingFunctions import underSample, checkBalance
 
@@ -14,8 +19,6 @@ from modelTrainEvaluateFunctions import trainWithCrossValidation, crossValidateM
 from modelTrainEvaluateFunctions import evaluateModel
 from modelGenerators import getNumConfigurations
 from modelSave import saveModel
-
-import numpy as np
 
 
 def runTestCase(testType, configurations):
@@ -26,10 +29,10 @@ def runTestCase(testType, configurations):
     data = loadData(testType, maxDepth)
     
     # Run nested cross validation
-    (accuracyOfConfigurations, deviationOfConfigurations) = crossValidateConfiguration(data, configurations)
+    results = crossValidateConfiguration(data, configurations)
     
     # Print results
-    printResults(testType, configurations, accuracyOfConfigurations, deviationOfConfigurations)
+    printResults(testType, configurations, results)
     
 def crossValidateConfiguration(data, configurations):
     
@@ -78,7 +81,8 @@ def crossValidateConfiguration(data, configurations):
     return (accuracyOfConfigurations, deviationOfConfigurations)
     
 # Print a summary of the test run
-def printResults(testType, configurations, accuracyOfConfigurations, deviationOfConfigurations):    
+def printResults(testType, configurations, results): 
+    (accuracyOfConfigurations, deviationOfConfigurations) = results
     print('--------------------------------')
     print('Summary of ' + testType + ' test')
 
@@ -87,5 +91,3 @@ def printResults(testType, configurations, accuracyOfConfigurations, deviationOf
         print('Configuration ', i, " Accuracy : ", accuracyOfConfigurations[i], " +/- ", deviationOfConfigurations[i])
     
     print('--------------------------------')
-
-
