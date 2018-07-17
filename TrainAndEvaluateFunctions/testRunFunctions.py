@@ -8,7 +8,7 @@ Created on Wed Jul  4 15:04:38 2018
 import numpy as np
 from sklearn.model_selection import StratifiedKFold
 
-from configruationGenerator import getMaxDepth
+from configutationGenerator import getMaxDepth
 
 from parsingFunctions import loadData
 #from dataManagement import convertToCategorical
