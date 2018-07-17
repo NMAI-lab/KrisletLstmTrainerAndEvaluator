@@ -6,7 +6,7 @@ Created on Wed Jul  4 15:02:37 2018
 """
 
 from testRunFunctions import runTestCase
-from configurationGenerator import buildConfigurationList
+from configutationGenerator import buildConfigurationList
 
 # List of test scenarios
 testType = ["stateBasedKrislet", "ClassicKrislet"]
@@ -18,7 +18,7 @@ numHiddenNodeOptions = [0]
 useConvolutionOptions = [False]#, True]
 activationOptions = ['relu']#, 'sigmoid']
 embeddingOptions = [False]
-configurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions)
+configurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions)
 
 # List of model configurations with NO LSTM layer
 runDepthOptions = [0]
@@ -27,7 +27,7 @@ numHiddenNodeOptions = [10]
 useConvolutionOptions = [False]
 activationOptions = ['relu']#, 'sigmoid']
 embeddingOptions = [False]
-baselineConfigurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions)
+baselineConfigurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions)
 
 # Include baseline options in configurations to test
 configurations.extend(baselineConfigurations)
