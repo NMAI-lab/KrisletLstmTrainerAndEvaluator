@@ -1,7 +1,7 @@
 from os import listdir
 import numpy as np
 
-from dataManagement import buildSequenceDataSet
+from dataManagement import buildSequenceDataSet, convertToCategorical
 
 def loadData(testType, depth):
     fileNames = getFileNames(testType)
@@ -16,6 +16,7 @@ def loadData(testType, depth):
             x = np.append(x, xCurrent, axis = 0)
             y = np.append(y, yCurrent, axis = 0)
         
+    y = convertToCategorical(y)
     return (x,y)
     
 
