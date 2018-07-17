@@ -28,6 +28,9 @@ def runTestCase(testType, configurations):
     maxDepth = getMaxDepth(configurations)
     data = loadData(testType, maxDepth)
     
+    # Should we deal with placeholder calues?
+    # finalData = replacePlaceholder(balancedData[0])
+    
     # Run nested cross validation
     results = crossValidateConfiguration(data, configurations)
     
@@ -68,19 +71,8 @@ def crossValidateConfiguration(data, configurations):
         
         print("Accuracy of configuration ", configuration, ": ", (accuracyMean * 100), " +/- ", (accuracyStandardDeviation * 100))
         configuration = configuration + 1
-    
-#    balancedData = underSample(data)
-    
-#   originalBalance = checkBalance(data)
-#   newBalance = checkBalance(balancedData)
 
-#    finalData = replacePlaceholder(balancedData[0])
-    #yCategorical = convertToCategorical(data[1])
-    
-    accuracyOfConfigurations = 0
-    deviationOfConfigurations = 0
-    
-    
+    # Return results    
     return (accuracyOfConfigurations, deviationOfConfigurations)
     
 # Print a summary of the test run
