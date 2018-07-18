@@ -59,6 +59,8 @@ def defineParameterizedModel(configuration, dataSpecification):
     return model;
 
 
+### Depricated functions below ###
+
 # Create the model
 def defineModel(configuration, dataSpecification):
     
