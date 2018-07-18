@@ -17,15 +17,16 @@ from modelSave import saveModel
 
 # Train the model
 def trainModel(model, data):
-    
-    # Balance the data set
-    balancedData = underSample(data)
-    (x, y) = balancedData
-    
-    # Check data balance
-    # originalBalance = checkBalance(data)
-    # newBalance = checkBalance(balancedData)
-    
+
+    # Check data balance, balance if needed
+    originalBalance = np.asarray(checkBalance(data))
+    balanceThreshold = 0.05
+    if (np.std(originalBalance) > balanceThreshold):
+        # Balance the data set
+        (x,y) = underSample(data)
+    else:
+        (x, y) = data
+        
     # Perform stratefied split
     (xTrain, yTrain), (xTest, yTest) = stratefiedSplit(x, y)
     
