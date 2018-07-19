@@ -73,10 +73,14 @@ def trainWithCrossValidation(nFolds, data, configuration):
 
     # Extract data
     (x, y) = (data)
+    
+    # Setup the folds
     skf = StratifiedKFold(n_splits = nFolds)#, shuffle = True, random_state = seed)
     accuracyOfFolds = np.zeros(nFolds)
     foldNumber = 1
     i = 0
+    
+    # Cross validation loop
     for trainIndex, testIndex in skf.split(x, y):
         print("Running Fold", foldNumber, "/", nFolds)
 
