@@ -6,13 +6,18 @@ Created on Mon May 28 15:32:58 2018
 """
 
 from keras.callbacks import EarlyStopping, ReduceLROnPlateau
+from keras import predict
 from sklearn.model_selection import StratifiedKFold
+
+from sklearn.metrics import recall_score, precision_score
+
 import numpy as np
 
-from dataManagement import stratefiedSplit, convertToCategorical, getDataSpecification
+from dataManagement import stratefiedSplit, convertToCategorical, getDataSpecification, convertToClassID
 from balancingFunctions import balanceData
 from modelGenerators import defineModel, getNumConfigurations
 from configurationGenerator import getBalanceOption
+from evaluationMetrics import evaluateSpecificity
 
 from modelSave import saveModel
 
@@ -61,14 +66,21 @@ def configureCallBacks():
     
 
 def evaluateModel(model, data, configuration):
+    # PErform balancing (if needed)
     balance = getBalanceOption(configuration)
     (x, y) = balanceData(data, balance)
+    
+    # Perform evaluation with keras (accuracy only)
     yCategorical = convertToCategorical(y)
     scores = model.evaluate(x, yCategorical, verbose = 0)
     accuracy = scores[1]
-    precision = evaluatePrecision(x, y)
-    sensitivity = evaluateSensitivity(x, y)
-    specificity = evaluateSpecificity(x, y)
+    
+    # Calculate other metrics
+    yPredicted = convertToClassID(predict(model, x))
+    labels = [i for i in range(min(y),max(y))]
+    precision = precision_score(y, yPredicted, labels, average = None)
+    sensitivity = recall_score(y, yPredicted, labels, average = None)
+    specificity = evaluateSpecificity(y, yPredicted, labels) 
     
     # Return results
     return (accuracy, precision, sensitivity, specificity)

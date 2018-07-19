@@ -160,6 +160,10 @@ def convertToCategorical(y):
     yCategorical = np_utils.to_categorical(y, numCategories)
     return yCategorical
 
+def convertToClassID(yCategorical):
+    return np.argmax(yCategorical)
+    
+
 # Gets the dimensions of the x data
 def getInputDimensions(x):
     xShape = x.shape
