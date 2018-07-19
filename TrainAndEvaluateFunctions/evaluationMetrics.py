@@ -5,23 +5,30 @@ Created on Wed Jul 18 15:40:06 2018
 @author: patrickgavigan
 """
 
-from sklearn.metrics import confusion_matrix
 import numpy as np
 
+# Evaluate the specificity
 def evaluateSpecificity(y, yPredicted, labels):
-    confusionMatrix = confusion_matrix(y, yPredicted, labels)
-
     Sp = np.zeros(labels.size)
-    
     for currentClassID in range(labels):
-        TN = getTrueNegative(currentClassID, confusionMatrix)
-        FP = getFalsePositive(currentClassID, confusionMatrix)
+        TN = getTrueNegative(y, yPredicted, currentClassID)
+        FP = getFalsePositive(y, yPredicted, currentClassID)
         Sp[currentClassID] = TN / (TN + FP)
-    
     return Sp
 
-def getTrueNegative(classID, confusionMatrix):
-    return 1
+# Get the true negatives
+def getTrueNegative(y, yPredicted, classID):
+    TN = 0
+    for i in range(len(y)):
+        if ((y != classID) and (yPredicted != classID)):
+            TN = TN + 1
+    return TN
 
-def getFalsePositive(classID, confusionMatrix):
-    return 1
+
+# Cound the false positives
+def getFalsePositive(y, yPredicted, classID):
+    FP = 0
+    for i in range(len(y)):
+        if ((y != classID) and (yPredicted == classID)):
+            FP = FP + 1
+    return FP
