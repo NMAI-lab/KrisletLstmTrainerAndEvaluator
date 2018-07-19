@@ -65,7 +65,18 @@ def evaluateModel(model, data, configuration):
     (x, y) = balanceData(data, balance)
     yCategorical = convertToCategorical(y)
     scores = model.evaluate(x, yCategorical, verbose = 0)
-    return scores[1]
+    accuracy = scores[1]
+    precision = evaluatePrecision(x, y)
+    sensitivity = evaluateSensitivity(x, y)
+    specificity = evaluateSpecificity(x, y)
+    
+    # Return results
+    return (accuracy, precision, sensitivity, specificity)
+
+def evaluateCustomMetrics(data):
+    scores = 1
+    return scores
+
 def trainWithCrossValidation(nFolds, data, configuration):
     
     # Get the data specifications
@@ -76,7 +87,7 @@ def trainWithCrossValidation(nFolds, data, configuration):
     
     # Setup the folds
     skf = StratifiedKFold(n_splits = nFolds)#, shuffle = True, random_state = seed)
-    accuracyOfFolds = np.zeros(nFolds)
+    scoreOfFolds = np.zeros(nFolds)
     foldNumber = 1
     i = 0
     
@@ -88,9 +99,9 @@ def trainWithCrossValidation(nFolds, data, configuration):
         model = defineAndTrainModel((x[trainIndex], y[trainIndex]), configuration, dataSpecification)
     
         # Test the model
-        accuracy = evaluateModel(model, (x[testIndex], y[testIndex]))
-        accuracyOfFolds[i] = accuracy
-        print("Accuracy of fold ", foldNumber, ": ", (accuracy * 100))
+        scoreOfFolds[i] = evaluateModel(model, (x[testIndex], y[testIndex]))
+        #printScore(scoreOfFolds[i])
+        #print("Accuracy of fold ", foldNumber, ": ", (accuracy * 100))
         foldNumber = foldNumber + 1
         i = i + 1
         
@@ -98,11 +109,11 @@ def trainWithCrossValidation(nFolds, data, configuration):
     model = defineAndTrainModel((x, y), configuration, dataSpecification)
     
     # Get performance estimations
-    accuracyMean = np.mean(accuracyOfFolds)
-    accuracyStandardDeviation = np.std(accuracyOfFolds)
+    #accuracyMean = np.mean(accuracyOfFolds)
+    #accuracyStandardDeviation = np.std(accuracyOfFolds)
     
     # Return results
-    return (model, accuracyMean, accuracyStandardDeviation)
+    return (model, scoreOfFolds)
 
 
 def crossValidateModelConfiguration(data, dataSpecification):

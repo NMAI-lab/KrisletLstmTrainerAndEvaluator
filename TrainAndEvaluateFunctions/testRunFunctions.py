@@ -59,14 +59,14 @@ def crossValidateConfiguration(data, configurations):
         (model, scores) = trainWithCrossValidation(nFolds, (currentX[testIndex], y[testIndex]), configurations[configuration])
         
         # Extract performance results
-        accuracyOfConfigurations[configuration] = accuracyMean
-        deviationOfConfigurations[configuration] = accuracyStandardDeviation
+        #accuracyOfConfigurations[configuration] = accuracyMean
+        #deviationOfConfigurations[configuration] = accuracyStandardDeviation
         
         # Save the model as a file and then clear the memory
-        saveModel(model, configuration, accuracyMean, accuracyStandardDeviation, note)
-        model = None
+        #saveModel(model, configuration, accuracyMean, accuracyStandardDeviation, note)
+        #model = None
         
-        print("Accuracy of configuration ", configuration, ": ", (accuracyMean * 100), " +/- ", (accuracyStandardDeviation * 100))
+        #print("Accuracy of configuration ", configuration, ": ", (accuracyMean * 100), " +/- ", (accuracyStandardDeviation * 100))
         configuration = configuration + 1
 
     # Return results    
