@@ -9,9 +9,10 @@ from keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from sklearn.model_selection import StratifiedKFold
 import numpy as np
 
-from dataManagement import stratefiedSplit, convertToCategorical
-from balancingFunctions import underSample, checkBalance
+from dataManagement import stratefiedSplit, convertToCategorical, getDataSpecification
+from balancingFunctions import balanceData
 from modelGenerators import defineModel, getNumConfigurations
+from configurationGenerator import getBalanceOption
 
 from modelSave import saveModel
 
@@ -19,13 +20,7 @@ from modelSave import saveModel
 def trainModel(model, data):
 
     # Check data balance, balance if needed
-    originalBalance = np.asarray(checkBalance(data))
-    balanceThreshold = 0.05
-    if (np.std(originalBalance) > balanceThreshold):
-        # Balance the data set
-        (x,y) = underSample(data)
-    else:
-        (x, y) = data
+    (x, y) = balanceData(data)
         
     # Perform stratefied split
     (xTrain, yTrain), (xTest, yTest) = stratefiedSplit(x, y)
@@ -65,13 +60,18 @@ def configureCallBacks():
     return callbacksList
     
 
-def evaluateModel(model, data):
-    (x, y) = data
+def evaluateModel(model, data, configuration):
+    balance = getBalanceOption(configuration)
+    (x, y) = balanceData(data, balance)
     yCategorical = convertToCategorical(y)
     scores = model.evaluate(x, yCategorical, verbose = 0)
     return scores[1]
+def trainWithCrossValidation(nFolds, data, configuration):
+    
+    # Get the data specifications
+    dataSpecification = getDataSpecification(data)
 
-def trainWithCrossValidation(nFolds, data, configuration, dataSpecification):
+    # Extract data
     (x, y) = (data)
     skf = StratifiedKFold(n_splits = nFolds)#, shuffle = True, random_state = seed)
     accuracyOfFolds = np.zeros(nFolds)
@@ -91,7 +91,7 @@ def trainWithCrossValidation(nFolds, data, configuration, dataSpecification):
         i = i + 1
         
     # Train the final model
-    defineAndTrainModel((x, y), configuration, dataSpecification)
+    model = defineAndTrainModel((x, y), configuration, dataSpecification)
     
     # Get performance estimations
     accuracyMean = np.mean(accuracyOfFolds)

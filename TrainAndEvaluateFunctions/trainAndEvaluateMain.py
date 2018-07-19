@@ -18,7 +18,8 @@ numHiddenNodeOptions = [0]
 useConvolutionOptions = [False]#, True]
 activationOptions = ['relu']#, 'sigmoid']
 embeddingOptions = [False]
-configurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions)
+balanceOptions = ["randomUndersample"]
+configurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions)
 
 # List of model configurations with NO LSTM layer
 runDepthOptions = [0]
@@ -27,7 +28,8 @@ numHiddenNodeOptions = [10]
 useConvolutionOptions = [False]
 activationOptions = ['relu']#, 'sigmoid']
 embeddingOptions = [False]
-baselineConfigurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions)
+balanceOptions = ["randomUndersample"]
+baselineConfigurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions)
 
 # Include baseline options in configurations to test
 configurations.extend(baselineConfigurations)

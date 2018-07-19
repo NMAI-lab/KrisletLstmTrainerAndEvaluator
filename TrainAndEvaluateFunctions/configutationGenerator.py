@@ -8,7 +8,7 @@ Created on Wed Jul  4 14:18:04 2018
 # Returns a list of tuples. Tuple format: (runDepthOptions, numLSTMnodeOptions,
 # numHiddenNodeOptions, useConvolutionOptions, activationOptions, 
 # embeddingOptions)
-def buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions):
+def buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions):
     configList = list()
     for i in range(len(runDepthOptions)):
         for j in range(len(numLSTMnodeOptions)):
@@ -16,7 +16,8 @@ def buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOpt
                 for l in range(len(useConvolutionOptions)):
                     for m in range(len(activationOptions)):
                         for n in range(len(embeddingOptions)):
-                            configList.append((runDepthOptions[i], numLSTMnodeOptions[j], numHiddenNodeOptions[k], useConvolutionOptions[l], activationOptions[m], embeddingOptions[n]))
+                            for o in range(len(balanceOptions)):
+                                configList.append((runDepthOptions[i], numLSTMnodeOptions[j], numHiddenNodeOptions[k], useConvolutionOptions[l], activationOptions[m], embeddingOptions[n]), balanceOptions[o])
     return configList
 
 def getMaxDepth(configurations):
@@ -40,3 +41,7 @@ def getMaxDepth(configurations):
     
     # Return result
     return maxDepth
+
+def getBalanceOption(configuration):
+    (_, _, _, _, _, _, balanceOption) = configuration
+    return balanceOption

@@ -55,11 +55,8 @@ def crossValidateConfiguration(data, configurations):
         # Crop the data depth, if necessary
         currentX = cropSequenceLength(x, currentDepth)
         
-        # Get the data specifications
-        dataSpecification = getDataSpecification(data)
-        
         # Perform cross validation for this configuration
-        (model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation(nFolds, (currentX[testIndex], y[testIndex]), configurations[configuration], dataSpecification)
+        (model, scores) = trainWithCrossValidation(nFolds, (currentX[testIndex], y[testIndex]), configurations[configuration])
         
         # Extract performance results
         accuracyOfConfigurations[configuration] = accuracyMean

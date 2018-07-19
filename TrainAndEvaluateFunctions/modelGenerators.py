@@ -16,7 +16,7 @@ from keras.layers.embeddings import Embedding
 
 def defineParameterizedModel(configuration, dataSpecification):
     # Unpack the parameters
-    (_, numLSTMnodes, numHiddenNodes, useConvolution, activation, useEmbedding) = configuration
+    (_, numLSTMnodes, numHiddenNodes, useConvolution, activation, useEmbedding, _) = configuration
     (numCategories, elementDimension, sequenceLength) = dataSpecification
 
     # Setup the model
