@@ -10,9 +10,9 @@ from collections import Counter
 import numpy as np
 import random
 
-# Options include: "none", "randomUndersample". If option is other than those
+# Options include: None, "randomUndersample". If option is other than those
 # listed, default of "none" is used.
-def balanceData(data, methodology = "none", balanceThreshold = 0.05):
+def balanceData(data, methodology = None, balanceThreshold = 0.05):
     originalBalance = np.asarray(checkBalance(data))
     if (np.std(originalBalance) > balanceThreshold):
         if methodology == "randomUndersample":

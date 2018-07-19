@@ -65,10 +65,9 @@ def configureCallBacks():
     return callbacksList
     
 
-def evaluateModel(model, data, configuration):
-    # PErform balancing (if needed)
-    balance = getBalanceOption(configuration)
-    (x, y) = balanceData(data, balance)
+def evaluateModel(model, data, balanceOption):
+    # Perform balancing (if needed)
+    (x, y) = balanceData(data, balanceOption)
     
     # Perform evaluation with keras (accuracy only)
     yCategorical = convertToCategorical(y)
@@ -85,9 +84,6 @@ def evaluateModel(model, data, configuration):
     # Return results
     return (accuracy, precision, sensitivity, specificity)
 
-def evaluateCustomMetrics(data):
-    scores = 1
-    return scores
 
 def trainWithCrossValidation(nFolds, data, configuration):
     
@@ -99,9 +95,9 @@ def trainWithCrossValidation(nFolds, data, configuration):
     
     # Setup the folds
     skf = StratifiedKFold(n_splits = nFolds)#, shuffle = True, random_state = seed)
-    scoreOfFolds = np.zeros(nFolds)
+    scoreOfFoldsBalanced = list()
+    scoreOfFoldsUnbalanced = list()
     foldNumber = 1
-    i = 0
     
     # Cross validation loop
     for trainIndex, testIndex in skf.split(x, y):
@@ -111,11 +107,12 @@ def trainWithCrossValidation(nFolds, data, configuration):
         model = defineAndTrainModel((x[trainIndex], y[trainIndex]), configuration, dataSpecification)
     
         # Test the model
-        scoreOfFolds[i] = evaluateModel(model, (x[testIndex], y[testIndex]))
-        #printScore(scoreOfFolds[i])
-        #print("Accuracy of fold ", foldNumber, ": ", (accuracy * 100))
+        balance = getBalanceOption(configuration)
+        scoreOfFoldsBalanced.append(evaluateModel(model, (x[testIndex], y[testIndex]), balance))
+        balance = None
+        scoreOfFoldsUnbalanced.append(evaluateModel(model, (x[testIndex], y[testIndex]), balance))
+        
         foldNumber = foldNumber + 1
-        i = i + 1
         
     # Train the final model
     model = defineAndTrainModel((x, y), configuration, dataSpecification)
@@ -125,7 +122,7 @@ def trainWithCrossValidation(nFolds, data, configuration):
     #accuracyStandardDeviation = np.std(accuracyOfFolds)
     
     # Return results
-    return (model, scoreOfFolds)
+    return (model, scoreOfFoldsBalanced, scoreOfFoldsUnbalanced)
 
 
 def crossValidateModelConfiguration(data, dataSpecification):

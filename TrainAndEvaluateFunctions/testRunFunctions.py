@@ -35,14 +35,13 @@ def runTestCase(testType, configurations):
     results = crossValidateConfiguration(data, configurations)
     
     # Print results
-    printResults(testType, configurations, results)
+    printResultSummary(testType, results)
     
 def crossValidateConfiguration(data, configurations):
     
     numConfigurations = len(configurations)
     skf = StratifiedKFold(n_splits = numConfigurations)#, shuffle = True, random_state = seed)
-    accuracyOfConfigurations = np.zeros(numConfigurations)
-    deviationOfConfigurations = np.zeros(numConfigurations)
+    results = list()
     nFolds = 10
     configuration = 0
     note = 'NestedCrossValidation'
@@ -56,24 +55,27 @@ def crossValidateConfiguration(data, configurations):
         currentX = cropSequenceLength(x, currentDepth)
         
         # Perform cross validation for this configuration
-        (model, scores) = trainWithCrossValidation(nFolds, (currentX[testIndex], y[testIndex]), configurations[configuration])
+        (model, scoreOfFoldsBalanced, scoreOfFoldsUnbalanced) = trainWithCrossValidation(nFolds, (currentX[testIndex], y[testIndex]), configurations[configuration])
+        currentResult = (scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, configurations[configuration])
+        results.append(currentResult)
         
-        # Extract performance results
-        #accuracyOfConfigurations[configuration] = accuracyMean
-        #deviationOfConfigurations[configuration] = accuracyStandardDeviation
+        # Print results, save model
+        printConfigurationResultSummary(currentResult)
         
         # Save the model as a file and then clear the memory
-        #saveModel(model, configuration, accuracyMean, accuracyStandardDeviation, note)
-        #model = None
+        saveModel(model, currentResult, note)
+        model = None
         
-        #print("Accuracy of configuration ", configuration, ": ", (accuracyMean * 100), " +/- ", (accuracyStandardDeviation * 100))
         configuration = configuration + 1
 
     # Return results    
-    return (accuracyOfConfigurations, deviationOfConfigurations)
+    return results
     
+def printConfigurationResultSummary(scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, configuration):
+    return
+
 # Print a summary of the test run
-def printResults(testType, configurations, results): 
+def printResultSummary(testType, results): 
     (accuracyOfConfigurations, deviationOfConfigurations) = results
     print('--------------------------------')
     print('Summary of ' + testType + ' test')
