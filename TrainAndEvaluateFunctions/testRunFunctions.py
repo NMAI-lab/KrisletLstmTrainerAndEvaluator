@@ -17,7 +17,7 @@ from parsingFunctions import loadData
 from dataManagement import cropSequenceLength#, getDataSpecification
 from modelTrainEvaluateFunctions import trainWithCrossValidation#, crossValidateModelConfiguration
 #from modelTrainEvaluateFunctions import evaluateModel
-from modelGenerators import getNumConfigurations
+#from modelGenerators import getNumConfigurations
 from modelSave import saveModel
 
 
