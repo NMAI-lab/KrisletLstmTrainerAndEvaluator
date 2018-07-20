@@ -11,28 +11,30 @@ from configutationGenerator import buildConfigurationList
 # List of test scenarios
 testType = ["stateBasedKrislet"]#, "ClassicKrislet"]
 
-# List of model configurations with an LSTM layer
-runDepthOptions = [50]
-numLSTMnodeOptions = [50]
-numHiddenNodeOptions = [0]
-useConvolutionOptions = [False]#, True]
-activationOptions = ['relu']#, 'sigmoid']
-embeddingOptions = [False]
-balanceOptions = ["randomUndersample"]
-configurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions)
+configurations = list()
 
-# List of model configurations with NO LSTM layer
-#runDepthOptions = [0]
-#numLSTMnodeOptions = [0]
-#numHiddenNodeOptions = [10]
-#useConvolutionOptions = [False]
+# List of model configurations with an LSTM layer
+#runDepthOptions = [50]
+#numLSTMnodeOptions = [50]
+#numHiddenNodeOptions = [0]
+#useConvolutionOptions = [False]#, True]
 #activationOptions = ['relu']#, 'sigmoid']
 #embeddingOptions = [False]
 #balanceOptions = ["randomUndersample"]
-#baselineConfigurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions)
+#configurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions)
+
+# List of model configurations with NO LSTM layer
+runDepthOptions = [0]
+numLSTMnodeOptions = [0]
+numHiddenNodeOptions = [10]
+useConvolutionOptions = [False]
+activationOptions = ['relu']#, 'sigmoid']
+embeddingOptions = [False]
+balanceOptions = ["randomUndersample"]
+baselineConfigurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions)
 
 # Include baseline options in configurations to test
-#configurations.extend(baselineConfigurations)
+configurations.extend(baselineConfigurations)
 
 # Run all tests
 for i in range(len(testType)):
