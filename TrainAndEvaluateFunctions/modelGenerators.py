@@ -76,8 +76,8 @@ def defineModel(configuration, dataSpecification):
     else:
         return defineModelVersion0(dataSpecification)
 
-def getNumConfigurations():
-    return 3
+#def getNumConfigurations():
+#    return 3
 
 def defineModelVersion2(dataSpecification):
     (numCategories, elementDimension, sequenceLength) = dataSpecification
