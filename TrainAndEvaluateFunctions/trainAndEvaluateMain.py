@@ -9,7 +9,7 @@ from testRunFunctions import runTestCase
 from configutationGenerator import buildConfigurationList
 
 # List of test scenarios
-testType = ["stateBasedKrislet", "ClassicKrislet"]
+testType = ["stateBasedKrislet"]#, "ClassicKrislet"]
 
 # List of model configurations with an LSTM layer
 runDepthOptions = [50]
@@ -22,17 +22,17 @@ balanceOptions = ["randomUndersample"]
 configurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions)
 
 # List of model configurations with NO LSTM layer
-runDepthOptions = [0]
-numLSTMnodeOptions = [0]
-numHiddenNodeOptions = [10]
-useConvolutionOptions = [False]
-activationOptions = ['relu']#, 'sigmoid']
-embeddingOptions = [False]
-balanceOptions = ["randomUndersample"]
-baselineConfigurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions)
+#runDepthOptions = [0]
+#numLSTMnodeOptions = [0]
+#numHiddenNodeOptions = [10]
+#useConvolutionOptions = [False]
+#activationOptions = ['relu']#, 'sigmoid']
+#embeddingOptions = [False]
+#balanceOptions = ["randomUndersample"]
+#baselineConfigurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions)
 
 # Include baseline options in configurations to test
-configurations.extend(baselineConfigurations)
+#configurations.extend(baselineConfigurations)
 
 # Run all tests
 for i in range(len(testType)):

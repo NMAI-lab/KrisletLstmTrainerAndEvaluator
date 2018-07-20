@@ -31,8 +31,22 @@ def runTestCase(testType, configurations):
     # Should we deal with placeholder calues?
     # finalData = replacePlaceholder(balancedData[0])
     
-    # Run nested cross validation
-    results = crossValidateConfiguration(data, configurations)
+
+    if (len(configurations) > 1):
+        # Run nested cross validation
+        results = crossValidateConfiguration(data, configurations)
+    else:
+        (x, y) = (data)
+        currentConfiguration = configurations[0]
+        (model, scoreOfFoldsBalanced, scoreOfFoldsUnbalanced) = trainWithCrossValidation(data, currentConfiguration)
+        currentResult = (scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, currentConfiguration)
+        
+        # Print results, save model
+        printConfigurationResultSummary(currentResult)
+        
+        # Save the model as a file and then clear the memory
+        note = 'SingleConfiguration'
+        saveModel(model, currentResult, note)
     
     # Print results
     printResultSummary(testType, results)
