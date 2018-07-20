@@ -17,16 +17,21 @@ def printConfigurationParameters(configuration):
     print("Balance option: ",  balanceOption)
     return
 
-def printSingleResult(result, configuration):
+def printSingleResult(result):
+    (accuracy, precision, sensitivity, specificity) = result
+    print("Accuracy: ", accuracy)
+    print(" Precision: ", precision)
+    print(" Sensitivity: ", sensitivity)
+    print("Specificity: ", specificity)
     return
 
 def printConfigurationResultSummary(scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, configuration):
     print("Summary of configuration")
     printConfigurationParameters(configuration)
     for i in range(len(scoreOfFoldsBalanced)):
-        printSingleResult(scoreOfFoldsBalanced[i], configuration)
+        printSingleResult(scoreOfFoldsBalanced[i])
     for i in range(len(scoreOfFoldsUnbalanced)):
-        printSingleResult(scoreOfFoldsUnbalanced[i], configuration)
+        printSingleResult(scoreOfFoldsUnbalanced[i])
         
     # Need to print summary statistics of each parameter    
     
