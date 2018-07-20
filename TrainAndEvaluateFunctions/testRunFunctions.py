@@ -31,12 +31,46 @@ def runTestCase(testType, configurations):
     # Should we deal with placeholder calues?
     # finalData = replacePlaceholder(balancedData[0])
     
-
+    # Run nested cross validation
+    results = crossValidateConfiguration(data, configurations)
+    
+    # Print results
+    printResultSummary(testType, results)
+    
+def crossValidateConfiguration(data, configurations):
+    
+    # Deal with multi configuration case
     if (len(configurations) > 1):
-        # Run nested cross validation
-        results = crossValidateConfiguration(data, configurations)
-    else:
         (x, y) = (data)
+        numConfigurations = len(configurations)
+        skf = StratifiedKFold(n_splits = numConfigurations)#, shuffle = True, random_state = seed)
+        results = list()
+        configuration = 0
+        note = 'NestedCrossValidation'
+        for trainIndex, testIndex in skf.split(x, y):
+            print("Running configuration", configuration, "/", numConfigurations)
+            
+            currentDepth = configurations[configuration][0]
+        
+            # Crop the data depth, if necessary
+            currentX = cropSequenceLength(x, currentDepth)
+        
+            # Perform cross validation for this configuration
+            (model, scoreOfFoldsBalanced, scoreOfFoldsUnbalanced) = trainWithCrossValidation((currentX[testIndex], y[testIndex]), configurations[configuration])
+            currentResult = (scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, configurations[configuration])
+            results.append(currentResult)
+        
+            # Print results, save model
+            printConfigurationResultSummary(currentResult)
+        
+            # Save the model as a file and then clear the memory
+            saveModel(model, currentResult, note)
+            model = None
+        
+            configuration = configuration + 1
+    
+    # Deal with single configuration case
+    else:
         currentConfiguration = configurations[0]
         (model, scoreOfFoldsBalanced, scoreOfFoldsUnbalanced) = trainWithCrossValidation(data, currentConfiguration)
         currentResult = (scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, currentConfiguration)
@@ -47,38 +81,6 @@ def runTestCase(testType, configurations):
         # Save the model as a file and then clear the memory
         note = 'SingleConfiguration'
         saveModel(model, currentResult, note)
-    
-    # Print results
-    printResultSummary(testType, results)
-    
-def crossValidateConfiguration(data, configurations):
-    numConfigurations = len(configurations)
-    skf = StratifiedKFold(n_splits = numConfigurations)#, shuffle = True, random_state = seed)
-    results = list()
-    configuration = 0
-    note = 'NestedCrossValidation'
-    (x, y) = (data)
-    for trainIndex, testIndex in skf.split(x, y):
-        print("Running configuration", configuration, "/", numConfigurations)
-        
-        currentDepth = configurations[configuration][0]
-        
-        # Crop the data depth, if necessary
-        currentX = cropSequenceLength(x, currentDepth)
-        
-        # Perform cross validation for this configuration
-        (model, scoreOfFoldsBalanced, scoreOfFoldsUnbalanced) = trainWithCrossValidation((currentX[testIndex], y[testIndex]), configurations[configuration])
-        currentResult = (scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, configurations[configuration])
-        results.append(currentResult)
-        
-        # Print results, save model
-        printConfigurationResultSummary(currentResult)
-        
-        # Save the model as a file and then clear the memory
-        saveModel(model, currentResult, note)
-        model = None
-        
-        configuration = configuration + 1
 
     # Return results    
     return results
