@@ -84,7 +84,7 @@ def evaluateModel(model, data, balanceOption):
     return (accuracy, precision, sensitivity, specificity)
 
 
-def trainWithCrossValidation(nFolds, data, configuration):
+def trainWithCrossValidation(data, configuration, nFolds = 10):
     
     # Get the data specifications
     dataSpecification = getDataSpecification(data)

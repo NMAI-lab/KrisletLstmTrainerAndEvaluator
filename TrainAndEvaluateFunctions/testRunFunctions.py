@@ -38,11 +38,9 @@ def runTestCase(testType, configurations):
     printResultSummary(testType, results)
     
 def crossValidateConfiguration(data, configurations):
-    
     numConfigurations = len(configurations)
     skf = StratifiedKFold(n_splits = numConfigurations)#, shuffle = True, random_state = seed)
     results = list()
-    nFolds = 10
     configuration = 0
     note = 'NestedCrossValidation'
     (x, y) = (data)
@@ -55,7 +53,7 @@ def crossValidateConfiguration(data, configurations):
         currentX = cropSequenceLength(x, currentDepth)
         
         # Perform cross validation for this configuration
-        (model, scoreOfFoldsBalanced, scoreOfFoldsUnbalanced) = trainWithCrossValidation(nFolds, (currentX[testIndex], y[testIndex]), configurations[configuration])
+        (model, scoreOfFoldsBalanced, scoreOfFoldsUnbalanced) = trainWithCrossValidation((currentX[testIndex], y[testIndex]), configurations[configuration])
         currentResult = (scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, configurations[configuration])
         results.append(currentResult)
         
