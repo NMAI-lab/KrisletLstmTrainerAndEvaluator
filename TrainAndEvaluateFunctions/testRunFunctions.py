@@ -84,18 +84,3 @@ def crossValidateConfiguration(data, configurations):
 
     # Return results    
     return results
-    
-def printConfigurationResultSummary(scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, configuration):
-    return
-
-# Print a summary of the test run
-def printResultSummary(testType, results): 
-    (accuracyOfConfigurations, deviationOfConfigurations) = results
-    print('--------------------------------')
-    print('Summary of ' + testType + ' test')
-
-    numConfigurations = getNumConfigurations()
-    for i in range(numConfigurations):
-        print('Configuration ', i, " Accuracy : ", accuracyOfConfigurations[i], " +/- ", deviationOfConfigurations[i])
-    
-    print('--------------------------------')
