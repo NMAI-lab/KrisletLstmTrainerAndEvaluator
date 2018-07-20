@@ -6,13 +6,16 @@ Created on Wed Jun 27 10:43:31 2018
 """
 import datetime
 
-def saveModel(model, configuration, accuracy, deviation, note = None):
-    fileName = getModelFileName(configuration, accuracy, deviation, note)
+def saveModel(model, currentResult, configurationNumber, note = None):
+    fileName = getModelFileName(currentResult, configurationNumber, note)
     model.save(fileName)  # creates a HDF5 file 'my_model.h5'
 
-def getModelFileName(configuration, accuracy, deviation, note = None):
+# Need to update this to include some sort of summary statistic in the file name
+def getModelFileName(result, configurationNumber, note = None):
     fileExtension = '.h5'
-    fileNameSuffix = 'Configuration' + str(configuration) + 'Accuracy' + str(accuracy) + 'Deviation' + str(deviation)
+    (scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, configuration) = result
+    
+    fileNameSuffix = 'Configuration' + str(configurationNumber)# + 'Accuracy' + str(accuracy) + 'Deviation' + str(deviation)
     
     if note != None:
         fileNameSuffix = fileNameSuffix + str(note)

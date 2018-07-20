@@ -20,6 +20,8 @@ from modelTrainEvaluateFunctions import trainWithCrossValidation#, crossValidate
 #from modelGenerators import getNumConfigurations
 from modelSave import saveModel
 
+from resultOutput import printConfigurationResultSummary, printResultSummary
+
 
 def runTestCase(testType, configurations):
     
@@ -64,7 +66,7 @@ def crossValidateConfiguration(data, configurations):
             printConfigurationResultSummary(currentResult)
         
             # Save the model as a file and then clear the memory
-            saveModel(model, currentResult, note)
+            saveModel(model, currentResult, configuration, note)
             model = None
         
             configuration = configuration + 1
