@@ -17,7 +17,7 @@ def buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOpt
                     for m in range(len(activationOptions)):
                         for n in range(len(embeddingOptions)):
                             for o in range(len(balanceOptions)):
-                                configList.append((runDepthOptions[i], numLSTMnodeOptions[j], numHiddenNodeOptions[k], useConvolutionOptions[l], activationOptions[m], embeddingOptions[n]), balanceOptions[o])
+                                configList.append((runDepthOptions[i], numLSTMnodeOptions[j], numHiddenNodeOptions[k], useConvolutionOptions[l], activationOptions[m], embeddingOptions[n], balanceOptions[o]))
     return configList
 
 def getMaxDepth(configurations):
