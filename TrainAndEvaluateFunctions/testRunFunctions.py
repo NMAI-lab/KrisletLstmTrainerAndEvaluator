@@ -5,18 +5,18 @@ Created on Wed Jul  4 15:04:38 2018
 @author: patrickgavigan
 """
 
-import numpy as np
+#import numpy as np
 from sklearn.model_selection import StratifiedKFold
 
 from configutationGenerator import getMaxDepth
 
 from parsingFunctions import loadData
 #from dataManagement import convertToCategorical
-from balancingFunctions import underSample, checkBalance
+#from balancingFunctions import underSample, checkBalance
 
-from dataManagement import getData, cropSequenceLength, getDataSpecification
-from modelTrainEvaluateFunctions import trainWithCrossValidation, crossValidateModelConfiguration
-from modelTrainEvaluateFunctions import evaluateModel
+from dataManagement import cropSequenceLength#, getDataSpecification
+from modelTrainEvaluateFunctions import trainWithCrossValidation#, crossValidateModelConfiguration
+#from modelTrainEvaluateFunctions import evaluateModel
 from modelGenerators import getNumConfigurations
 from modelSave import saveModel
 

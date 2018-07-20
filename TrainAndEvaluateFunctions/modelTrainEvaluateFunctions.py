@@ -10,15 +10,15 @@ from keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import recall_score, precision_score
 
-import numpy as np
+#import numpy as np
 
 from dataManagement import stratefiedSplit, convertToCategorical, getDataSpecification, convertToClassID
 from balancingFunctions import balanceData
-from modelGenerators import defineModel, getNumConfigurations
+from modelGenerators import defineModel#, getNumConfigurations
 from configutationGenerator import getBalanceOption
 from evaluationMetrics import evaluateSpecificity
 
-from modelSave import saveModel
+#from modelSave import saveModel
 
 # Train the model
 def trainModel(model, data):
