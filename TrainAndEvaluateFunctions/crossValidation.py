@@ -53,11 +53,11 @@ def trainWithCrossValidation(data, configuration, nFolds = 10):
 
 
 def crossValidateConfiguration(data, configurations):
+    numConfigurations = len(configurations)
     
     # Deal with multi configuration case
-    if (len(configurations) > 1):
+    if (numConfigurations > 1):
         (x, y) = (data)
-        numConfigurations = len(configurations)
         skf = StratifiedKFold(n_splits = numConfigurations)#, shuffle = True, random_state = seed)
         results = list()
         configuration = 0
@@ -65,40 +65,39 @@ def crossValidateConfiguration(data, configurations):
         for trainIndex, testIndex in skf.split(x, y):
             print("Running configuration", configuration, "/", numConfigurations)
             
-            currentDepth = configurations[configuration][0]
-        
-            # Crop the data depth, if necessary
-            currentX = cropSequenceLength(x, currentDepth)
-        
-            # Perform cross validation for this configuration
-            (model, scoreOfFoldsBalanced, scoreOfFoldsUnbalanced) = trainWithCrossValidation((currentX[testIndex], y[testIndex]), configurations[configuration])
-            currentResult = (scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, configurations[configuration])
+            currentResult = crossValidateLoopIteration((x[testIndex], y[testIndex]), configurations[configuration], note)
             results.append(currentResult)
-        
-            # Print results, save model
-            printConfigurationResultSummary(currentResult)
-        
-            # Save the model as a file and then clear the memory
-            saveModel(model, currentResult, configuration, note)
-            model = None
-        
             configuration = configuration + 1
     
     # Deal with single configuration case
     else:
-        currentConfiguration = configurations[0]
-        (model, scoreOfFoldsBalanced, scoreOfFoldsUnbalanced) = trainWithCrossValidation(data, currentConfiguration)
-        currentResult = (scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, currentConfiguration)
-        
-        # Print results, save model
-        printConfigurationResultSummary(currentResult)
-        
-        # Save the model as a file and then clear the memory
         note = 'SingleConfiguration'
-        saveModel(model, currentResult, note)
+        currentConfiguration = configurations[0]
+        crossValidateLoopIteration(data, currentConfiguration, note)
 
     # Return results    
     return results
+
+def crossValidateLoopIteration(data, configuration, note):
+
+    # Crop the data depth, if necessary    
+    (x,y) = data
+    depth = configuration[0]
+    currentX = cropSequenceLength(x, depth)
+    data = (currentX, y)
+    
+    # Train with cross validation
+    (model, scoreOfFoldsBalanced, scoreOfFoldsUnbalanced) = trainWithCrossValidation(data, configuration)
+    result = (scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, configuration)
+    
+    # Print results, save model
+    printConfigurationResultSummary(result)
+        
+    # Save the model as a file and then clear the memory
+    saveModel(model, result, note)
+
+    # Return result
+    return result
 
 ## This function is defunct - check the implementation before using
 #def crossValidateModelConfiguration(data, dataSpecification):

@@ -10,14 +10,15 @@ from sklearn.metrics import recall_score, precision_score
 
 from dataManagement import stratefiedSplit, convertToCategorical, convertToClassID, getDataSpecification
 from balancingFunctions import balanceData
+from configutationGenerator import getBalanceOption
 from modelGenerators import defineParameterizedModel
 from evaluationMetrics import evaluateSpecificity
 
 # Train the model
-def trainModel(model, data):
+def trainModel(model, data, balanceOption = None):
 
     # Check data balance, balance if needed
-    (x, y) = balanceData(data)
+    (x, y) = balanceData(data, balanceOption)
         
     # Perform stratefied split
     (xTrain, yTrain), (xTest, yTest) = stratefiedSplit(x, y)
@@ -37,7 +38,8 @@ def trainModel(model, data):
 def defineAndTrainModel(data, configuration):#, dataSpecification):
     dataSpecification = getDataSpecification(data)          # Get the data specifications
     model = defineParameterizedModel(configuration, dataSpecification)   # Define the model
-    model = trainModel(model, data)                         # Train the model
+    balanceOption = getBalanceOption(configuration)
+    model = trainModel(model, data, balanceOption)          # Train the model
     return model                                            # Return the model
 
 def configureCallBacks():

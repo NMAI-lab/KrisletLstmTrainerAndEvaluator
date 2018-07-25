@@ -60,12 +60,18 @@ def getDataSpecification(data):
     
     # Use shape of the first element to get element dimensions
     elementDimension = x[0].shape
+    if len(elementDimension) > 1:
+        sequenceLength = elementDimension[1]
+        numFeatures = elementDimension[0]
+    else:
+        sequenceLength = 0
+        numFeatures = elementDimension[0]
     
     # Get the number of categories
     numCategories = getNumCategories(y)
     
     # Return result
-    return (numCategories, elementDimension, sequenceLength)
+    return (numCategories, numFeatures, sequenceLength)
 
 
 def stratefiedSplit(x, y):
