@@ -30,7 +30,7 @@ numHiddenNodeOptions = [10]
 useConvolutionOptions = [False]
 activationOptions = ['relu']#, 'sigmoid']
 embeddingOptions = [False]
-balanceOptions = ["randomUndersample"]
+balanceOptions = ["None"]#["randomUndersample"]
 baselineConfigurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions)
 
 # Include baseline options in configurations to test

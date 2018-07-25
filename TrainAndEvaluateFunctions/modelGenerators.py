@@ -10,7 +10,7 @@ from keras.layers import Dense
 from keras.layers import LSTM
 from keras.layers.convolutional import Conv1D
 from keras.layers.convolutional import MaxPooling1D
-from keras.layers.embeddings import Embedding
+#from keras.layers.embeddings import Embedding
 #from keras.preprocessing import sequence
 
 
@@ -22,7 +22,10 @@ def defineParameterizedModel(configuration, dataSpecification):
     # Setup the model
     model = Sequential()
     firstLayer = True
-    inputShapeParameter = (sequenceLength, elementDimension)
+    if sequenceLength == 0:
+        inputShapeParameter = elementDimension
+    else:
+        inputShapeParameter = (sequenceLength, elementDimension)
 
     # Add embedding layer
 #    if useEmbedding:
