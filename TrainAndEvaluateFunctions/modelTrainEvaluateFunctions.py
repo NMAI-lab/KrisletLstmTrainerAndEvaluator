@@ -8,9 +8,9 @@ Created on Mon May 28 15:32:58 2018
 from keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from sklearn.metrics import recall_score, precision_score
 
-from dataManagement import stratefiedSplit, convertToCategorical, convertToClassID
+from dataManagement import stratefiedSplit, convertToCategorical, convertToClassID, getDataSpecification
 from balancingFunctions import balanceData
-from modelGenerators import defineModel
+from modelGenerators import defineParameterizedModel
 from evaluationMetrics import evaluateSpecificity
 
 # Train the model
@@ -34,8 +34,9 @@ def trainModel(model, data):
     return model
 
 # Define and train the model (useful for cross-validation)
-def defineAndTrainModel(data, configuration, dataSpecification):
-    model = defineModel(configuration, dataSpecification)   # Define the model
+def defineAndTrainModel(data, configuration):#, dataSpecification):
+    dataSpecification = getDataSpecification(data)          # Get the data specifications
+    model = defineParameterizedModel(configuration, dataSpecification)   # Define the model
     model = trainModel(model, data)                         # Train the model
     return model                                            # Return the model
 

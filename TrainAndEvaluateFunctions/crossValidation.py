@@ -15,7 +15,7 @@ from modelSave import saveModel
 def trainWithCrossValidation(data, configuration, nFolds = 10):
     
     # Get the data specifications
-    dataSpecification = getDataSpecification(data)
+    #dataSpecification = getDataSpecification(data)
 
     # Extract data
     (x, y) = (data)
@@ -31,7 +31,7 @@ def trainWithCrossValidation(data, configuration, nFolds = 10):
         print("Running Fold", foldNumber, "/", nFolds)
 
         # Define and train the model
-        model = defineAndTrainModel((x[trainIndex], y[trainIndex]), configuration, dataSpecification)
+        model = defineAndTrainModel((x[trainIndex], y[trainIndex]), configuration)#, dataSpecification)
     
         # Test the model
         balance = getBalanceOption(configuration)
@@ -42,7 +42,7 @@ def trainWithCrossValidation(data, configuration, nFolds = 10):
         foldNumber = foldNumber + 1
         
     # Train the final model
-    model = defineAndTrainModel((x, y), configuration, dataSpecification)
+    model = defineAndTrainModel((x, y), configuration)#, dataSpecification)
     
     # Get performance estimations
     #accuracyMean = np.mean(accuracyOfFolds)
