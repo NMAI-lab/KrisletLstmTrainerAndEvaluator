@@ -71,7 +71,9 @@ def evaluateModel(model, data, balanceOption):
     
     # Calculate other metrics
     yPredicted = convertToClassID(model.predict(x))
-    labels = [i for i in range(min(y),max(y))]
+    minLabel = int(min(y))
+    maxLabel = int(max(y)) + 1
+    labels = [i for i in range(minLabel,maxLabel)]
     precision = precision_score(y, yPredicted, labels, average = None)
     sensitivity = recall_score(y, yPredicted, labels, average = None)
     specificity = evaluateSpecificity(y, yPredicted, labels) 
