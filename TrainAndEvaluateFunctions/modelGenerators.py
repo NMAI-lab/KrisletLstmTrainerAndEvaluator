@@ -23,7 +23,7 @@ def defineParameterizedModel(configuration, dataSpecification):
     model = Sequential()
     firstLayer = True
     if sequenceLength == 0:
-        inputShapeParameter = elementDimension
+        inputShapeParameter = (elementDimension,)
     else:
         inputShapeParameter = (sequenceLength, elementDimension)
 
