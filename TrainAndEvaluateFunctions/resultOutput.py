@@ -25,7 +25,8 @@ def printSingleResult(result):
     print("Specificity: ", specificity)
     return
 
-def printConfigurationResultSummary(scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, configuration):
+def printConfigurationResultSummary(result):
+    (scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, configuration) = result
     print("Summary of configuration")
     printConfigurationParameters(configuration)
     for i in range(len(scoreOfFoldsBalanced)):
