@@ -9,18 +9,20 @@ import numpy as np
 
 # Evaluate the specificity
 def evaluateSpecificity(y, yPredicted, labels):
-    Sp = np.zeros(labels.size)
-    for currentClassID in range(labels):
+    numLabels = len(labels)
+    Sp = np.zeros(numLabels)
+    for i in range(numLabels):
+        currentClassID = labels[i]
         TN = getTrueNegative(y, yPredicted, currentClassID)
         FP = getFalsePositive(y, yPredicted, currentClassID)
-        Sp[currentClassID] = TN / (TN + FP)
+        Sp[i] = TN / (TN + FP)
     return Sp
 
 # Get the true negatives
 def getTrueNegative(y, yPredicted, classID):
     TN = 0
     for i in range(len(y)):
-        if ((y != classID) and (yPredicted != classID)):
+        if ((y[i] != classID) and (yPredicted[i] != classID)):
             TN = TN + 1
     return TN
 
@@ -29,6 +31,6 @@ def getTrueNegative(y, yPredicted, classID):
 def getFalsePositive(y, yPredicted, classID):
     FP = 0
     for i in range(len(y)):
-        if ((y != classID) and (yPredicted == classID)):
+        if ((y[i] != classID) and (yPredicted[i] == classID)):
             FP = FP + 1
     return FP
