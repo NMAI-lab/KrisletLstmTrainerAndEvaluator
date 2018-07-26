@@ -167,7 +167,11 @@ def convertToCategorical(y):
     return yCategorical
 
 def convertToClassID(yCategorical):
-    return np.argmax(yCategorical)
+    numElements = yCategorical.shape[0]
+    y = np.zeros(numElements)
+    for i in range(numElements):
+        y[i] = np.argmax(yCategorical[i])
+    return y
     
 
 # Gets the dimensions of the x data
