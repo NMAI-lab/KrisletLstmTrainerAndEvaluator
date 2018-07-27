@@ -15,7 +15,7 @@ def getModelFileName(result, configurationNumber, note = None):
     fileExtension = '.h5'
     (scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, configuration) = result
     
-    fileNameSuffix = 'Configuration' + str(configurationNumber)# + 'Accuracy' + str(accuracy) + 'Deviation' + str(deviation)
+    fileNameSuffix = 'Configuration_' + str(configurationNumber) + '_'# + 'Accuracy' + str(accuracy) + 'Deviation' + str(deviation)
     
     if note != None:
         fileNameSuffix = fileNameSuffix + str(note)

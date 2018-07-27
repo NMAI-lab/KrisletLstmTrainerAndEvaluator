@@ -54,31 +54,32 @@ def trainWithCrossValidation(data, configuration, nFolds = 10):
 
 def crossValidateConfiguration(data, configurations):
     numConfigurations = len(configurations)
+    configurationID = 0
+    results = list()
     
     # Deal with multi configuration case
     if (numConfigurations > 1):
         (x, y) = (data)
         skf = StratifiedKFold(n_splits = numConfigurations)#, shuffle = True, random_state = seed)
-        results = list()
-        configuration = 0
         note = 'NestedCrossValidation'
         for trainIndex, testIndex in skf.split(x, y):
-            print("Running configuration", configuration, "/", numConfigurations)
+            print("Running configuration", configurationID, "/", numConfigurations)
             
-            currentResult = crossValidateLoopIteration((x[testIndex], y[testIndex]), configurations[configuration], note)
+            currentResult = crossValidateLoopIteration((x[testIndex], y[testIndex]), configurations[configurationID], configurationID, note)
             results.append(currentResult)
-            configuration = configuration + 1
+            configurationID = configurationID + 1
     
     # Deal with single configuration case
     else:
         note = 'SingleConfiguration'
         currentConfiguration = configurations[0]
-        crossValidateLoopIteration(data, currentConfiguration, note)
+        currentResult = crossValidateLoopIteration(data, currentConfiguration, configurationID,  note)
+        results.append(currentResult)
 
     # Return results    
     return results
 
-def crossValidateLoopIteration(data, configuration, note):
+def crossValidateLoopIteration(data, configuration, configurationID, note):
 
     # Crop the data depth, if necessary    
     (x,y) = data
@@ -94,7 +95,7 @@ def crossValidateLoopIteration(data, configuration, note):
     printConfigurationResultSummary(result)
         
     # Save the model as a file and then clear the memory
-    saveModel(model, result, note)
+    saveModel(model, result, configurationID, note)
 
     # Return result
     return result

@@ -8,22 +8,22 @@ Created on Fri Jul 20 14:59:50 2018
 def printConfigurationParameters(configuration):
     (runDepthOption, numLSTMnodeOption, numHiddenNodeOption, useConvolutionOption, activationOption, embeddingOption, balanceOption) = configuration
     print("Configuration parameters")
-    print("Run depth: ", runDepthOption)
-    print("Number of LSTM nodes: ", numLSTMnodeOption)
-    print("Number of hidden nodes: ", numHiddenNodeOption)
-    print("Using convolution: ", useConvolutionOption)
-    print("Activation option: ", activationOption)
-    print("Using embedding layer: ",  embeddingOption)
-    print("Balance option: ",  balanceOption)
+    print(" Run depth: ", runDepthOption)
+    print(" Number of LSTM nodes: ", numLSTMnodeOption)
+    print(" Number of hidden nodes: ", numHiddenNodeOption)
+    print(" Using convolution: ", useConvolutionOption)
+    print(" Activation option: ", activationOption)
+    print(" Using embedding layer: ",  embeddingOption)
+    print(" Balance option: ",  balanceOption)
     return
 
 def printSingleResult(result, fold):
     (accuracy, precision, sensitivity, specificity) = result
     print("Fold ", fold)
-    print("Accuracy: ", accuracy)
+    print(" Accuracy: ", accuracy)
     print(" Precision: ", precision)
     print(" Sensitivity: ", sensitivity)
-    print("Specificity: ", specificity)
+    print(" Specificity: ", specificity)
     return
 
 def printConfigurationResultSummary(result):
@@ -44,12 +44,11 @@ def printConfigurationResultSummary(result):
     return
 
 # Print a summary of the test run
-def printResultSummary(testType, results, configurations): 
-    scoreOfFoldsBalanced, scoreOfFoldsUnbalanced = results
+def printResultSummary(testType, results):
     print('--------------------------------')
     print('Summary of ' + testType + ' test')
 
-    for i in range(len(configurations)):
+    for i in range(len(results)):
         print('Configuration ', i)
-        printConfigurationResultSummary(scoreOfFoldsBalanced, scoreOfFoldsUnbalanced, configurations[i])
+        printConfigurationResultSummary(results[i])
     print('--------------------------------')
