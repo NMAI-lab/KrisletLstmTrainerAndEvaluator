@@ -5,6 +5,8 @@ Created on Fri Jul 20 14:59:50 2018
 @author: patrickgavigan
 """
 
+from evaluationMetrics import getSummaryStatistics
+
 def printConfigurationParameters(configuration):
     (runDepthOption, numLSTMnodeOption, numHiddenNodeOption, useConvolutionOption, activationOption, embeddingOption, balanceOption) = configuration
     print("Configuration parameters")
@@ -34,14 +36,16 @@ def printConfigurationResultSummary(result):
     print("Balanced results")
     for i in range(len(scoreOfFoldsBalanced)):
         printSingleResult(scoreOfFoldsBalanced[i], i)
+    printSummaryStatistic(getSummaryStatistics(scoreOfFoldsBalanced))
     
     print("Unbalanced results")
     for i in range(len(scoreOfFoldsUnbalanced)):
         printSingleResult(scoreOfFoldsUnbalanced[i], i)
-        
-    # Need to print summary statistics of each parameter    
-    
+    printSummaryStatistic(getSummaryStatistics(scoreOfFoldsUnbalanced))
     return
+
+def printSummaryStatistic(summaryStatistic):
+    print('Do something smart here')
 
 # Print a summary of the test run
 def printResultSummary(testType, results):

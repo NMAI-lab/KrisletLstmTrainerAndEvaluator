@@ -34,3 +34,31 @@ def getFalsePositive(y, yPredicted, classID):
         if ((y[i] != classID) and (yPredicted[i] == classID)):
             FP = FP + 1
     return FP
+
+def getSummaryStatistics(result):
+    accuracy = list()
+    precision = list()
+    sensitivity = list()
+    specificity = list()
+    
+    for i in range(len(result)):
+        (accuracyCurrent, precisionCurrent, sensitivityCurrent, specificityCurrent) = result[i]
+        accuracy.append(accuracyCurrent)
+        precision.append(precisionCurrent)
+        sensitivity.append(sensitivityCurrent)
+        specificity.append(specificityCurrent)
+        
+    accuracySummary = getConfidenceRange(accuracy)
+    precisionSummary = getConfidenceRange(precision)
+    sensitivitySummary = getConfidenceRange(sensitivity)
+    specificitySummary = getConfidenceRange(specificity)
+  
+    return (accuracySummary, precisionSummary, sensitivitySummary, specificitySummary)
+
+
+def getConfidenceRange(values):
+    np.asarray(values)
+    mean = np.mean(values)
+    standardDeviation = np.std(values)
+    return (mean, standardDeviation)
+    
