@@ -57,8 +57,8 @@ def getSummaryStatistics(result):
 
 
 def getConfidenceRange(values):
-    np.asarray(values)
-    mean = np.mean(values)
-    standardDeviation = np.std(values)
+    values = np.asarray(values)
+    mean = np.mean(values, axis = 0)
+    standardDeviation = np.std(values, axis = 0)
     return (mean, standardDeviation)
     
