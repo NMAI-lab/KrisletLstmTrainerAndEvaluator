@@ -5,6 +5,7 @@ Created on Wed Jun 27 15:19:11 2018
 @author: patrickgavigan
 """
 
+from constants import getRandomSeed
 from collections import Counter
 #from imblearn.over_sampling import SMOTE 
 import numpy as np
@@ -62,6 +63,7 @@ def getUnderSampledClassIndeces(y, classID, numToKeep):
     if (len(classIndeces) <= numToKeep):
         keepIndeces = classIndeces
     else:
+        random.seed(getRandomSeed())
         keepIndeces = random.sample(classIndeces, numToKeep)
     return keepIndeces
 
@@ -80,6 +82,7 @@ def shuffleOrder(data):
     xNew = np.zeros(np.shape(x))
     yNew = np.zeros(np.shape(y))
     maxRange = len(y)
+    random.seed(getRandomSeed())
     newOrder = random.sample(range(0, maxRange), maxRange)
     
     for i in range(maxRange):

@@ -12,6 +12,7 @@ from keras.utils import np_utils
 from sklearn.model_selection import StratifiedShuffleSplit
 #from parsingFunctions import parseFile
 import random
+from constants import getRandomSeed
 
 def getData():
 
@@ -77,7 +78,7 @@ def getDataSpecification(data):
 def stratefiedSplit(x, y):
     nSplits = 1
     testProportion = 0.2
-    splits = StratifiedShuffleSplit(nSplits, testProportion)
+    splits = StratifiedShuffleSplit(nSplits, testProportion, random_state = getRandomSeed())
     splits.get_n_splits(x, y)
     
     for trainIndex, testIndex in splits.split(x, y):

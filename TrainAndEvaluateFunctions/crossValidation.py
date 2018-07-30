@@ -11,6 +11,7 @@ from dataManagement import cropSequenceLength
 from modelTrainEvaluateFunctions import defineAndTrainModel, evaluateModel
 from resultOutput import printConfigurationResultSummary
 from modelSave import saveModel
+from constants import getRandomSeed
 
 def trainWithCrossValidation(data, configuration, nFolds = 10):
     
@@ -21,7 +22,7 @@ def trainWithCrossValidation(data, configuration, nFolds = 10):
     (x, y) = (data)
     
     # Setup the folds
-    skf = StratifiedKFold(n_splits = nFolds)#, shuffle = True, random_state = seed)
+    skf = StratifiedKFold(n_splits = nFolds, random_state = getRandomSeed())
     scoreOfFoldsBalanced = list()
     scoreOfFoldsUnbalanced = list()
     foldNumber = 1
@@ -60,7 +61,7 @@ def crossValidateConfiguration(data, configurations):
     # Deal with multi configuration case
     if (numConfigurations > 1):
         (x, y) = (data)
-        skf = StratifiedKFold(n_splits = numConfigurations)#, shuffle = True, random_state = seed)
+        skf = StratifiedKFold(n_splits = numConfigurations, random_state = getRandomSeed())
         note = 'NestedCrossValidation'
         for trainIndex, testIndex in skf.split(x, y):
             print("Running configuration", configurationID, "/", numConfigurations)

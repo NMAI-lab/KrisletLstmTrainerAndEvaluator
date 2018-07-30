@@ -5,6 +5,9 @@ Created on Wed Jul  4 15:02:37 2018
 @author: patrickgavigan
 """
 
+from constants import setSeeds
+setSeeds()
+
 from testRunFunctions import runTestCase
 from configutationGenerator import buildConfigurationList
 
