@@ -45,7 +45,12 @@ def printConfigurationResultSummary(result):
     return
 
 def printSummaryStatistic(summaryStatistic):
-    print('Do something smart here')
+    (accuracySummary, precisionSummary, sensitivitySummary, specificitySummary) = summaryStatistic
+    print('Summarry Statistics')
+    print(' Accuracy: ', accuracySummary[0], ' +/- ', accuracySummary[1])
+    print(' Precision: ', precisionSummary[0], ' +/- ', precisionSummary[1])
+    print(' Sensitivity: ', sensitivitySummary[0], ' +/- ', sensitivitySummary[1])
+    print(' Specificity: ', specificitySummary[0], ' +/- ', specificitySummary[1])
 
 # Print a summary of the test run
 def printResultSummary(testType, results):

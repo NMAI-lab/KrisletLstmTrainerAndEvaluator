@@ -7,7 +7,7 @@ Created on Fri Jul 20 16:47:51 2018
 
 from sklearn.model_selection import StratifiedKFold
 from configutationGenerator import getBalanceOption
-from dataManagement import getDataSpecification, cropSequenceLength
+from dataManagement import cropSequenceLength
 from modelTrainEvaluateFunctions import defineAndTrainModel, evaluateModel
 from resultOutput import printConfigurationResultSummary
 from modelSave import saveModel
