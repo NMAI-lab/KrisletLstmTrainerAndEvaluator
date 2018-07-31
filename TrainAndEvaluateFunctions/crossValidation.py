@@ -64,7 +64,7 @@ def crossValidateConfiguration(data, configurations):
         skf = StratifiedKFold(n_splits = numConfigurations, random_state = getRandomSeed())
         note = 'NestedCrossValidation'
         for trainIndex, testIndex in skf.split(x, y):
-            print("Running configuration", configurationID, "/", numConfigurations)
+            print("Running configuration", configurationID + 1, "/", numConfigurations)
             
             currentResult = crossValidateLoopIteration((x[testIndex], y[testIndex]), configurations[configurationID], configurationID, note)
             results.append(currentResult)
