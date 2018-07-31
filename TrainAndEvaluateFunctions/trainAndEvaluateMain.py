@@ -17,14 +17,14 @@ testType = ["stateBasedKrislet"]#, "ClassicKrislet"]
 configurations = list()
 
 # List of model configurations with an LSTM layer
-#runDepthOptions = [50]
-#numLSTMnodeOptions = [50]
-#numHiddenNodeOptions = [0]
-#useConvolutionOptions = [False]#, True]
-#activationOptions = ['relu']#, 'sigmoid']
-#embeddingOptions = [False]
-#balanceOptions = ["randomUndersample"]
-#configurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions)
+runDepthOptions = [50]
+numLSTMnodeOptions = [50]
+numHiddenNodeOptions = [0]
+useConvolutionOptions = [False]#, True]
+activationOptions = ['relu']#, 'sigmoid']
+embeddingOptions = [False]
+balanceOptions = ['None']#["randomUndersample"]
+configurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions)
 
 # List of model configurations with NO LSTM layer
 runDepthOptions = [0]
@@ -33,7 +33,7 @@ numHiddenNodeOptions = [10]
 useConvolutionOptions = [False]
 activationOptions = ['relu']#, 'sigmoid']
 embeddingOptions = [False]
-balanceOptions = ["None"]#["randomUndersample"]
+balanceOptions = ['None']#["randomUndersample"]
 baselineConfigurations = buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions)
 
 # Include baseline options in configurations to test
