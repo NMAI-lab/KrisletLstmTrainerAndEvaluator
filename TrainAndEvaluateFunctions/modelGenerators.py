@@ -36,6 +36,7 @@ def defineParameterizedModel(configuration, dataSpecification):
     if useConvolution:
         if firstLayer:
             model.add(Conv1D(filters=32, kernel_size=3, padding = 'same', activation = activation, input_shape = inputShapeParameter))
+            firstLayer = False
         else:
             model.add(Conv1D(filters=32, kernel_size=3, padding = 'same', activation = activation))
         model.add(MaxPooling1D(pool_size=2))
@@ -45,14 +46,15 @@ def defineParameterizedModel(configuration, dataSpecification):
     if numLSTMnodes > 0:
         if firstLayer:
             model.add(LSTM(numLSTMnodes, input_shape = inputShapeParameter))
+            firstLayer = False
         else:
             model.add(LSTM(numLSTMnodes))
-        firstLayer = False
       
     # Add hidden fully connected layer
     if numHiddenNodes > 0:
         if firstLayer:
             model.add(Dense(numHiddenNodes, activation = activation, input_shape = inputShapeParameter))
+            firstLayer = False
         else:
             model.add(Dense(numHiddenNodes, activation = activation))
     
