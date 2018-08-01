@@ -16,7 +16,7 @@ nohup python trainAndEvaluateMain.py > 2018-07-01-trainAndEvaluateMainLog.log
 ps -A | grep python
 
 # watch what is happening to output file
-tail -f 2018-06-27-trainAndEvaluateMainLog.log
+tail -f 2018-07-01-trainAndEvaluateMainLog.log
 
 # Update the repos
 git pull
