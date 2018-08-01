@@ -32,13 +32,25 @@ for i in range(len(data)):
 #    print(result[i])
 prefixOptions = set(prefix)
 
-indecies = list()
-for currentPrefixOption in prefixOptions:
-    currentIndexGenerator = (i for i, e in enumerate(prefix) if e == currentPrefixOption)
-    currentIndexList = list()
-    for nextIndex in currentIndexGenerator:
-        currentIndexList.append(nextIndex)
-    indecies.append(currentIndexList)
+run = list()
+
+for i in range(len(result)):
+    currentPrefix = prefix[i]
+    currentResult = result[i]
+    runStep = {}
+    runStep['prefix'] = currentPrefix
+    runStep['reply'] = currentResult
+    run.append(runStep)
+
+
+# Get index list for each prefix
+#indecies = list()
+#for currentPrefixOption in prefixOptions:
+#    currentIndexGenerator = (i for i, e in enumerate(prefix) if e == currentPrefixOption)
+#    currentIndexList = list()
+#    for nextIndex in currentIndexGenerator:
+#        currentIndexList.append(nextIndex)
+#    indecies.append(currentIndexList)
 
 #testType = "stateBasedKrislet"
 #depth = 3
