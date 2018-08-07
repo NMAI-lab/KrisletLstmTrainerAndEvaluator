@@ -12,35 +12,36 @@ Created on Tue Jun 19 13:54:43 2018
 #from dataManagement import cropSequenceLength
 
 
-from sexpdata import loads #,load, dumps
+#from sexpdata import loads #,load, dumps
 
 from parsingFunctions import getFileNames
 
+from sEpressionDataExtraction import loadSExpressions, getActionList, getFeatureList, getRunTable
 
-testType = 'stateBasedKrislet-sexp'
+# Get the file names for available data
+testType = 'sexpt_tests'
 fileNames = getFileNames(testType)
 
-with open (fileNames[0]) as myfile:
-    data = myfile.readlines()
+# Load S-expressions from the first file
+data = loadSExpressions(fileNames[0])
 
-result = list()
-prefix = list()
-for i in range(len(data)):
-    currentResult = loads(data[i])
-    result.append(currentResult)
-    prefix.append(currentResult[0]._val)
-#    print(result[i])
-prefixOptions = set(prefix)
+# Get the possible actions
+actionList = getActionList(data)
 
-run = list()
+# Get the feature list
+featureList = getFeatureList(data, actionList, [])
 
-for i in range(len(result)):
-    currentPrefix = prefix[i]
-    currentResult = result[i]
-    runStep = {}
-    runStep['prefix'] = currentPrefix
-    runStep['reply'] = currentResult
-    run.append(runStep)
+run = getRunTable(data, actionList, featureList)
+
+#run = list()
+#
+#for i in range(len(result)):
+#    currentPrefix = prefix[i]
+#    currentResult = result[i]
+#    runStep = {}
+#    runStep['prefix'] = currentPrefix
+#    runStep['reply'] = currentResult
+#    run.append(runStep)
 
 
 # Get index list for each prefix
