@@ -16,14 +16,20 @@ Created on Tue Jun 19 13:54:43 2018
 
 from parsingFunctions import getFileNames
 
-from sEpressionDataExtraction import loadSExpressions, getActionList, getFeatureList, getRunTable
+from sEpressionDataExtraction import getReducedFileData, getActionList, getFeatureList, getRunTable
 
 # Get the file names for available data
 testType = 'sexpt_tests'
 fileNames = getFileNames(testType)
 
+actionIncludeList = ['turn', 'dash', 'kick']
+featureCheckActionList = ['see']
+includeList = list()
+includeList.extend(actionIncludeList)
+includeList.extend(featureCheckActionList)
+
 # Load S-expressions from the first file
-data = loadSExpressions(fileNames[0])
+(data, goalSide) = getReducedFileData(fileNames[0], includeList)
 
 # Get the possible actions
 actionList = getActionList(data)
@@ -31,7 +37,7 @@ actionList = getActionList(data)
 # Get the feature list
 featureList = getFeatureList(data, actionList, [])
 
-run = getRunTable(data, actionList, featureList)
+run = getRunTable(data, actionIncludeList, featureList, goalSide)
 
 #run = list()
 #
