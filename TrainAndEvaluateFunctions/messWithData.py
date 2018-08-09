@@ -35,9 +35,9 @@ includeList.extend(featureCheckActionList)
 actionList = getActionList(data)
 
 # Get the feature list
-featureList = getFeatureList(data, actionList, [])
+featureList = getFeatureList(data, featureCheckActionList, [])
 
-run = getRunTable(data, actionIncludeList, featureList, goalSide)
+#run = getRunTable(data, actionIncludeList, featureList, goalSide)
 
 #run = list()
 #

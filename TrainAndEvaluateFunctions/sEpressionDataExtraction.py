@@ -73,20 +73,79 @@ def getActionList(data):
 
 """
 """
-def getFeatureList(data, excludeList = list(), featureList = list()):
+def getFeatureList(data, featureCheckActionList, featureList = list()):
 
-    # Check if data is a list, iterate through the list
+    # Iterate through the list looking for feature actions
+    for i in range(len(data)):
+        if (type(data[i][0]) is Symbol):
+            if (data[i][0]._val in featureCheckActionList):
+                currentFeatures = extractFeatureNames(data[i], featureCheckActionList)
+                featureList.extend(currentFeatures)
+    featureSet = set(featureList)
+    featureList = list(featureSet)
+    return featureList
+
+
+"""
+"""
+def extractFeatureNames(data, excludeList = list()):
+    featureList = list()
+    for i in range(len(data)):
+        if ((i == 0) or (i == 1)) == False:
+            featureName = extracatSymbols(data[i][0])
+            featureList.append(featureName)
+    return featureList
+
+
+"""
+"""
+def extracatSymbols(data):
+    if (type(data) is list) == False:
+        dataList = list()
+        dataList.append(data)
+    else:
+        dataList = data
+
+    symbolString = ''
+    for i in range(len(dataList)):
+        if containsSymbolsCheck(data):
+            if type(dataList[i]) is Symbol:
+                symbolString = symbolString + str(dataList[i]._val)
+            elif (type(dataList[i]) is list) == False:
+                symbolString = symbolString + str(dataList[i])
+    
+    return symbolString
+
+"""
+Check if data contains Symbols (cannot be in lower level of a list)
+"""
+def containsSymbolsCheck(data):
+    containsSymbols = False
+    dataList = list()
+    dataList.extend(data)
+    
+    for i in range(len(data)):
+        if type(data[i]) is Symbol:
+            containsSymbols = True
+            break
+    return containsSymbols
+    
+
+"""
+Check if data is a list that contains other lists
+"""
+def containsListCheck(data):
+    containsList = False
+    
     if type(data) is list:
         for i in range(len(data)):
-            featureList = getFeatureList(data[i], excludeList, featureList)
-    
-    # Check if data is a Symbol, if not in the feature list add it
-    elif type(data) is Symbol:
-        feature = data._val
-        if ((feature in featureList) or (feature in excludeList)) == False:
-            featureList.append(feature)
+            if type(data[i]) is list:
+                containsList = True
+                break
+    return containsList
+
+
         
-    return featureList
 
 """
 """
@@ -131,4 +190,5 @@ def extractIndividualFeature(element, feature):
     if element is list():
         for i in range(len(element)):
             ### Continue here tomorrow
-    
+            if element == feature:  # Not quite right
+                print('meow')                
