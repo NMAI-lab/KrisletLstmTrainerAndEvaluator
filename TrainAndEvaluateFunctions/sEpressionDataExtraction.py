@@ -152,12 +152,12 @@ def containsListCheck(data):
 def getRunTable(data, actionList, featureActionList, featureList, goalSide):
     
     # Get the internal names for the feature list
-    featureList = buildFeatureIncludeList(featureList, goalSide)
+    featureNameList = buildFeatureIncludeList(featureList, goalSide)
     
     # Determine number of elements, actions and features
     numElements = len(data)
     numActions = len(actionList)
-    numFeatures = len(featureList)
+    numFeatures = len(featureNameList)
     
     # Build a placeholder for the run table. The headdings of each column
     # correspond to the items in feature List (x) and action list (y)
@@ -176,7 +176,7 @@ def getRunTable(data, actionList, featureActionList, featureList, goalSide):
             actionCount = actionCount + 1
         elif currentAction in featureActionList:
             # Extract feature data
-            x = x
+            x[i,:] = extractFeature(currentResult, featureList, featureActionList)
             featureCount = featureCount + 1
         
         # Reduce rows
@@ -184,12 +184,40 @@ def getRunTable(data, actionList, featureActionList, featureList, goalSide):
     return (x,y)
 
 """
+Extract an individual action and parameters for the run table
 """
 def extractAction(element, includeList):
     numElements = len(includeList)
     extractedData = np.zeros(numElements)
     i = includeList.index(element[0]._val)
     extractedData[i] = element[1]
+    return extractedData
+
+"""
+Extract an individual feature and parameters for the run table
+"""
+def extractFeature(element, includeList, featureActionList):
+    numElements = 2 * len(includeList)      # Features have 2 parameters
+    extractedData = np.zeros(numElements)
+    
+    for i in range(len(element)):  
+        if (type(element[i]) is list) == False:
+            currentElement = list()
+            currentElement.append(element[i])
+        else:
+            currentElement = element[i]
+        
+        currentFeatures = extractFeatureNames(currentElement)
+
+        
+        # Is the current element on the list
+        for j in range(len(currentFeatureAsList)):
+            if currentFeatureAsList[j] in includeList:
+                # If yes, get the parameters
+                extractedData = 5
+
+#    i = includeList.index(element[0]._val)
+#    extractedData[i] = element[1]
     return extractedData
 
 
