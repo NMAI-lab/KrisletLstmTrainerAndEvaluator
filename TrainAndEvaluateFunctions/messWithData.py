@@ -16,7 +16,7 @@ Created on Tue Jun 19 13:54:43 2018
 
 from parsingFunctions import getFileNames
 
-from sEpressionDataExtraction import getReducedFileData, getActionList, getFeatureList, getRunTable
+from sEpressionDataExtraction import getReducedFileData, getActionList, getFeatureList, getRunTable, buildFeatureIncludeList
 
 # Get the file names for available data
 testType = 'sexpt_tests'
@@ -37,7 +37,9 @@ actionList = getActionList(data)
 # Get the feature list
 featureList = getFeatureList(data, featureCheckActionList, [])
 
-#run = getRunTable(data, actionIncludeList, featureList, goalSide)
+featureIncludeList = ['b', 'go', 'ga']
+
+run = getRunTable(data, actionIncludeList, featureCheckActionList, featureIncludeList, goalSide)
 
 #run = list()
 #

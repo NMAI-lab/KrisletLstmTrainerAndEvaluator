@@ -149,11 +149,18 @@ def containsListCheck(data):
 
 """
 """
-def getRunTable(data, actionList, featureList, goalSide):
+def getRunTable(data, actionList, featureActionList, featureList, goalSide):
+    
+    # Get the internal names for the feature list
+    featureList = buildFeatureIncludeList(featureList, goalSide)
+    
+    # Determine number of elements, actions and features
     numElements = len(data)
     numActions = len(actionList)
     numFeatures = len(featureList)
     
+    # Build a placeholder for the run table. The headdings of each column
+    # correspond to the items in feature List (x) and action list (y)
     x = np.zeros((numElements, numFeatures))
     y = np.zeros((numElements, numActions))
     featureCount = 0
@@ -167,14 +174,17 @@ def getRunTable(data, actionList, featureList, goalSide):
             # Extract action data
             y[i,:] = extractAction(currentResult, actionList)
             actionCount = actionCount + 1
-        else:
+        elif currentAction in featureActionList:
             # Extract feature data
             x = x
             featureCount = featureCount + 1
         
+        # Reduce rows
         
     return (x,y)
 
+"""
+"""
 def extractAction(element, includeList):
     numElements = len(includeList)
     extractedData = np.zeros(numElements)
@@ -191,4 +201,35 @@ def extractIndividualFeature(element, feature):
         for i in range(len(element)):
             ### Continue here tomorrow
             if element == feature:  # Not quite right
-                print('meow')                
+                print('meow')             
+      
+"""
+build feature list that takes into account own goal and away goal naming issues.
+"""          
+def buildFeatureIncludeList(desiredFeatures, goalSide):
+    featureList = list()
+    
+    # First, get the proper names of all the features in a list
+    for i in range(len(desiredFeatures)):
+        if desiredFeatures[i] == 'go':          # go is short for goal own
+            featureList.append('g' + goalSide)
+        elif desiredFeatures[i] == 'ga':        # ga is short for goal away
+            if goalSide == 'gl':
+                featureList.append('gr')
+            else:
+                featureList.append('gl')
+        else:
+            featureList.append(desiredFeatures[i])
+        
+    # Add indeces to the list elements
+    featureList = generateFeatureListIndecies(featureList)
+        
+    return featureList
+
+
+def generateFeatureListIndecies(featureList):
+    indexedFeatureList = list()
+    for i in range(len(featureList)):
+        indexedFeatureList.append(featureList[i] + str(0))
+        indexedFeatureList.append(featureList[i] + str(1))
+    return indexedFeatureList
