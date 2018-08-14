@@ -134,15 +134,15 @@ def containsSymbolsCheck(data):
 """
 Check if data is a list that contains other lists
 """
-def containsListCheck(data):
-    containsList = False
-    
-    if type(data) is list:
-        for i in range(len(data)):
-            if type(data[i]) is list:
-                containsList = True
-                break
-    return containsList
+#def containsListCheck(data):
+#    containsList = False
+#    
+#    if type(data) is list:
+#        for i in range(len(data)):
+#            if type(data[i]) is list:
+#                containsList = True
+#                break
+#    return containsList
 
 
         
