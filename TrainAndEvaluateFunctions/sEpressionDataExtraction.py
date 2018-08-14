@@ -176,10 +176,11 @@ def getRunTable(data, actionList, featureActionList, featureList, goalSide):
             actionCount = actionCount + 1
         elif currentAction in featureActionList:
             # Extract feature data
-            x[i,:] = extractFeature(currentResult, featureList, featureActionList)
+            x[i,:] = extractFeature(currentResult, featureNameList, featureActionList)
             featureCount = featureCount + 1
         
         # Reduce rows
+        (x,y) = clearBlankRows(x,y)
         
     return (x,y)
 
@@ -197,39 +198,31 @@ def extractAction(element, includeList):
 Extract an individual feature and parameters for the run table
 """
 def extractFeature(element, includeList, featureActionList):
+    
+    newIncludeList = list()
+    for i in range(len(includeList)):
+        newItem = includeList[i][:-1]
+        if (newItem in newIncludeList) == False:
+            newIncludeList.append(newItem)
+    includeList = newIncludeList
+        
+    availableFeatures = [None, None]
+    availableFeatures.extend(extractFeatureNames(element))
+    
     numElements = 2 * len(includeList)      # Features have 2 parameters
     extractedData = np.zeros(numElements)
     
-    for i in range(len(element)):  
-        if (type(element[i]) is list) == False:
-            currentElement = list()
-            currentElement.append(element[i])
-        else:
-            currentElement = element[i]
-        
-        currentFeatures = extractFeatureNames(currentElement)
-
-        
-        # Is the current element on the list
-        for j in range(len(currentFeatureAsList)):
-            if currentFeatureAsList[j] in includeList:
-                # If yes, get the parameters
-                extractedData = 5
-
-#    i = includeList.index(element[0]._val)
-#    extractedData[i] = element[1]
+    for i in range(len(availableFeatures)):
+        if ((availableFeatures[i] is None) == False):
+            if (availableFeatures[i] in includeList):
+                featureIndex = 2 * includeList.index(availableFeatures[i])
+                extractedData[featureIndex] = element[i][1]
+                featureIndex = featureIndex + 1
+                extractedData[featureIndex] = element[i][2]
     return extractedData
 
 
-"""
-Find a specific feature value in the element
-"""
-def extractIndividualFeature(element, feature):
-    if element is list():
-        for i in range(len(element)):
-            ### Continue here tomorrow
-            if element == feature:  # Not quite right
-                print('meow')             
+          
       
 """
 build feature list that takes into account own goal and away goal naming issues.
@@ -261,3 +254,11 @@ def generateFeatureListIndecies(featureList):
         indexedFeatureList.append(featureList[i] + str(0))
         indexedFeatureList.append(featureList[i] + str(1))
     return indexedFeatureList
+
+"""
+Removes blank rows in the x and y tables. Also, aligns rows of y with the 
+corresponding x
+"""
+def clearBlankRows(x, y):
+    print('meow')
+    return(x,y)
