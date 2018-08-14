@@ -179,8 +179,8 @@ def getRunTable(data, actionList, featureActionList, featureList, goalSide):
             x[i,:] = extractFeature(currentResult, featureNameList, featureActionList)
             featureCount = featureCount + 1
         
-        # Reduce rows
-        (x,y) = clearBlankRows(x,y)
+    # Reduce rows
+    (x,y) = clearBlankRows(x,y)
         
     return (x,y)
 
@@ -255,10 +255,30 @@ def generateFeatureListIndecies(featureList):
         indexedFeatureList.append(featureList[i] + str(1))
     return indexedFeatureList
 
+
 """
 Removes blank rows in the x and y tables. Also, aligns rows of y with the 
 corresponding x
 """
 def clearBlankRows(x, y):
-    print('meow')
-    return(x,y)
+    newX = np.zeros(np.shape(x))
+    newY = np.zeros(np.shape(y))
+    
+    numElements = np.shape(x)[0]
+    numXFeatures = np.shape(x)[1]
+    blankXFeature = np.zeros(numXFeatures)
+    
+    newRowI = 0
+    for i in range(numElements):
+        # Check if the current x has any data in it, not the last row
+        if (np.array_equal(blankXFeature,x[i,:]) == False) and (i < (numElements-1)):
+            # Check to make sure that the next row isn't a new set of features
+            if (np.array_equal(blankXFeature,x[i+1,:])):
+                newX[newRowI,:] = x[i,:]
+                newY[newRowI,:] = y[i+1,:]
+                newRowI = newRowI + 1
+    
+    xReduced = newX[0:newRowI,:]
+    yReduced = newY[0:newRowI,:]
+    
+    return(xReduced, yReduced)
