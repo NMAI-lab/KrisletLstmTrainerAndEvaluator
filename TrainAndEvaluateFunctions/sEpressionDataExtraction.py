@@ -31,18 +31,6 @@ def loadSExpressions(fileName):
     return result
 
 """
-Determine which side the goal is
-"""
-def getGoalSide(data):
-    for i in range(len(data)):
-        (dataElement, elementName) = getElement(data, i)
-        if (elementName == 'init'):
-            if dataElement[1] == 'r':
-                return 'l'
-            else:
-                return 'r'
-
-"""
 """
 def getElement(data, i):
     dataElement = data[i]
@@ -222,7 +210,20 @@ def extractFeature(element, includeList, featureActionList):
     return extractedData
 
 
-          
+"""
+Determine which side the goal is. Goal side is opposite of the chracter in the 
+init message in the log file. (r means that the goal is on the l side and vice 
+versa)
+"""
+def getGoalSide(data):
+    for i in range(len(data)):
+        (dataElement, elementName) = getElement(data, i)
+        if (elementName == 'init'):
+            if dataElement[1] == 'r':
+                return 'l'
+            else:
+                return 'r'          
+
       
 """
 build feature list that takes into account own goal and away goal naming issues.
@@ -232,9 +233,9 @@ def buildFeatureIncludeList(desiredFeatures, goalSide):
     
     # First, get the proper names of all the features in a list
     for i in range(len(desiredFeatures)):
-        if desiredFeatures[i] == 'go':          # go is short for goal own
+        if desiredFeatures[i] == 'ga':          # ga is short for goal adversary (where we don't want the ball to go)
             featureList.append('g' + goalSide)
-        elif desiredFeatures[i] == 'ga':        # ga is short for goal away
+        elif desiredFeatures[i] == 'go':        # go is short for goal own (where we want the ball to go)
             if goalSide == 'gl':
                 featureList.append('gr')
             else:

@@ -37,7 +37,9 @@ actionList = getActionList(data)
 # Get the feature list
 featureList = getFeatureList(data, featureCheckActionList, [])
 
-featureIncludeList = ['b', 'go', 'ga']
+# ga is short for goal adversary (where we don't want the ball to go)
+# go is short for goal own (where we want the ball to go)
+featureIncludeList = ['b','ga']#['b','go','ga']
 
 run = getRunTable(data, actionIncludeList, featureCheckActionList, featureIncludeList, goalSide)
 
