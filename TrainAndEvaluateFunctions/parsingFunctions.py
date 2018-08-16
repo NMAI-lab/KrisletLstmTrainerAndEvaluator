@@ -1,5 +1,6 @@
 from os import listdir
 import numpy as np
+from os.path import isdir
 
 from dataManagement import buildSequenceDataSet
 
@@ -19,13 +20,40 @@ def loadData(testType, depth):
     return (x,y)
     
 
+"""
+"""
 def getFileNames(testType):
-    path = "data/" + testType + "/"
-    fileNames = listdir(path)
     
-    for i in range(len(fileNames)):
-        fileNames[i] = path + fileNames[i]
+    # Initialize the output list
+    fileNames = list()
     
+    # Establish if this is a full path or just the last directory name
+    if isdir(testType):
+        # Path is the test type
+        path = testType
+    else:
+        # Need to turn into a full path name
+        path = "data/" + testType + "/"
+       
+    # Get the file names in this directory
+    fileNamesInDirectory = listdir(path)
+     
+    # interate through fileNamesInDirectory
+    for i in range(len(fileNamesInDirectory)):
+        currentPath = path + fileNamesInDirectory[i]
+
+        # If this is a directory, need to enter the directory and repeat
+        # (recursive). Otherwise, add to the list
+        if isdir(currentPath):
+            # Use extend, the function will return a list
+            fileNames.extend(getFileNames(currentPath + '/'))
+        else:
+            # Use append, we are adding a single string to the end of the list
+            # (if we use extend, it will add each character to the list 
+            # individually)
+            fileNames.append(currentPath)
+    
+    # Return the result
     return fileNames
 
 

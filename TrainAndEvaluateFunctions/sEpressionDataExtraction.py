@@ -5,8 +5,53 @@ Created on Tue Aug  7 10:38:05 2018
 @author: patrickgavigan
 """
 
+from parsingFunctions import getFileNames
+from dataManagement import buildSequenceDataSet
 from sexpdata import loads, Symbol
 import numpy as np
+
+
+"""
+Load data stored in S-Expression log files
+"""
+def loadData(testType, depth):
+        
+    # Get the file names for available data
+    #testType = 'sexpt_tests'
+    fileNames = getFileNames(testType)
+
+    # Setup feature parameters
+    # Need to clean this up
+    actionIncludeList = ['turn', 'dash', 'kick']
+    featureCheckActionList = ['see']
+    includeList = list()
+    includeList.extend(actionIncludeList)
+    includeList.extend(featureCheckActionList)
+
+    # ga is short for goal adversary (where we don't want the ball to go)
+    # go is short for goal own (where we want the ball to go)
+    featureIncludeList = ['b','ga']#['b','go','ga']
+
+    for i in range(len(fileNames)):
+        # Load S-expressions from the first file
+        (data, goalSide) = getReducedFileData(fileNames[i], includeList)
+
+        # Get the run table from the current file
+        (xCurrent,yCurrent) = getRunTable(data, actionIncludeList, featureCheckActionList, featureIncludeList, goalSide)
+        
+        # Turn this into a sequenced run
+        (xCurrent, yCurrent) = buildSequenceDataSet(xCurrent, yCurrent, depth)
+    
+        # Add this to the existing (or create new) trace table
+        if i == 0:
+            x = xCurrent
+            y = yCurrent
+        else:
+            x = np.append(x, xCurrent, axis = 0)
+            y = np.append(y, yCurrent, axis = 0)
+        
+    return (x,y)
+
 
 """
 """

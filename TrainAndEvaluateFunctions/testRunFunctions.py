@@ -6,7 +6,7 @@ Created on Wed Jul  4 15:04:38 2018
 """
 
 from configutationGenerator import getMaxDepth
-from parsingFunctions import loadData
+from sEpressionDataExtraction import loadData
 from resultOutput import printResultSummary
 from crossValidation import crossValidateConfiguration
 
