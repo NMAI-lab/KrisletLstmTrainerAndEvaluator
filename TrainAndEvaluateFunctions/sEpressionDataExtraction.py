@@ -51,6 +51,9 @@ def loadData(testType, depth):
             y = yCurrent
         else:
             x = np.append(x, xCurrent, axis = 0)
+            if (np.shape(y)[1]) != (np.shape(yCurrent)[1]):
+                print(np.shape(y))
+                print(np.shape(yCurrent))
             y = np.append(y, yCurrent, axis = 0)
         
     return (x,y)
@@ -185,8 +188,14 @@ Converts a data table (for the y data) to a 1 hot categorical given a data table
 containing raw 'analog' results for each of the possible y values
 """
 def convertToBinaryCategoricalFromAnalog(data):
-    dataID = convertToClassID(data)
-    return convertToCategorical(dataID) 
+    arrayLength = np.shape(data)[0]
+    numCategories = np.shape(data)[1]
+    
+    for i in range(arrayLength):
+        for j in range(numCategories):
+            if data[i,j] > 0:
+                data[i,j] = 1
+    return data 
    
 
 """
