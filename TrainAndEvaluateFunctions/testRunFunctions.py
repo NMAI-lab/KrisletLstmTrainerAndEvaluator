@@ -14,7 +14,8 @@ def runTestCase(testType, configurations):
     
     # Determine the largest depth, get data set for max depth case. Will need 
     # to crop data depth for cases where smaller depth is to be used
-    maxDepth = getMaxDepth(configurations)
+#    maxDepth = getMaxDepth(configurations)
+    maxDepth = 0
     data = loadData(testType, maxDepth)
     
     # Should we deal with placeholder calues?
