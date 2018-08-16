@@ -59,7 +59,7 @@ def defineParameterizedModel(configuration, dataSpecification):
             model.add(Dense(numHiddenNodes, activation = activation))
     
     # Add final layer, compile and return
-    model.add(Dense(numCategories, activation = 'relu'))#activation = 'softmax'))
+    model.add(Dense(numCategories, activation = 'softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model;
 

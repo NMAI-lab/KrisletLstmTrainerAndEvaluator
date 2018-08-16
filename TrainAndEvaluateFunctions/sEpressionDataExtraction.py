@@ -6,7 +6,7 @@ Created on Tue Aug  7 10:38:05 2018
 """
 
 from parsingFunctions import getFileNames
-from dataManagement import buildSequenceDataSet
+from dataManagement import buildSequenceDataSet, convertToClassID, convertToCategorical 
 from sexpdata import loads, Symbol
 import numpy as np
 
@@ -38,6 +38,9 @@ def loadData(testType, depth):
 
         # Get the run table from the current file
         (xCurrent,yCurrent) = getRunTable(data, actionIncludeList, featureCheckActionList, featureIncludeList, goalSide)
+        
+        # Convert to 1 hot categorical (need to revisit this)
+        yCurrent = convertToBinaryCategoricalFromAnalog(yCurrent)
         
         # Turn this into a sequenced run
         (xCurrent, yCurrent) = buildSequenceDataSet(xCurrent, yCurrent, depth)
@@ -177,8 +180,14 @@ Check if data is a list that contains other lists
 #                break
 #    return containsList
 
-
-        
+"""
+Converts a data table (for the y data) to a 1 hot categorical given a data table
+containing raw 'analog' results for each of the possible y values
+"""
+def convertToBinaryCategoricalFromAnalog(data):
+    dataID = convertToClassID(data)
+    return convertToCategorical(dataID) 
+   
 
 """
 """
