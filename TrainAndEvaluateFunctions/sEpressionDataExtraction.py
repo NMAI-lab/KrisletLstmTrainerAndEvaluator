@@ -51,9 +51,9 @@ def loadData(testType, depth):
             y = yCurrent
         else:
             x = np.append(x, xCurrent, axis = 0)
-            if (np.shape(y)[1]) != (np.shape(yCurrent)[1]):
-                print(np.shape(y))
-                print(np.shape(yCurrent))
+#            if (np.shape(y)[1]) != (np.shape(yCurrent)[1]):
+#                print(np.shape(y))
+#                print(np.shape(yCurrent))
             y = np.append(y, yCurrent, axis = 0)
         
     return (x,y)
