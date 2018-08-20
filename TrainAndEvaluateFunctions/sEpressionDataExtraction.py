@@ -193,7 +193,7 @@ def convertToBinaryCategoricalFromAnalog(data):
     
     for i in range(arrayLength):
         for j in range(numCategories):
-            if data[i,j] > 0:
+            if data[i,j] != 0:
                 data[i,j] = 1
     return data 
    
