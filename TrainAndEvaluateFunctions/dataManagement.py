@@ -8,7 +8,7 @@ Created on Tue May 29 09:35:58 2018
 import numpy as np
 #from keras.datasets import imdb
 #from keras.preprocessing import sequence
-from keras.utils import np_utils
+from keras.utils import to_categorical
 from sklearn.model_selection import StratifiedShuffleSplit
 #from parsingFunctions import parseFile
 import random
@@ -184,7 +184,7 @@ def getNumCategories(y):
 # Converts the y data to categorical (for use with softmax activartion)
 def convertToCategorical(y):
     numCategories = getNumCategories(y)
-    yCategorical = np_utils.to_categorical(y, numCategories)
+    yCategorical = to_categorical(y, numCategories)
     return yCategorical
 
 

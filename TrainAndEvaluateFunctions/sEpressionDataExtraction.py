@@ -190,12 +190,14 @@ containing raw 'analog' results for each of the possible y values
 def convertToBinaryCategoricalFromAnalog(data):
     arrayLength = np.shape(data)[0]
     numCategories = np.shape(data)[1]
+    newData = np.zeros(arrayLength)
     
     for i in range(arrayLength):
         for j in range(numCategories):
             if data[i,j] != 0:
-                data[i,j] = 1
-    return data 
+                newData[i] = j      # Can't have a class 0
+                break                   # Break out of inner loop
+    return newData
    
 
 """

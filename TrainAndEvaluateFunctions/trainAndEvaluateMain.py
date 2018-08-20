@@ -13,6 +13,7 @@ from configutationGenerator import buildConfigurationList
 
 # List of test scenarios
 testType = ["classicKrislet-sexp"]#, "stateBasedKrislet-sexp"]
+#testType = ["sexpt_tests"]
 
 configurations = list()
 

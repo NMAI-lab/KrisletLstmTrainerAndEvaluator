@@ -26,7 +26,7 @@ def trainModel(model, data, balanceOption = None):
     # Configure callbacks
     callbacksList = configureCallBacks()
     
-    # COnvert y data to categorical
+    # Convert y data to categorical
     yTrainCategorical = convertToCategorical(yTrain)
     yTestCategorical = convertToCategorical(yTest)
     
