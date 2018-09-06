@@ -72,7 +72,10 @@ def randomUnderSample(data):
     xShape = np.shape(x)
     
     # Build arrays for output data
-    xNew = np.zeros((newDataLength, xShape[1], xShape[2]))
+    if len(xShape) == 3:
+        xNew = np.zeros((newDataLength, xShape[1], xShape[2]))
+    elif len(xShape) == 2:
+        xNew = np.zeros((newDataLength, xShape[1]))
     yNew = np.zeros(newDataLength)
     
     # Undersample each class
