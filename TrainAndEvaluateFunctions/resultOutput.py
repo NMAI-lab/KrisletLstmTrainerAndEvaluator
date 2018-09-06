@@ -46,7 +46,7 @@ def printConfigurationResultSummary(result):
 
 def printSummaryStatistic(summaryStatistic):
     (accuracySummary, precisionSummary, sensitivitySummary, specificitySummary) = summaryStatistic
-    print('Summarry Statistics')
+    print('Summary Statistics')
     print(' Accuracy: ', accuracySummary[0], ' +/- ', accuracySummary[1])
     print(' Precision: ', precisionSummary[0], ' +/- ', precisionSummary[1])
     print(' Sensitivity: ', sensitivitySummary[0], ' +/- ', sensitivitySummary[1])
