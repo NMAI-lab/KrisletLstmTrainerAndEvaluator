@@ -34,7 +34,7 @@ numHiddenNodeOptions = [10]
 useConvolutionOptions = [False]
 activationOptions = ['relu']#, 'sigmoid']
 embeddingOptions = [False]
-balanceOptions = ['None']#["randomUndersample"]
+balanceOptions = ["randomUndersample"]#['None']
 configurations.extend(buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions))
 
 # Run all tests
