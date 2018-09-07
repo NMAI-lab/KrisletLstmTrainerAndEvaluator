@@ -18,24 +18,24 @@ testType = ["ClassicKrislet", "StateBasedKrislet", "FiniteTurnKrislet"]
 configurations = list()
 
 # List of model configurations with an LSTM layer
-#runDepthOptions = [50]
-#numLSTMnodeOptions = [50]
-#numHiddenNodeOptions = [0]
-#useConvolutionOptions = [False]#, True]
-#activationOptions = ['relu']#, 'sigmoid']
-#embeddingOptions = [False]
-#balanceOptions = ['None']#["randomUndersample"]
-#configurations.extend(buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions))
-
-# List of model configurations with NO LSTM layer
-runDepthOptions = [0]
-numLSTMnodeOptions = [0]
-numHiddenNodeOptions = [10]
-useConvolutionOptions = [False]
+runDepthOptions = [50]
+numLSTMnodeOptions = [50]
+numHiddenNodeOptions = [0]
+useConvolutionOptions = [False]#, True]
 activationOptions = ['relu']#, 'sigmoid']
 embeddingOptions = [False]
 balanceOptions = ["randomUndersample"]#['None']
 configurations.extend(buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions))
+
+# List of model configurations with NO LSTM layer
+#runDepthOptions = [0]
+#numLSTMnodeOptions = [0]
+#numHiddenNodeOptions = [10]
+#useConvolutionOptions = [False]
+#activationOptions = ['relu']#, 'sigmoid']
+#embeddingOptions = [False]
+#balanceOptions = ["randomUndersample"]#['None']
+#configurations.extend(buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions))
 
 # Run all tests
 for i in range(len(testType)):
