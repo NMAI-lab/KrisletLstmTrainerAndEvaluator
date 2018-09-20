@@ -40,20 +40,23 @@ def getSummaryStatistics(result):
     precision = list()
     sensitivity = list()
     specificity = list()
+    fMeasure = list()
     
     for i in range(len(result)):
-        (accuracyCurrent, precisionCurrent, sensitivityCurrent, specificityCurrent) = result[i]
+        (accuracyCurrent, precisionCurrent, sensitivityCurrent, specificityCurrent, fMeasureCurrent) = result[i]
         accuracy.append(accuracyCurrent)
         precision.append(precisionCurrent)
         sensitivity.append(sensitivityCurrent)
         specificity.append(specificityCurrent)
+        fMeasure.append(fMeasureCurrent)
         
     accuracySummary = getConfidenceRange(accuracy)
     precisionSummary = getConfidenceRange(precision)
     sensitivitySummary = getConfidenceRange(sensitivity)
     specificitySummary = getConfidenceRange(specificity)
+    fMeasureSummary = getConfidenceRange(fMeasure)
   
-    return (accuracySummary, precisionSummary, sensitivitySummary, specificitySummary)
+    return (accuracySummary, precisionSummary, sensitivitySummary, specificitySummary, fMeasureSummary)
 
 
 def getConfidenceRange(values):

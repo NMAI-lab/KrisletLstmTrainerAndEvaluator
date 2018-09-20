@@ -6,7 +6,7 @@ Created on Mon May 28 15:32:58 2018
 """
 
 from keras.callbacks import EarlyStopping, ReduceLROnPlateau
-from sklearn.metrics import recall_score, precision_score
+from sklearn.metrics import recall_score, precision_score, f1_score
 
 from dataManagement import stratefiedSplit, convertToCategorical, convertToClassID, getDataSpecification
 from balancingFunctions import balanceData
@@ -74,9 +74,10 @@ def evaluateModel(model, data, balanceOption):
     minLabel = int(min(y))
     maxLabel = int(max(y)) + 1
     labels = [i for i in range(minLabel,maxLabel)]
-    precision = precision_score(y, yPredicted, labels, average = None)
-    sensitivity = recall_score(y, yPredicted, labels, average = None)
+    precision = precision_score(y, yPredicted, labels = labels, average = None)
+    sensitivity = recall_score(y, yPredicted, labels = labels, average = None)
     specificity = evaluateSpecificity(y, yPredicted, labels) 
+    fMeasure = f1_score(y, yPredicted, labels = labels, average = None)
     
     # Return results
-    return (accuracy, precision, sensitivity, specificity)
+    return (accuracy, precision, sensitivity, specificity, fMeasure)

@@ -20,12 +20,13 @@ def printConfigurationParameters(configuration):
     return
 
 def printSingleResult(result, fold):
-    (accuracy, precision, sensitivity, specificity) = result
+    (accuracy, precision, sensitivity, specificity, fMeasure) = result
     print("Fold ", fold)
     print(" Accuracy: ", accuracy)
     print(" Precision: ", precision)
     print(" Sensitivity: ", sensitivity)
     print(" Specificity: ", specificity)
+    print(" F-Measure: ", fMeasure)
     return
 
 def printConfigurationResultSummary(result):
@@ -45,12 +46,13 @@ def printConfigurationResultSummary(result):
     return
 
 def printSummaryStatistic(summaryStatistic):
-    (accuracySummary, precisionSummary, sensitivitySummary, specificitySummary) = summaryStatistic
+    (accuracySummary, precisionSummary, sensitivitySummary, specificitySummary, fMeasureSummary) = summaryStatistic
     print('Summary Statistics')
     print(' Accuracy: ', accuracySummary[0], ' +/- ', accuracySummary[1])
     print(' Precision: ', precisionSummary[0], ' +/- ', precisionSummary[1])
     print(' Sensitivity: ', sensitivitySummary[0], ' +/- ', sensitivitySummary[1])
     print(' Specificity: ', specificitySummary[0], ' +/- ', specificitySummary[1])
+    print(' F-Measure: ', fMeasureSummary[0], ' +/- ', fMeasureSummary[1])
 
 # Print a summary of the test run
 def printResultSummary(testType, results):
