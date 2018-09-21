@@ -167,13 +167,19 @@ def buildSingleSequence(x, y, index, depth):
 # Adds the result for the previous steps's Y as a feature of the current step 
 # in X
 def addPreviousYAsFeature(x,y):
-    for i in range(len(x)):
-        if i == 0:
-            # Insert random y for first case (there is no previous case)
-            x[i].append(random.choice(y))
-        else:
-            x[i].append(y[i-1])
-    return x
+    dim0 = np.size(x,0)
+    dim1 = np.size(x,1) + 1
+    newX = np.zeros((dim0, dim1))
+    for i in range(dim0):
+        for j in range(dim1):
+            if ((i == 0) and (j == dim1 - 1)):
+                # Insert random y for first case (there is no previous case)
+                newX[i,j] = random.choice(y)
+            elif ((i != 0) and (j == dim1 - 1)):
+                newX[i,j] = y[i-1]
+            else:
+                newX[i,j] = x[i,j]
+    return newX
 
 # Returns the number of categories of data set
 def getNumCategories(y):
