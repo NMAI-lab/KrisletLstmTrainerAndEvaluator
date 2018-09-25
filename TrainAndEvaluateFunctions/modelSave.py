@@ -15,7 +15,7 @@ def saveModel(model, currentResult, configurationNumber, note = None):
 def getModelFileName(result, configurationNumber, note = None):
     fileExtension = '.h5'
     (scoreOfFoldsBalanced, _, _) = result
-    (accuracySummary, _, _, _) = getSummaryStatistics(scoreOfFoldsBalanced)
+    (accuracySummary, _, _, _, _) = getSummaryStatistics(scoreOfFoldsBalanced)
     
     fileNameSuffix = 'Configuration_' + str(configurationNumber) + '_Accuracy_' + str(accuracySummary[0]) + '_Deviation_' + str(accuracySummary[1])
     
