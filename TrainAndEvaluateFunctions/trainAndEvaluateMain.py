@@ -18,9 +18,9 @@ testType = ["ClassicKrislet", "StateBasedKrislet", "FiniteTurnKrislet"]
 configurations = list()
 
 # List of model configurations with an LSTM layer
-runDepthOptions = [50]
-numLSTMnodeOptions = [50]
-numHiddenNodeOptions = [0]
+runDepthOptions = [100]
+numLSTMnodeOptions = [100]
+numHiddenNodeOptions = [100]
 useConvolutionOptions = [False]#, True]
 activationOptions = ['relu']#, 'sigmoid']
 embeddingOptions = [False]
@@ -30,7 +30,7 @@ configurations.extend(buildConfigurationList(runDepthOptions, numLSTMnodeOptions
 # List of model configurations with NO LSTM layer
 runDepthOptions = [0]
 numLSTMnodeOptions = [0]
-numHiddenNodeOptions = [10]
+numHiddenNodeOptions = [100]
 useConvolutionOptions = [False]
 activationOptions = ['relu']#, 'sigmoid']
 embeddingOptions = [False]
