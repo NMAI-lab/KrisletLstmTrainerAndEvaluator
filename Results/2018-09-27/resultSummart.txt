@@ -1,0 +1,151 @@
+--------------------------------
+Summary of ClassicKrislet test
+Configuration  0
+Summary of configuration
+Configuration parameters
+ Run depth:  100
+ Number of LSTM nodes:  100
+ Number of hidden nodes:  100
+ Using convolution:  False
+ Activation option:  relu
+ Using embedding layer:  False
+ Balance option:  randomUndersample
+Balanced results
+Summary Statistics
+ Accuracy:  0.735561561239  +/-  0.0394062501229
+ Precision:  [ 0.65099919  0.66475779  0.8912797 ]  +/-  [ 0.09164163  0.06957381  0.05246062]
+ Sensitivity:  [ 0.55054054  0.67911712  0.97702703]  +/-  [ 0.12726286  0.14611249  0.01604641]
+ Specificity:  [ 0.84223423  0.82251351  0.93859459]  +/-  [ 0.07175651  0.06139599  0.03175941]
+ F-Measure:  [ 0.5843132   0.66114512  0.931372  ]  +/-  [ 0.07345976  0.07633305  0.03011245]
+Unbalanced results
+Summary Statistics
+ Accuracy:  0.661677256543  +/-  0.0783175285874
+ Precision:  [ 0.3909498   0.8718326   0.10067278]  +/-  [ 0.07121914  0.01827562  0.02647008]
+ Sensitivity:  [ 0.56111395  0.69012967  0.97702703]  +/-  [ 0.10678631  0.13123787  0.01604641]
+ Specificity:  [ 0.71278331  0.6584385   0.96255181]  +/-  [ 0.12904316  0.1039642   0.01167437]
+ F-Measure:  [ 0.44683114  0.76219226  0.1815066 ]  +/-  [ 0.02540827  0.08059399  0.04352006]
+Configuration  1
+Summary of configuration
+Configuration parameters
+ Run depth:  0
+ Number of LSTM nodes:  0
+ Number of hidden nodes:  100
+ Using convolution:  False
+ Activation option:  relu
+ Using embedding layer:  False
+ Balance option:  randomUndersample
+Balanced results
+Summary Statistics
+ Accuracy:  0.778378377627  +/-  0.0345880254206
+ Precision:  [ 0.71216022  0.72489737  0.9015004 ]  +/-  [ 0.07050037  0.06633266  0.03110793]
+ Sensitivity:  [ 0.60945946  0.75945946  0.96621622]  +/-  [ 0.13560055  0.10688497  0.02581753]
+ Specificity:  [ 0.87094595  0.85        0.94662162]  +/-  [ 0.0567286   0.05126237  0.0184918 ]
+ F-Measure:  [ 0.64631748  0.73491475  0.93233464]  +/-  [ 0.0770007   0.05279014  0.02152429]
+Unbalanced results
+Summary Statistics
+ Accuracy:  0.719522427132  +/-  0.0736212563662
+ Precision:  [ 0.45885425  0.88806076  0.12432193]  +/-  [ 0.08646977  0.02469571  0.0317377 ]
+ Sensitivity:  [ 0.59733707  0.75479751  0.96621622]  +/-  [ 0.09303269  0.10871579  0.02581753]
+ Specificity:  [ 0.76858261  0.68675556  0.97082021]  +/-  [ 0.11108448  0.0793754   0.00921511]
+ F-Measure:  [ 0.50847012  0.81157776  0.2187687 ]  +/-  [ 0.05701828  0.06998204  0.04994584]
+--------------------------------
+Summary of StateBasedKrislet test
+Configuration  0
+Summary of configuration
+Configuration parameters
+ Run depth:  100
+ Number of LSTM nodes:  100
+ Number of hidden nodes:  100
+ Using convolution:  False
+ Activation option:  relu
+ Using embedding layer:  False
+ Balance option:  randomUndersample
+Balanced results
+Summary Statistics
+ Accuracy:  0.858585856788  +/-  0.0410698085226
+ Precision:  [ 0.83980554  0.84698466  0.90278788]  +/-  [ 0.04828426  0.07727824  0.07806531]
+ Sensitivity:  [ 0.79978355  0.86948052  0.90649351]  +/-  [ 0.07652212  0.05328413  0.05925994]
+ Specificity:  [ 0.92261905  0.91818182  0.94707792]  +/-  [ 0.02674825  0.0476097   0.04764474]
+ F-Measure:  [ 0.81709186  0.85648924  0.90186828]  +/-  [ 0.04993552  0.05649206  0.04995047]
+Unbalanced results
+Summary Statistics
+ Accuracy:  0.838641838509  +/-  0.0178069826614
+ Precision:  [ 0.59635227  0.97194061  0.01970213]  +/-  [ 0.03189328  0.00669299  0.00615796]
+ Sensitivity:  [ 0.75842941  0.8519713   0.90649351]  +/-  [ 0.04517808  0.01734726  0.05925994]
+ Specificity:  [ 0.91333121  0.85415276  0.93389638]  +/-  [ 0.01404102  0.03645952  0.01957596]
+ F-Measure:  [ 0.66632587  0.90789538  0.0384844 ]  +/-  [ 0.02299812  0.00982299  0.01171515]
+Configuration  1
+Summary of configuration
+Configuration parameters
+ Run depth:  0
+ Number of LSTM nodes:  0
+ Number of hidden nodes:  100
+ Using convolution:  False
+ Activation option:  relu
+ Using embedding layer:  False
+ Balance option:  randomUndersample
+Balanced results
+Summary Statistics
+ Accuracy:  0.684848483524  +/-  0.0857492612032
+ Precision:  [ 0.55624581  0.78215707  0.77104743]  +/-  [ 0.13232909  0.06149648  0.08261253]
+ Sensitivity:  [ 0.63961039  0.6491342   0.76580087]  +/-  [ 0.11031     0.11739686  0.11100668]
+ Specificity:  [ 0.73300866  0.91093074  0.88333333]  +/-  [ 0.09833375  0.02475991  0.04925562]
+ F-Measure:  [ 0.59228854  0.70606173  0.76424335]  +/-  [ 0.1164748   0.08731126  0.08236296]
+Unbalanced results
+Summary Statistics
+ Accuracy:  0.683104447497  +/-  0.0412144500331
+ Precision:  [ 0.28206068  0.96773948  0.01751651]  +/-  [ 0.03566883  0.00421155  0.00352052]
+ Sensitivity:  [ 0.63567705  0.69092039  0.76580087]  +/-  [ 0.06660696  0.05620005  0.11100668]
+ Specificity:  [ 0.72223912  0.86356452  0.94072037]  +/-  [ 0.06194922  0.02159095  0.01315199]
+ F-Measure:  [ 0.38793341  0.8049073   0.03421011]  +/-  [ 0.03252295  0.03859453  0.00672863]
+--------------------------------
+Summary of FiniteTurnKrislet test
+Configuration  0
+Summary of configuration
+Configuration parameters
+ Run depth:  100
+ Number of LSTM nodes:  100
+ Number of hidden nodes:  100
+ Using convolution:  False
+ Activation option:  relu
+ Using embedding layer:  False
+ Balance option:  randomUndersample
+Balanced results
+Summary Statistics
+ Accuracy:  0.824074074421  +/-  0.0534064014288
+ Precision:  [ 0.79047421  0.84934455  0.84758587]  +/-  [ 0.09664747  0.05918158  0.07257783]
+ Sensitivity:  [ 0.74015873  0.84793651  0.88412698]  +/-  [ 0.08784549  0.08255204  0.07025939]
+ Specificity:  [ 0.89702381  0.92353175  0.91555556]  +/-  [ 0.05834933  0.03341498  0.051435  ]
+ F-Measure:  [ 0.76099005  0.84657003  0.86182668]  +/-  [ 0.07883345  0.05907032  0.04672422]
+Unbalanced results
+Summary Statistics
+ Accuracy:  0.838596326016  +/-  0.0196751552229
+ Precision:  [ 0.49755114  0.97884893  0.03327643]  +/-  [ 0.04218286  0.0026387   0.00877806]
+ Sensitivity:  [ 0.74358329  0.85087576  0.88412698]  +/-  [ 0.02828017  0.02173226  0.07025939]
+ Specificity:  [ 0.90041294  0.86132349  0.94284898]  +/-  [ 0.02187284  0.0183143   0.01844053]
+ F-Measure:  [ 0.59453856  0.91023247  0.06394831]  +/-  [ 0.03050011  0.01246485  0.0162051 ]
+Configuration  1
+Summary of configuration
+Configuration parameters
+ Run depth:  0
+ Number of LSTM nodes:  0
+ Number of hidden nodes:  100
+ Using convolution:  False
+ Activation option:  relu
+ Using embedding layer:  False
+ Balance option:  randomUndersample
+Balanced results
+Summary Statistics
+ Accuracy:  0.731746032648  +/-  0.0317246402542
+ Precision:  [ 0.6457159   0.80682335  0.75732892]  +/-  [ 0.07750781  0.02937868  0.0393214 ]
+ Sensitivity:  [ 0.63293651  0.73730159  0.825     ]  +/-  [ 0.07632367  0.09205939  0.06844864]
+ Specificity:  [ 0.8193254   0.91111111  0.86718254]  +/-  [ 0.06182281  0.01957359  0.02570929]
+ F-Measure:  [ 0.63464759  0.7672259   0.78842517]  +/-  [ 0.0536367   0.05134858  0.04255797]
+Unbalanced results
+Summary Statistics
+ Accuracy:  0.732739514182  +/-  0.0293960406469
+ Precision:  [ 0.30056512  0.97715885  0.02421726]  +/-  [ 0.04352671  0.00526345  0.00245817]
+ Sensitivity:  [ 0.66086318  0.74189452  0.825     ]  +/-  [ 0.03895942  0.03619155  0.06844864]
+ Specificity:  [ 0.79340036  0.86844798  0.93083106]  +/-  [ 0.04434359  0.03303544  0.01042574]
+ F-Measure:  [ 0.41033715  0.84288376  0.04702433]  +/-  [ 0.03587286  0.02235951  0.00460275]
+--------------------------------
