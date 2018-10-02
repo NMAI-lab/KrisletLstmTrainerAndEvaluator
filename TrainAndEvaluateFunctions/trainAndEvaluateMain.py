@@ -12,17 +12,17 @@ from testRunFunctions import runTestCase
 from configutationGenerator import buildConfigurationList
 
 # List of test scenarios
-testType = ["ClassicKrislet", "StateBasedKrislet", "FiniteTurnKrislet"]
+testType = ["StateBasedKrislet", "FiniteTurnKrislet"] #"ClassicKrislet", 
 #testType = ["sexpt_tests"]
 
 configurations = list()
 
 # List of model configurations with an LSTM layer
-runDepthOptions = [100]
-numLSTMnodeOptions = [100]
-numHiddenNodeOptions = [100]
-useConvolutionOptions = [False]#, True]
-activationOptions = ['relu']#, 'sigmoid']
+runDepthOptions = [100, 50, 40]
+numLSTMnodeOptions = [100, 50, 40]
+numHiddenNodeOptions = [100, 50, 10, 0]
+useConvolutionOptions = [False]
+activationOptions = ['relu', 'sigmoid']
 embeddingOptions = [False]
 balanceOptions = ["randomUndersample"]#['None']
 configurations.extend(buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions))
@@ -30,13 +30,16 @@ configurations.extend(buildConfigurationList(runDepthOptions, numLSTMnodeOptions
 # List of model configurations with NO LSTM layer
 runDepthOptions = [0]
 numLSTMnodeOptions = [0]
-numHiddenNodeOptions = [100]
+numHiddenNodeOptions = [100, 50, 10]
 useConvolutionOptions = [False]
-activationOptions = ['relu']#, 'sigmoid']
+activationOptions = ['relu', 'sigmoid']
 embeddingOptions = [False]
 balanceOptions = ["randomUndersample"]#['None']
 configurations.extend(buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions))
 
 # Run all tests
 for i in range(len(testType)):
-    runTestCase(testType[i], configurations)
+    for j in range(len(configurations)):    # Skip nested cross validation, run individual tests
+        currentConfig = list()
+        currentConfig.extend(configurations[j])
+        runTestCase(testType[i], currentConfig)
