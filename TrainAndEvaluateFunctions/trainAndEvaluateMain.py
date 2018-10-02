@@ -41,5 +41,5 @@ configurations.extend(buildConfigurationList(runDepthOptions, numLSTMnodeOptions
 for i in range(len(testType)):
     for j in range(len(configurations)):    # Skip nested cross validation, run individual tests
         currentConfig = list()
-        currentConfig.extend(configurations[j])
+        currentConfig.append(configurations.pop())
         runTestCase(testType[i], currentConfig)
