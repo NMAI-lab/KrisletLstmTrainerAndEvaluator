@@ -53,7 +53,7 @@ def defineParameterizedModel(configuration, dataSpecification):
     # Add hidden fully connected layer
     if numHiddenNodes > 0:
         if firstLayer:
-            model.add(Dense(inputShapeParameter, activation = activation, input_shape = inputShapeParameter))
+            model.add(Dense(inputShapeParameter[0], activation = activation, input_shape = inputShapeParameter))
             model.add(Dense(numHiddenNodes, activation = activation))
             firstLayer = False
         else:
