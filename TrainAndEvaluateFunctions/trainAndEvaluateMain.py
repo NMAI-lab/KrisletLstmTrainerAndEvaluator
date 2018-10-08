@@ -12,7 +12,7 @@ from testRunFunctions import runTestCase
 from configutationGenerator import buildConfigurationList
 
 # List of test scenarios
-testType = ["StateBasedKrislet", "FiniteTurnKrislet"] #"ClassicKrislet", 
+testType = ["FiniteTurnKrislet"] #"ClassicKrislet", "StateBasedKrislet" 
 #testType = ["sexpt_tests"]
 
 configurations = list()
