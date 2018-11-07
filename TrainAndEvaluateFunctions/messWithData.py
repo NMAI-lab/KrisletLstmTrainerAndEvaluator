@@ -14,34 +14,62 @@ Created on Tue Jun 19 13:54:43 2018
 
 #from sexpdata import loads #,load, dumps
 
-from parsingFunctions import getFileNames
+#from parsingFunctions import getFileNames
 
-from sEpressionDataExtraction import getReducedFileData, getActionList, getFeatureList, getRunTable, buildFeatureIncludeList
+#from sEpressionDataExtraction import getReducedFileData, getActionList, getFeatureList, getRunTable, buildFeatureIncludeList, loadData
+
+#import numpy as np
+
+from csvLogFunctions import writeSingleResult
+from configutationGenerator import buildConfigurationList
+
+configurations = list()
+
+runDepthOptions = [0]
+numLSTMnodeOptions = [0]
+numHiddenNodeOptions = [100, 10]
+useConvolutionOptions = [False]
+activationOptions = ['relu']
+embeddingOptions = [False]
+balanceOptions = ["randomUndersample"]#['None']
+configurations.extend(buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions))
+
+result = ['Beans', 'Spam'];
+
+for i in range (len(configurations)):
+    writeSingleResult(configurations[i], result[i]);
+
 
 # Get the file names for available data
-testType = 'sexpt_tests'
-fileNames = getFileNames(testType)
+#testType = 'StateBasedKrislet'#'sexpt_tests'
+#fileNames = getFileNames(testType)
 
-actionIncludeList = ['turn', 'dash', 'kick']
-featureCheckActionList = ['see']
-includeList = list()
-includeList.extend(actionIncludeList)
-includeList.extend(featureCheckActionList)
+#actionIncludeList = ['turn', 'dash', 'kick']
+#featureCheckActionList = ['see']
+#includeList = list()
+#includeList.extend(actionIncludeList)
+#includeList.extend(featureCheckActionList)
 
 # Load S-expressions from the first file
-(data, goalSide) = getReducedFileData(fileNames[0], includeList)
+#(data, goalSide) = getReducedFileData(fileNames[0], includeList)
 
 # Get the possible actions
-actionList = getActionList(data)
+#actionList = getActionList(data)
 
 # Get the feature list
-featureList = getFeatureList(data, featureCheckActionList, [])
+#featureList = getFeatureList(data, featureCheckActionList, [])
 
 # ga is short for goal adversary (where we don't want the ball to go)
 # go is short for goal own (where we want the ball to go)
-featureIncludeList = ['b','ga']#['b','go','ga']
+#featureIncludeList = ['b','ga']#['b','go','ga']
 
-run = getRunTable(data, actionIncludeList, featureCheckActionList, featureIncludeList, goalSide)
+#run = getRunTable(data, actionIncludeList, featureCheckActionList, featureIncludeList, goalSide)
+#(x,y) = run
+
+#(x,y) = loadData(testType, depth = 5)
+#count = np.count_nonzero(y, axis=0)
+
+
 
 #run = list()
 #
