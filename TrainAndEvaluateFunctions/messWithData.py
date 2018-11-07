@@ -25,6 +25,8 @@ from configutationGenerator import buildConfigurationList
 
 configurations = list()
 
+testType = ["FiniteTurnKrislet"]
+
 runDepthOptions = [0]
 numLSTMnodeOptions = [0]
 numHiddenNodeOptions = [100, 10]
@@ -37,7 +39,7 @@ configurations.extend(buildConfigurationList(runDepthOptions, numLSTMnodeOptions
 result = ['Beans', 'Spam'];
 
 for i in range (len(configurations)):
-    writeSingleResult(configurations[i], result[i]);
+    writeSingleResult(testType[0], configurations[i], result[i]);
 
 
 # Get the file names for available data

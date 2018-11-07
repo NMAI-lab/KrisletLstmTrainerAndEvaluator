@@ -9,12 +9,13 @@ import csv
 import os.path
 
 
-def writeSingleResult(configuration, result):
+def writeSingleResult(testType, configuration, result):
     fileName = 'names.csv';
     fileExists = os.path.isfile(fileName);
 
     with open(fileName, 'a', newline='') as csvfile:
-        fieldnames = ['runDepthOptions',
+        fieldnames = ['testType',
+                      'runDepthOptions',
                       'numLSTMnodeOptions',
                       'numHiddenNodeOptions',
                       'useConvolutionOptions',
@@ -28,18 +29,17 @@ def writeSingleResult(configuration, result):
             writer.writeheader();
         
         #writer.writerow({'configuration': configuration, 'result': result});
-        writer.writerow({'runDepthOptions': configuration[0],
-                      'numLSTMnodeOptions': configuration[1],
-                      'numHiddenNodeOptions': configuration[2],
-                      'useConvolutionOptions': configuration[3],
-                      'activationOptions': configuration[4],
-                      'embeddingOptions': configuration[5],
-                      'balanceOptions': configuration[6],
-                      'result': result});
+        writer.writerow({'testType': testType,
+                         'runDepthOptions': configuration[0],
+                         'numLSTMnodeOptions': configuration[1],
+                         'numHiddenNodeOptions': configuration[2],
+                         'useConvolutionOptions': configuration[3],
+                         'activationOptions': configuration[4],
+                         'embeddingOptions': configuration[5],
+                         'balanceOptions': configuration[6],
+                         'result': result});
         
         
-       # (runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions)
-
    
 # Accuracy:  0.732739514182  +/-  0.0293960406469
 # Precision:  [ 0.30056512  0.97715885  0.02421726]  +/-  [ 0.04352671  0.00526345  0.00245817]
