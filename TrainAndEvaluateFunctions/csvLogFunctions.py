@@ -7,28 +7,90 @@ Created on Wed Nov  7 10:21:07 2018
 
 import csv
 import os.path
+from evaluationMetrics import getSummaryStatistics
 
 
-def writeSingleResult(testType, configuration, result):
-    fileName = 'names.csv';
+def writeSingleResult(testType, configuration, result, fileName = 'names.csv'):
+    
+    (balancedResult, unbalancedResult, configuration) = result;
+    balancedSummary = getSummaryStatistics(balancedResult);
+    unbalancedSummary = getSummaryStatistics(unbalancedResult);
+
+    # Check if the file exists (in case we need a header line or not)
     fileExists = os.path.isfile(fileName);
 
-    with open(fileName, 'a', newline='') as csvfile:
-        fieldnames = ['testType',
-                      'runDepthOptions',
-                      'numLSTMnodeOptions',
-                      'numHiddenNodeOptions',
-                      'useConvolutionOptions',
-                      'activationOptions',
-                      'embeddingOptions',
-                      'balanceOptions',
-                      'result'];
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    # Define the fieldnames for the file
+    fieldnames = ['testType',
+                  'runDepthOptions',
+                  'numLSTMnodeOptions',
+                  'numHiddenNodeOptions',
+                  'useConvolutionOptions',
+                  'activationOptions',
+                  'embeddingOptions',
+                  'balanceOptions',
+                  'balancedAccuracyMean',
+                  'balancedAccuracyStandardDeviation',
+                  'balancedPrecisionMeanTurn',
+                  'balancedPrecisionDeviationTurn',
+                  'balancedPrecisionMeanDash',
+                  'balancedPrecisionDeviationDash',
+                  'balancedPrecisionMeanKick',
+                  'balancedPrecisionDeviationKick',
+                  'balancedSensitivityMeanTurn',
+                  'balancedSensitivityDeviationTurn',
+                  'balancedSensitivityMeanDash',
+                  'balancedSensitivityDeviationDash',
+                  'balancedSensitivityMeanKick',
+                  'balancedSensitivityDeviationKick',
+                  'balancedSpecificityMeanTurn',
+                  'balancedSpecificityDeviationTurn',
+                  'balancedSpecificityMeanDash',
+                  'balancedSpecificityDeviationDash',
+                  'balancedSpecificityMeanKick',
+                  'balancedSpecificityDeviationKick',
+                  'balancedFMeasureMeanTurn',
+                  'balancedFMeasureDeviationTurn',
+                  'balancedFMeasureMeanDash',
+                  'balancedFMeasureDeviationDash',
+                  'balancedFMeasureMeanKick',
+                  'balancedFMeasureDeviationKick',
+                  'unbalancedAccuracyMean',
+                  'unbalancedAccuracyStandardDeviation',
+                  'unbalancedPrecisionMeanTurn',
+                  'unbalancedPrecisionDeviationTurn',
+                  'unbalancedPrecisionMeanDash',
+                  'unbalancedPrecisionDeviationDash',
+                  'unbalancedPrecisionMeanKick',
+                  'unbalancedPrecisionDeviationKick',
+                  'unbalancedSensitivityMeanTurn',
+                  'unbalancedSensitivityDeviationTurn',
+                  'unbalancedSensitivityMeanDash',
+                  'unbalancedSensitivityDeviationDash',
+                  'unbalancedSensitivityMeanKick',
+                  'unbalancedSensitivityDeviationKick',
+                  'unbalancedSpecificityMeanTurn',
+                  'unbalancedSpecificityDeviationTurn',
+                  'unbalancedSpecificityMeanDash',
+                  'unbalancedSpecificityDeviationDash',
+                  'unbalancedSpecificityMeanKick',
+                  'unbalancedSpecificityDeviationKick',
+                  'unbalancedFMeasureMeanTurn',
+                  'unbalancedFMeasureDeviationTurn',
+                  'unbalancedFMeasureMeanDash',
+                  'unbalancedFMeasureDeviationDash',
+                  'unbalancedFMeasureMeanKick',
+                  'unbalancedFMeasureDeviationKick',
+                  ];
     
+    # Open the file (or create it if it isn't there). Append mode
+    with open(fileName, 'a', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        # If the file did not exist, print the header    
         if fileExists == False:
             writer.writeheader();
         
-        #writer.writerow({'configuration': configuration, 'result': result});
+        # Write the row
         writer.writerow({'testType': testType,
                          'runDepthOptions': configuration[0],
                          'numLSTMnodeOptions': configuration[1],
@@ -37,6 +99,59 @@ def writeSingleResult(testType, configuration, result):
                          'activationOptions': configuration[4],
                          'embeddingOptions': configuration[5],
                          'balanceOptions': configuration[6],
+                         'balancedAccuracyMean',
+                         'balancedAccuracyStandardDeviation',
+                         'balancedPrecisionMeanTurn',
+                         'balancedPrecisionDeviationTurn',
+                         'balancedPrecisionMeanDash',
+                         'balancedPrecisionDeviationDash',
+                         'balancedPrecisionMeanKick',
+                         'balancedPrecisionDeviationKick',
+                         'balancedSensitivityMeanTurn',
+                         'balancedSensitivityDeviationTurn',
+                         'balancedSensitivityMeanDash',
+                         'balancedSensitivityDeviationDash',
+                         'balancedSensitivityMeanKick',
+                         'balancedSensitivityDeviationKick',
+                         'balancedSpecificityMeanTurn',
+                         'balancedSpecificityDeviationTurn',
+                         'balancedSpecificityMeanDash',
+                         'balancedSpecificityDeviationDash',
+                         'balancedSpecificityMeanKick',
+                         'balancedSpecificityDeviationKick',
+                         'balancedFMeasureMeanTurn',
+                         'balancedFMeasureDeviationTurn',
+                         'balancedFMeasureMeanDash',
+                         'balancedFMeasureDeviationDash',
+                         'balancedFMeasureMeanKick',
+                         'balancedFMeasureDeviationKick',
+                         'unbalancedAccuracyMean',
+                         'unbalancedAccuracyStandardDeviation',
+                         'unbalancedPrecisionMeanTurn',
+                         'unbalancedPrecisionDeviationTurn',
+                         'unbalancedPrecisionMeanDash',
+                         'unbalancedPrecisionDeviationDash',
+                         'unbalancedPrecisionMeanKick',
+                         'unbalancedPrecisionDeviationKick',
+                         'unbalancedSensitivityMeanTurn',
+                         'unbalancedSensitivityDeviationTurn',
+                         'unbalancedSensitivityMeanDash',
+                         'unbalancedSensitivityDeviationDash',
+                         'unbalancedSensitivityMeanKick',
+                         'unbalancedSensitivityDeviationKick',
+                         'unbalancedSpecificityMeanTurn',
+                         'unbalancedSpecificityDeviationTurn',
+                         'unbalancedSpecificityMeanDash',
+                         'unbalancedSpecificityDeviationDash',
+                         'unbalancedSpecificityMeanKick',
+                         'unbalancedSpecificityDeviationKick',
+                         'unbalancedFMeasureMeanTurn',
+                         'unbalancedFMeasureDeviationTurn',
+                         'unbalancedFMeasureMeanDash',
+                         'unbalancedFMeasureDeviationDash',
+                         'unbalancedFMeasureMeanKick',
+                         'unbalancedFMeasureDeviationKick',
+                         
                          'result': result});
         
         
