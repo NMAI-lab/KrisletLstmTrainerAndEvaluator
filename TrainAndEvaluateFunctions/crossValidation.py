@@ -100,31 +100,3 @@ def crossValidateLoopIteration(data, configuration, configurationID, note):
 
     # Return result
     return result
-
-## This function is defunct - check the implementation before using
-#def crossValidateModelConfiguration(data, dataSpecification):
-#    numConfigurations = getNumConfigurations()
-#    skf = StratifiedKFold(n_splits = numConfigurations)#, shuffle = True, random_state = seed)
-#    accuracyOfConfigurations = np.zeros(numConfigurations)
-#    deviationOfConfigurations = np.zeros(numConfigurations)
-#    nFolds = 10
-#    configuration = 0
-#    i = 0
-#    note = 'NestedCrossValidation'
-#    (x, y) = (data)
-#    for trainIndex, testIndex in skf.split(x, y):
-#        print("Running configuration", configuration, "/", numConfigurations)
-#        
-#        # Perform cross validation for this configuration, save results. Do not save the model due to memory limit issues.
-#        (model, accuracyMean, accuracyStandardDeviation) = trainWithCrossValidation((x[testIndex], y[testIndex]), configuration, nFolds)
-#        accuracyOfConfigurations[i] = accuracyMean
-#        deviationOfConfigurations[i] = accuracyStandardDeviation
-#        
-#        saveModel(model, configuration, accuracyMean, accuracyStandardDeviation, note)
-#        model = None    # Clear up some memory
-#        
-#        print("Accuracy of configuration ", configuration, ": ", (accuracyMean * 100), " +/- ", (accuracyStandardDeviation * 100))
-#        configuration = configuration + 1
-#        i = i + 1
-#    
-#    return (accuracyOfConfigurations, deviationOfConfigurations)
