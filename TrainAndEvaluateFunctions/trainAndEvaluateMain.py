@@ -25,7 +25,17 @@ useConvolutionOptions = [False]
 activationOptions = ['relu', 'sigmoid']
 embeddingOptions = [False]
 balanceOptions = ["randomUndersample"]#['None']
-configurations.extend(buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions))
+earlyStopOptions = [(0.01, 10)]#(earlyStopMinDelta, earlyStopPatience)
+reduceLROptions = [(0.2, 5, 0.001)]#(ReduceLRfactor, ReduceLRpatience, ReduceLRmin_lr)
+configurations.extend(buildConfigurationList(runDepthOptions,
+                                             numLSTMnodeOptions,
+                                             numHiddenNodeOptions, 
+                                             useConvolutionOptions,
+                                             activationOptions, 
+                                             embeddingOptions,
+                                             balanceOptions,
+                                             earlyStopOptions,
+                                             reduceLROptions))
 
 # List of model configurations with NO LSTM layer
 runDepthOptions = [0]
@@ -35,11 +45,20 @@ useConvolutionOptions = [False]
 activationOptions = ['relu', 'sigmoid']
 embeddingOptions = [False]
 balanceOptions = ["randomUndersample"]#['None']
-configurations.extend(buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions))
-
+earlyStopOptions = [(0.01, 10)]#(earlyStopMinDelta, earlyStopPatience)
+reduceLROptions = [(0.2, 5, 0.001)]#(ReduceLRfactor, ReduceLRpatience, ReduceLRmin_lr)
+configurations.extend(buildConfigurationList(runDepthOptions,
+                                             numLSTMnodeOptions,
+                                             numHiddenNodeOptions, 
+                                             useConvolutionOptions,
+                                             activationOptions, 
+                                             embeddingOptions,
+                                             balanceOptions, 
+                                             earlyStopOptions,
+                                             reduceLROptions))
 # Run all tests
 for i in range(len(testType)):
     for j in range(len(configurations)):    # Skip nested cross validation, run individual tests
         currentConfig = list()
-        currentConfig.append(configurations.pop())
+        currentConfig.append(configurations[j])
         runTestCase(testType[i], currentConfig)

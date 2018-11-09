@@ -5,11 +5,18 @@ Created on Wed Jul  4 14:18:04 2018
 @author: patrickgavigan
 """
 
-# Returns a list of tuples. Tuple format: (runDepthOptions, numLSTMnodeOptions,
-# numHiddenNodeOptions, useConvolutionOptions, activationOptions, 
-# embeddingOptions)
-def buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOptions, useConvolutionOptions, activationOptions, embeddingOptions, balanceOptions):
+# Returns a list of tuples.
+def buildConfigurationList(runDepthOptions,
+                           numLSTMnodeOptions,
+                           numHiddenNodeOptions,
+                           useConvolutionOptions,
+                           activationOptions,
+                           embeddingOptions,
+                           balanceOptions,
+                           earlyStopOptions,
+                           reduceLROptions):
     configList = list()
+    configCount = 0;
     for i in range(len(runDepthOptions)):
         for j in range(len(numLSTMnodeOptions)):
             for k in range(len(numHiddenNodeOptions)):
@@ -17,8 +24,21 @@ def buildConfigurationList(runDepthOptions, numLSTMnodeOptions, numHiddenNodeOpt
                     for m in range(len(activationOptions)):
                         for n in range(len(embeddingOptions)):
                             for o in range(len(balanceOptions)):
-                                configList.append((runDepthOptions[i], numLSTMnodeOptions[j], numHiddenNodeOptions[k], useConvolutionOptions[l], activationOptions[m], embeddingOptions[n], balanceOptions[o]))
+                                for p in range(len(earlyStopOptions)):
+                                    for q in range(len(reduceLROptions)):
+                                        configList.append((runDepthOptions[i], 
+                                                           numLSTMnodeOptions[j], 
+                                                           numHiddenNodeOptions[k], 
+                                                           useConvolutionOptions[l], 
+                                                           activationOptions[m], 
+                                                           embeddingOptions[n], 
+                                                           balanceOptions[o],
+                                                           earlyStopOptions[p],
+                                                           reduceLROptions[q],
+                                                           configCount))
+                                        configCount = configCount + 1;
     return configList
+
 
 def getMaxDepth(configurations):
 
