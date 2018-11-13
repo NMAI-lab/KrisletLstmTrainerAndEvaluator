@@ -13,6 +13,7 @@ def buildConfigurationList(runDepthOptions,
                            activationOptions,
                            embeddingOptions,
                            balanceOptions,
+                           trainOptions,
                            earlyStopOptions,
                            reduceLROptions):
     configList = list()
@@ -24,19 +25,21 @@ def buildConfigurationList(runDepthOptions,
                     for m in range(len(activationOptions)):
                         for n in range(len(embeddingOptions)):
                             for o in range(len(balanceOptions)):
-                                for p in range(len(earlyStopOptions)):
-                                    for q in range(len(reduceLROptions)):
-                                        configList.append((runDepthOptions[i], 
-                                                           numLSTMnodeOptions[j], 
-                                                           numHiddenNodeOptions[k], 
-                                                           useConvolutionOptions[l], 
-                                                           activationOptions[m], 
-                                                           embeddingOptions[n], 
-                                                           balanceOptions[o],
-                                                           earlyStopOptions[p],
-                                                           reduceLROptions[q],
-                                                           configCount))
-                                        configCount = configCount + 1;
+                                for p in range(len(trainOptions)):
+                                    for q in range(len(earlyStopOptions)):
+                                        for r in range(len(reduceLROptions)):
+                                            configList.append((runDepthOptions[i], 
+                                                               numLSTMnodeOptions[j], 
+                                                               numHiddenNodeOptions[k], 
+                                                               useConvolutionOptions[l], 
+                                                               activationOptions[m], 
+                                                               embeddingOptions[n], 
+                                                               balanceOptions[o],
+                                                               trainOptions[p],
+                                                               earlyStopOptions[q],
+                                                               reduceLROptions[r],
+                                                               configCount))
+                                            configCount = configCount + 1;
     return configList
 
 
@@ -63,5 +66,17 @@ def getMaxDepth(configurations):
     return maxDepth
 
 def getBalanceOption(configuration):
-    (_, _, _, _, _, _, balanceOption) = configuration
+    (_, _, _, _, _, _, balanceOption, _, _, _, _) = configuration
     return balanceOption
+
+def getConfigID(configuration):
+    (_, _, _, _, _, _, _, _, _, _, configID) = configuration
+    return configID
+
+def getCallBackOption(configuration):
+    (_, _, _, _, _, _, _, _, earlyStopOptions, reduceLROptions, _) = configuration
+    return (earlyStopOptions, reduceLROptions)
+    
+def getTrainOption(configuration):
+    (_, _, _, _, _, _, _, trainOptions, _, _, _) = configuration
+    return trainOptions

@@ -25,6 +25,7 @@ useConvolutionOptions = [False]
 activationOptions = ['relu', 'sigmoid']
 embeddingOptions = [False]
 balanceOptions = ["randomUndersample"]#['None']
+trainOptions = [(10, 64)]
 earlyStopOptions = [(0.01, 10)]#(earlyStopMinDelta, earlyStopPatience)
 reduceLROptions = [(0.2, 5, 0.001)]#(ReduceLRfactor, ReduceLRpatience, ReduceLRmin_lr)
 configurations.extend(buildConfigurationList(runDepthOptions,
@@ -34,6 +35,7 @@ configurations.extend(buildConfigurationList(runDepthOptions,
                                              activationOptions, 
                                              embeddingOptions,
                                              balanceOptions,
+                                             trainOptions,
                                              earlyStopOptions,
                                              reduceLROptions))
 
@@ -45,6 +47,7 @@ useConvolutionOptions = [False]
 activationOptions = ['relu', 'sigmoid']
 embeddingOptions = [False]
 balanceOptions = ["randomUndersample"]#['None']
+trainOptions = [(10, 64)]
 earlyStopOptions = [(0.01, 10)]#(earlyStopMinDelta, earlyStopPatience)
 reduceLROptions = [(0.2, 5, 0.001)]#(ReduceLRfactor, ReduceLRpatience, ReduceLRmin_lr)
 configurations.extend(buildConfigurationList(runDepthOptions,
@@ -54,6 +57,7 @@ configurations.extend(buildConfigurationList(runDepthOptions,
                                              activationOptions, 
                                              embeddingOptions,
                                              balanceOptions, 
+                                             trainOptions,
                                              earlyStopOptions,
                                              reduceLROptions))
 # Run all tests

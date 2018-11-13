@@ -10,19 +10,19 @@ import os.path
 from evaluationMetrics import getSummaryStatistics
 
 # Write a single result row to the CSV. Will vreate the CSV if it does not exist
-def writeSingleResult(testType, result, fileName = 'names.csv'):
+def writeCSVResult(testType, result, fileName = 'names.csv'):
     
-    (balancedResult, unbalancedResult, configuration) = result;
-    #balancedSummary = getSummaryStatistics(balancedResult);
-    #unBalancedSummary = getSummaryStatistics(unbalancedResult);
-    balancedSummary = tempGetResult();
-    unBalancedSummary = tempGetResult();
+    (balancedResult, unbalancedResult, configuration) = result
+    balancedSummary = getSummaryStatistics(balancedResult);
+    unBalancedSummary = getSummaryStatistics(unbalancedResult);
+    #balancedSummary = tempGetResult()
+    #unBalancedSummary = tempGetResult()
     
     # Check if the file exists (in case we need a header line or not)
-    fileExists = os.path.isfile(fileName);
+    fileExists = os.path.isfile(fileName)
 
     # Define the fieldnames for the file
-    fieldnames = getFieldNames();
+    fieldnames = getFieldNames()
     
     # Open the file (or create it if it isn't there). Append mode
     with open(fileName, 'a', newline='') as csvfile:
@@ -30,46 +30,48 @@ def writeSingleResult(testType, result, fileName = 'names.csv'):
 
         # If the file did not exist, print the header    
         if fileExists == False:
-            writer.writeheader();
+            writer.writeheader()
         
         # Write the row
         rowContents = getRowContents(testType, configuration, balancedSummary, 
-                                     unBalancedSummary);
-        writer.writerow(rowContents);
+                                     unBalancedSummary)
+        writer.writerow(rowContents)
 
 # Get the fieldnames for the CSV file 
 def getFieldNames():
-    return ['Test Type',
-            'Configuration Number',
-            'Run Depth',
-            '# LSTM Nodes',
-            '# Hidden Nodes',
-            'Convolution Used',
-            'Activation',
-            'Embedding Used',
-            'Class Resampling',
-            'Early Stop Min Delta',
-            'Early Stop Patience',
-            'Reduce LR Factor',
-            'Reduce LR Patience',
-            'Reduce LR min_lr',            
-            'Balanced Accuracy Mean',
-            'Balanced Accuracy Standard Deviation',
-            'Balanced Precision Mean Turn',
-            'Balanced Precision Deviation Turn',
-            'Balanced Precision Mean Dash',
-            'Balanced Precision Deviation Dash',
-            'Balanced Precision Mean Kick',
-            'Balanced Precision Deviation Kick',
-            'Balanced Sensitivity Mean Turn',
-            'Balanced Sensitivity Deviation Turn',
-            'Balanced Sensitivity Mean Dash',
-            'Balanced Sensitivity Deviation Dash',
-            'Balanced Sensitivity Mean Kick',
-            'Balanced Sensitivity Deviation Kick',
-            'Balanced Specificity Mean Turn',
-            'Balanced Specificity Deviation Turn',
-            'Balanced Specificity Mean Dash',
+    return ['testType',
+            'ConfigurationNumber',
+            'runDepthOptions',
+            'numLSTMnodeOptions',
+            'numHiddenNodeOptions',
+            'useConvolutionOptions',
+            'activationOptions',
+            'embeddingOptions',
+            'balanceOptions',
+            'numEpochs',
+            'batchSize',
+            'earlyStopMinDelta',
+            'earlyStopPatience',
+            'ReduceLRfactor',
+            'ReduceLRpatience',
+            'ReduceLRmin_lr',
+            'balancedAccuracyMean',
+            'balancedAccuracyStandardDeviation',
+            'balancedPrecisionMeanTurn',
+            'balancedPrecisionDeviationTurn',
+            'balancedPrecisionMeanDash',
+            'balancedPrecisionDeviationDash',
+            'balancedPrecisionMeanKick',
+            'balancedPrecisionDeviationKick',
+            'balancedSensitivityMeanTurn',
+            'balancedSensitivityDeviationTurn',
+            'balancedSensitivityMeanDash',
+            'balancedSensitivityDeviationDash',
+            'balancedSensitivityMeanKick',
+            'balancedSensitivityDeviationKick',
+            'balancedSpecificityMeanTurn',
+            'balancedSpecificityDeviationTurn',
+            'balancedSpecificityMeanDash',
             'balancedSpecificityDeviationDash',
             'balancedSpecificityMeanKick',
             'balancedSpecificityDeviationKick',
@@ -109,8 +111,10 @@ def getFieldNames():
 def getRowContents(testType, configuration, balancedSummary, unBalancedSummary):
     
     (runDepth, numLSTMnodes, numHiddenNodes, useConvolution, activation,
-     embedding, balance, earlyStopOptions, reduceLROptions, 
+     embedding, balance, trainOptions, earlyStopOptions, reduceLROptions, 
      configCount) = configuration
+     
+    (numEpochs, batchsize) = trainOptions
     (earlyStopMinDelta, earlyStopPatience) = earlyStopOptions
     (ReduceLRfactor, ReduceLRpatience, ReduceLRmin_lr) = reduceLROptions
     
@@ -123,7 +127,7 @@ def getRowContents(testType, configuration, balancedSummary, unBalancedSummary):
      unBalancedFMeasureSummary) = unBalancedSummary         
      
     return {'testType': testType,
-            'Configuration Number': configCount,
+            'ConfigurationNumber': configCount,
             'runDepthOptions': runDepth,
             'numLSTMnodeOptions': numLSTMnodes,
             'numHiddenNodeOptions': numHiddenNodes,
@@ -131,6 +135,8 @@ def getRowContents(testType, configuration, balancedSummary, unBalancedSummary):
             'activationOptions': activation,
             'embeddingOptions': embedding,
             'balanceOptions': balance,
+            'numEpochs': numEpochs,
+            'batchSize': batchsize,
             'earlyStopMinDelta': earlyStopMinDelta,
             'earlyStopPatience': earlyStopPatience,
             'ReduceLRfactor': ReduceLRfactor,

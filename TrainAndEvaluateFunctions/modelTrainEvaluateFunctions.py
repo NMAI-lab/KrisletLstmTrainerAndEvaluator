@@ -10,12 +10,12 @@ from sklearn.metrics import recall_score, precision_score, f1_score
 
 from dataManagement import stratefiedSplit, convertToCategorical, convertToClassID, getDataSpecification
 from balancingFunctions import balanceData
-from configutationGenerator import getBalanceOption
+from configutationGenerator import getBalanceOption, getCallBackOption, getTrainOption
 from modelGenerators import defineParameterizedModel
 from evaluationMetrics import evaluateSpecificity
 
 # Train the model
-def trainModel(model, data, balanceOption = None):
+def trainModel(model, data, callbackConfig, trainSettings, balanceOption = None):
 
     # Check data balance, balance if needed
     (x, y) = balanceData(data, balanceOption)
@@ -24,14 +24,18 @@ def trainModel(model, data, balanceOption = None):
     (xTrain, yTrain), (xTest, yTest) = stratefiedSplit(x, y)
     
     # Configure callbacks
-    callbacksList = configureCallBacks()
+    callbacksList = configureCallBacks(callbackConfig)
     
     # Convert y data to categorical
     yTrainCategorical = convertToCategorical(yTrain)
     yTestCategorical = convertToCategorical(yTest)
     
+    (numEpochs, batchSize) = trainSettings
+    
     # Fit the model and return
-    model.fit(xTrain, yTrainCategorical, epochs = 10, batch_size = 64, callbacks = callbacksList, validation_data = (xTest, yTestCategorical))
+    model.fit(xTrain, yTrainCategorical, epochs = numEpochs, 
+              batch_size = batchSize, callbacks = callbacksList, 
+              validation_data = (xTest, yTestCategorical))
     return model
 
 # Define and train the model (useful for cross-validation)
@@ -39,22 +43,27 @@ def defineAndTrainModel(data, configuration):#, dataSpecification):
     dataSpecification = getDataSpecification(data)          # Get the data specifications
     model = defineParameterizedModel(configuration, dataSpecification)   # Define the model
     balanceOption = getBalanceOption(configuration)
-    model = trainModel(model, data, balanceOption)          # Train the model
+    callBackOptions = getCallBackOption(configuration)
+    trainOptions = getTrainOption(configuration)
+    trainModel(model, data, callBackOptions, trainOptions, balanceOption)
     return model                                            # Return the model
 
-def configureCallBacks():
+def configureCallBacks(config):
+    (earlyStopMinDelta, earlyStopPatience, ReduceLRfactor, ReduceLRpatience,
+     ReduceLRmin_lr) = config
+    
     verbosity = 1
     stopper = EarlyStopping(monitor = 'loss',
-                            min_delta = 0.01,
-                            patience = 10,
+                            min_delta = earlyStopMinDelta,
+                            patience = earlyStopPatience,
                             verbose = verbosity,
                             mode = 'auto')
     
     rateReducer = ReduceLROnPlateau(monitor = 'loss', 
-                                    factor = 0.2, 
-                                    patience = 5, 
+                                    factor = ReduceLRfactor, 
+                                    patience = ReduceLRpatience, 
                                     verbose = verbosity, 
-                                    min_lr = 0.001)
+                                    min_lr = ReduceLRmin_lr)
        
     callbacksList = [stopper, rateReducer]
     return callbacksList

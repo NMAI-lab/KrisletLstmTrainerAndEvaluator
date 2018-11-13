@@ -8,8 +8,18 @@ Created on Fri Jul 20 14:59:50 2018
 from evaluationMetrics import getSummaryStatistics
 
 def printConfigurationParameters(configuration):
-    (runDepthOption, numLSTMnodeOption, numHiddenNodeOption, useConvolutionOption, activationOption, embeddingOption, balanceOption) = configuration
+
+    (runDepthOption, numLSTMnodeOption, numHiddenNodeOption, 
+     useConvolutionOption, activationOption, embeddingOption, balanceOption, 
+     trainOptions, earlyStopOptions, reduceLROptions, 
+     configCount) = configuration
+     
+    (numEpochs, batchSize) = trainOptions
+    (earlyStopMinDelta, earlyStopPatience) = earlyStopOptions
+    (ReduceLRfactor, ReduceLRpatience, ReduceLRmin_lr) = reduceLROptions
+    
     print("Configuration parameters")
+    print(" Configuration: ", configCount)
     print(" Run depth: ", runDepthOption)
     print(" Number of LSTM nodes: ", numLSTMnodeOption)
     print(" Number of hidden nodes: ", numHiddenNodeOption)
@@ -17,6 +27,13 @@ def printConfigurationParameters(configuration):
     print(" Activation option: ", activationOption)
     print(" Using embedding layer: ",  embeddingOption)
     print(" Balance option: ",  balanceOption)
+    print(" Number of epochs: ", numEpochs)
+    print(" Batch size: ", batchSize)
+    print(" Early Stop Min Delta: ", earlyStopMinDelta)
+    print(" Early Stop Patience: ", earlyStopPatience)
+    print(" Reduce LR factor: ", ReduceLRfactor)
+    print(" Reduce LR patience: ", ReduceLRpatience)
+    print(" Reduce LR min LR: ", ReduceLRmin_lr)
     return
 
 def printSingleResult(result, fold):
@@ -60,6 +77,6 @@ def printResultSummary(testType, results):
     print('Summary of ' + testType + ' test')
 
     for i in range(len(results)):
-        print('Configuration ', i)
+        #print('Configuration ', i)
         printConfigurationResultSummary(results[i])
     print('--------------------------------')

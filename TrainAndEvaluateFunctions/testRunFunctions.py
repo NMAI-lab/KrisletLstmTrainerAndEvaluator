@@ -23,7 +23,7 @@ def runTestCase(testType, configurations):
     # Feature selection?
     
     # Run nested cross validation
-    results = crossValidateConfiguration(data, configurations)
+    results = crossValidateConfiguration(data, configurations, testType)
     
     # Print results
     printResultSummary(testType, results)

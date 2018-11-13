@@ -16,7 +16,8 @@ from keras.layers.convolutional import MaxPooling1D
 
 def defineParameterizedModel(configuration, dataSpecification):
     # Unpack the parameters
-    (_, numLSTMnodes, numHiddenNodes, useConvolution, activation, useEmbedding, _) = configuration
+    (_, numLSTMnodes, numHiddenNodes, useConvolution, activation, 
+     useEmbedding, _, _, _, _, _) = configuration
     (numCategories, elementDimension, sequenceLength) = dataSpecification
 
     # Setup the model

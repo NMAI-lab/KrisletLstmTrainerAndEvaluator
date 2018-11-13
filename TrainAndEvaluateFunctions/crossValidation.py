@@ -6,12 +6,13 @@ Created on Fri Jul 20 16:47:51 2018
 """
 
 from sklearn.model_selection import StratifiedKFold
-from configutationGenerator import getBalanceOption
+from configutationGenerator import getBalanceOption, getConfigID
 from dataManagement import cropSequenceLength
 from modelTrainEvaluateFunctions import defineAndTrainModel, evaluateModel
 from resultOutput import printConfigurationResultSummary
 from modelSave import saveModel
 from constants import getRandomSeed
+from csvLogFunctions import writeCSVResult
 
 def trainWithCrossValidation(data, configuration, nFolds = 10):
     
@@ -53,9 +54,9 @@ def trainWithCrossValidation(data, configuration, nFolds = 10):
     return (model, scoreOfFoldsBalanced, scoreOfFoldsUnbalanced)
 
 
-def crossValidateConfiguration(data, configurations):
+def crossValidateConfiguration(data, configurations, testType):
     numConfigurations = len(configurations)
-    configurationID = 0
+    configurationIndex = 0
     results = list()
     
     # Deal with multi configuration case
@@ -64,29 +65,37 @@ def crossValidateConfiguration(data, configurations):
         skf = StratifiedKFold(n_splits = numConfigurations, random_state = getRandomSeed())
         note = 'NestedCrossValidation'
         for trainIndex, testIndex in skf.split(x, y):
-            print("Running configuration", configurationID + 1, "/", numConfigurations)
+            configurationID = getConfigID(configurations[configurationIndex])
+            print("Running ", testType, " configuration ", configurationID, "/", numConfigurations)
             
-            currentResult = crossValidateLoopIteration((x[testIndex], y[testIndex]), configurations[configurationID], configurationID, note)
+            currentResult = crossValidateLoopIteration((x[testIndex], 
+                                                        y[testIndex]), 
+                                                        configurations[configurationIndex],
+                                                        testType,
+                                                        note)
             results.append(currentResult)
-            configurationID = configurationID + 1
+            configurationID = configurationIndex + 1
     
     # Deal with single configuration case
     else:
         note = 'SingleConfiguration'
-        currentConfiguration = configurations[0]
-        currentResult = crossValidateLoopIteration(data, currentConfiguration, configurationID,  note)
+        currentConfiguration = configurations[configurationIndex]
+        configurationID = getConfigID(currentConfiguration)
+        currentResult = crossValidateLoopIteration(data, currentConfiguration, 
+                                                   testType, note)
         results.append(currentResult)
 
     # Return results    
     return results
 
-def crossValidateLoopIteration(data, configuration, configurationID, note):
+def crossValidateLoopIteration(data, configuration, testType, note):
 
     # Crop the data depth, if necessary    
     (x,y) = data
     depth = configuration[0]
     currentX = cropSequenceLength(x, depth)
     data = (currentX, y)
+    configurationID = getConfigID(configuration)
     
     # Train with cross validation
     (model, scoreOfFoldsBalanced, scoreOfFoldsUnbalanced) = trainWithCrossValidation(data, configuration)
@@ -97,6 +106,9 @@ def crossValidateLoopIteration(data, configuration, configurationID, note):
         
     # Save the model as a file and then clear the memory
     saveModel(model, result, configurationID, note)
+
+    # Save result to the CSV log
+    writeCSVResult(testType, result)
 
     # Return result
     return result
