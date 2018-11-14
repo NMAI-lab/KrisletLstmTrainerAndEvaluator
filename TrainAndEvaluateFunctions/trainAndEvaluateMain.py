@@ -12,17 +12,17 @@ from testRunFunctions import runTestCase
 from configutationGenerator import buildConfigurationList
 
 # List of test scenarios
-testType = ["FiniteTurnKrislet"] #"ClassicKrislet", "StateBasedKrislet" 
+testType = ["FiniteTurnKrislet", "StateBasedKrislet"] #"ClassicKrislet",  
 #testType = ["sexpt_tests"]
 
 configurations = list()
 
 # List of model configurations with an LSTM layer
-runDepthOptions = [100, 50, 40]
-numLSTMnodeOptions = [100, 50, 40]
-numHiddenNodeOptions = [100, 50, 10, 0]
+runDepthOptions = [100]#, 50, 40]
+numLSTMnodeOptions = [100]#, 50, 40]
+numHiddenNodeOptions = [100]#, 50, 10, 0]
 useConvolutionOptions = [False]
-activationOptions = ['relu', 'sigmoid']
+activationOptions = ['relu']#, 'sigmoid']
 embeddingOptions = [False]
 balanceOptions = ["randomUndersample"]#['None']
 trainOptions = [(10, 64)]
@@ -42,9 +42,9 @@ configurations.extend(buildConfigurationList(runDepthOptions,
 # List of model configurations with NO LSTM layer
 runDepthOptions = [0]
 numLSTMnodeOptions = [0]
-numHiddenNodeOptions = [100, 50, 10]
+numHiddenNodeOptions = [100]#, 50, 10]
 useConvolutionOptions = [False]
-activationOptions = ['relu', 'sigmoid']
+activationOptions = ['relu']#, 'sigmoid']
 embeddingOptions = [False]
 balanceOptions = ["randomUndersample"]#['None']
 trainOptions = [(10, 64)]
