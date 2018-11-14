@@ -10,7 +10,7 @@ import os.path
 from evaluationMetrics import getSummaryStatistics
 
 # Write a single result row to the CSV. Will vreate the CSV if it does not exist
-def writeCSVResult(testType, result, fileName = 'names.csv'):
+def writeCSVResult(testType, result, fileName = 'resultSummary.csv'):
     
     (balancedResult, unbalancedResult, configuration) = result
     balancedSummary = getSummaryStatistics(balancedResult);

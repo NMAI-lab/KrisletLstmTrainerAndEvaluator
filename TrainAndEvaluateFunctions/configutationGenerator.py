@@ -15,9 +15,10 @@ def buildConfigurationList(runDepthOptions,
                            balanceOptions,
                            trainOptions,
                            earlyStopOptions,
-                           reduceLROptions):
+                           reduceLROptions,
+                           firstConfigCount):
     configList = list()
-    configCount = 0;
+    configCount = firstConfigCount;
     for i in range(len(runDepthOptions)):
         for j in range(len(numLSTMnodeOptions)):
             for k in range(len(numHiddenNodeOptions)):
@@ -42,6 +43,15 @@ def buildConfigurationList(runDepthOptions,
                                             configCount = configCount + 1;
     return configList
 
+
+def getMaxConfigCount(configuration):
+    if (len(configuration) < 1):
+        return 0
+    
+    i = len(configuration) - 1
+    lastConfig = configuration[i]
+    configCount = lastConfig[10] + 1
+    return configCount
 
 def getMaxDepth(configurations):
 

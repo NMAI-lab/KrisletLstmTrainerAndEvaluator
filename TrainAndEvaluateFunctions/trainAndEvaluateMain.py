@@ -9,7 +9,7 @@ from constants import setSeeds
 setSeeds()
 
 from testRunFunctions import runTestCase
-from configutationGenerator import buildConfigurationList
+from configutationGenerator import buildConfigurationList, getMaxConfigCount
 
 # List of test scenarios
 testType = ["FiniteTurnKrislet", "StateBasedKrislet"] #"ClassicKrislet",  
@@ -37,7 +37,8 @@ configurations.extend(buildConfigurationList(runDepthOptions,
                                              balanceOptions,
                                              trainOptions,
                                              earlyStopOptions,
-                                             reduceLROptions))
+                                             reduceLROptions,
+                                             getMaxConfigCount(configurations)))
 
 # List of model configurations with NO LSTM layer
 runDepthOptions = [0]
@@ -59,7 +60,8 @@ configurations.extend(buildConfigurationList(runDepthOptions,
                                              balanceOptions, 
                                              trainOptions,
                                              earlyStopOptions,
-                                             reduceLROptions))
+                                             reduceLROptions,
+                                             getMaxConfigCount(configurations)))
 # Run all tests
 for i in range(len(testType)):
     for j in range(len(configurations)):    # Skip nested cross validation, run individual tests
