@@ -49,8 +49,9 @@ def defineAndTrainModel(data, configuration):#, dataSpecification):
     return model                                            # Return the model
 
 def configureCallBacks(config):
-    (earlyStopMinDelta, earlyStopPatience, ReduceLRfactor, ReduceLRpatience,
-     ReduceLRmin_lr) = config
+    (earlyStopOptions, reduceLROptions) = config
+    (earlyStopMinDelta, earlyStopPatience, ReduceLRfactor) = earlyStopOptions
+    (ReduceLRpatience, ReduceLRmin_lr) = reduceLROptions
     
     verbosity = 1
     stopper = EarlyStopping(monitor = 'loss',
