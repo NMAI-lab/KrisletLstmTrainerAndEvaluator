@@ -10,12 +10,12 @@ from sEpressionDataExtraction import loadData
 from resultOutput import printResultSummary
 from crossValidation import crossValidateConfiguration
 
-def runTestCase(testType, configurations):
+def runTestCase(testType, configurations, actionIncludeList, featureIncludeList):
     
     # Determine the largest depth, get data set for max depth case. Will need 
     # to crop data depth for cases where smaller depth is to be used
     maxDepth = getMaxDepth(configurations)
-    data = loadData(testType, maxDepth)
+    data = loadData(testType, maxDepth, actionIncludeList, featureIncludeList)
     
     # Should we deal with placeholder calues?
     # finalData = replacePlaceholder(balancedData[0])
