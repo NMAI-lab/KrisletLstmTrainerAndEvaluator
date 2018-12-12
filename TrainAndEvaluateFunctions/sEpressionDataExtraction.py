@@ -14,23 +14,16 @@ import numpy as np
 """
 Load data stored in S-Expression log files
 """
-def loadData(testType, depth):
+def loadData(testType, depth, actionIncludeList, featureIncludeList):
         
     # Get the file names for available data
     #testType = 'sexpt_tests'
     fileNames = getFileNames(testType)
 
-    # Setup feature parameters
-    # Need to clean this up
-    actionIncludeList = ['turn', 'dash', 'kick']
     featureCheckActionList = ['see']
     includeList = list()
     includeList.extend(actionIncludeList)
     includeList.extend(featureCheckActionList)
-
-    # ga is short for goal adversary (where we don't want the ball to go)
-    # go is short for goal own (where we want the ball to go)
-    featureIncludeList = ['b','ga']#['b','go','ga']
 
     for i in range(len(fileNames)):
         # Load S-expressions from the first file

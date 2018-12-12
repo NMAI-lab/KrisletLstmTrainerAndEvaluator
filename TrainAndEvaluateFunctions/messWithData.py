@@ -5,35 +5,17 @@ Created on Tue Jun 19 13:54:43 2018
 @author: patrickgavigan
 """
 
-from csvLogFunctions import writeCSVResult
-from configutationGenerator import buildConfigurationList
+from sEpressionDataExtraction import loadData
 
-configurations = list()
+testType = "sexpt_tests"
+depth = 0
 
-testType = "FiniteTurnKrislet"
+# Setup feature parameters
+actionIncludeList = ['turn', 'dash', 'kick']
 
-runDepthOptions = [0]
-numLSTMnodeOptions = [0]
-numHiddenNodeOptions = [100]
-useConvolutionOptions = [False]
-activationOptions = ['relu']
-embeddingOptions = [False]
-balanceOptions = ["randomUndersample"]#['None']
-trainOptions = [(10, 64)]
-earlyStopOptions = [(0.01, 10)]#(earlyStopMinDelta, earlyStopPatience)
-reduceLROptions = [(0.2, 5, 0.001)]#(ReduceLRfactor, ReduceLRpatience, ReduceLRmin_lr)
-configurations.extend(buildConfigurationList(runDepthOptions,
-                                             numLSTMnodeOptions,
-                                             numHiddenNodeOptions,
-                                             useConvolutionOptions,
-                                             activationOptions,
-                                             embeddingOptions,
-                                             balanceOptions,
-                                             trainOptions,
-                                             earlyStopOptions,
-                                             reduceLROptions))
+# ga is short for goal adversary (where we don't want the ball to go)
+# go is short for goal own (where we want the ball to go)
+featureIncludeList = ['b','ga']#['b','go','ga']
 
-result = ('Beans', 'Spam', configurations[0]);
 
-#for i in range (len(configurations)):
-writeCSVResult(testType, result);
+data = loadData(testType, depth, actionIncludeList, featureIncludeList)

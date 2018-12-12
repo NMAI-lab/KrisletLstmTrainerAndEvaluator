@@ -15,6 +15,13 @@ from configutationGenerator import buildConfigurationList, getMaxConfigCount
 testType = ["FiniteTurnKrislet", "StateBasedKrislet"] #"ClassicKrislet",  
 #testType = ["sexpt_tests"]
 
+# Setup feature parameters
+actionIncludeList = ['turn', 'dash', 'kick']
+
+# ga is short for goal adversary (where we don't want the ball to go)
+# go is short for goal own (where we want the ball to go)
+featureIncludeList = ['b','ga']#['b','go','ga']
+
 configurations = list()
 
 # List of model configurations with an LSTM layer
@@ -67,4 +74,4 @@ for i in range(len(testType)):
     for j in range(len(configurations)):    # Skip nested cross validation, run individual tests
         currentConfig = list()
         currentConfig.append(configurations[j])
-        runTestCase(testType[i], currentConfig)
+        runTestCase(testType[i], currentConfig, actionIncludeList, featureIncludeList)
