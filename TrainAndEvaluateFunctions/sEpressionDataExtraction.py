@@ -81,12 +81,24 @@ def getElement(data, i):
     elementName = dataElement[0]._val
     return(dataElement, elementName)
 
+
+"""
+Add turn action to include list in the event that turn+ or turn- is in the 
+include list
+"""
+def addTurnDirectionInActionList(includeList):
+    if (('turn+' in includeList) or ('turn-' in includeList)):
+        if ('turn' in includeList == False):
+            includeList.append('turn')
+    return includeList
+
 """
 Removes any top lever S-Expressions (related to actions for robocup) that are 
 not in the include list.
 """
 def reduceSExpressions(data, includeList):
     reducedData = list()
+    
     for i in range(len(data)):
         currentResult = data[i]
         currentAction = currentResult[0]._val
