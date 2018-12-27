@@ -15,6 +15,9 @@ import numpy as np
 Load data stored in S-Expression log files
 """
 def loadData(testType, depth, actionIncludeList, featureIncludeList):
+
+    # Deal with turn direction special case
+    actionIncludeList = addTurnDirectionInActionList(actionIncludeList)
         
     # Get the file names for available data
     #testType = 'sexpt_tests'
@@ -24,7 +27,7 @@ def loadData(testType, depth, actionIncludeList, featureIncludeList):
     includeList = list()
     includeList.extend(actionIncludeList)
     includeList.extend(featureCheckActionList)
-
+    
     for i in range(len(fileNames)):
         # Load S-expressions from the first file
         (data, goalSide) = getReducedFileData(fileNames[i], includeList)
@@ -105,6 +108,7 @@ def reduceSExpressions(data, includeList):
         if currentAction in includeList:
             reducedData.append(currentResult)
     return reducedData
+
 
 def getActionList(data):
     actions = list()
@@ -216,6 +220,12 @@ def getRunTable(data, actionList, featureActionList, featureList, goalSide):
     numElements = len(data)
     numActions = len(actionList)
     numFeatures = len(featureNameList)
+    
+    # Correct number of actions in case of turn direction scenario
+    if 'turn+' in actionList:
+        numActions = numActions - 1
+    if 'turn-' in actionList:
+        numActions = numActions - 1
     
     # Build a placeholder for the run table. The headdings of each column
     # correspond to the items in feature List (x) and action list (y)
