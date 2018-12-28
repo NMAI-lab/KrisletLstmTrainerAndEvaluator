@@ -6,9 +6,10 @@ Created on Tue Aug  7 10:38:05 2018
 """
 
 from parsingFunctions import getFileNames
-from dataManagement import buildSequenceDataSet, convertToClassID, convertToCategorical 
+from dataManagement import buildSequenceDataSet 
 from sexpdata import loads, Symbol
 import numpy as np
+import copy
 
 
 """
@@ -104,24 +105,27 @@ If the turn directions are in the action list, deal with them.
 """
 def convertRunTableTurnDirection(runTable, actionList):
     
+    newActionList = copy.deepcopy(actionList)
+    newRunTable = np.copy(runTable)
+    
     # Check fot the turn direction case
-    if ('turn+' in actionList) and ('turn-' in actionList):
-        turnIndex = actionList.index('turn')
-        positiveIndex = actionList.index('turn+')
-        negativeIndex = actionList.index('turn-')
-        numElements = np.shape(runTable)[0]
+    if ('turn+' in newActionList) and ('turn-' in newActionList):
+        turnIndex = newActionList.index('turn')
+        positiveIndex = newActionList.index('turn+')
+        negativeIndex = newActionList.index('turn-')
+        numElements = np.shape(newRunTable)[0]
         
         for i in range(numElements):
-            if runTable[i,turnIndex] > 0:
-                runTable[i,positiveIndex] = runTable[i,turnIndex]
-            elif runTable[i,turnIndex] < 0:
-                runTable[i,negativeIndex] = runTable[i,turnIndex]
+            if newRunTable[i,turnIndex] > 0:
+                newRunTable[i,positiveIndex] = newRunTable[i,turnIndex]
+            elif newRunTable[i,turnIndex] < 0:
+                newRunTable[i,negativeIndex] = newRunTable[i,turnIndex]
 
-        runTable = np.delete(runTable,turnIndex,1)
-        actionList.remove('turn')
+        newRunTable = np.delete(newRunTable,turnIndex,1)
+        newActionList.remove('turn')
         
     # Return the result
-    return (runTable, actionList)
+    return (newRunTable, newActionList)
 
 
 """
