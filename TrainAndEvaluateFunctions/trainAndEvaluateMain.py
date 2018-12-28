@@ -12,7 +12,7 @@ from testRunFunctions import runTestCase
 from configutationGenerator import buildConfigurationList, getMaxConfigCount
 
 # List of test scenarios
-testType = ["FiniteTurnKrislet", "StateBasedKrislet"] #"ClassicKrislet",  
+testType = ["FiniteTurnKrislet", "StateBasedKickSpin", "StateBasedTurnDirection"] #"ClassicKrislet",  
 #testType = ["sexpt_tests"]
 
 # Set action list
