@@ -15,9 +15,10 @@ from configutationGenerator import buildConfigurationList, getMaxConfigCount
 testType = ["FiniteTurnKrislet", "StateBasedKrislet"] #"ClassicKrislet",  
 #testType = ["sexpt_tests"]
 
-# Setup feature parameters
-actionIncludeList = ['turn', 'dash', 'kick']
+# Set action list
+actionIncludeList = ['turn+','turn-', 'dash', 'kick'] #['turn', 'dash', 'kick']
 
+# Set feature list
 # ga is short for goal adversary (where we don't want the ball to go)
 # go is short for goal own (where we want the ball to go)
 featureIncludeList = ['b','ga']#['b','go','ga']

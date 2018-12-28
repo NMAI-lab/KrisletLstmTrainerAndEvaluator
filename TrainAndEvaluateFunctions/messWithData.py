@@ -11,7 +11,7 @@ testType = "sexpt_tests"
 depth = 0
 
 # Setup feature parameters
-actionIncludeList = ['turn', 'dash', 'kick']
+actionIncludeList = ['turn+','turn-', 'dash', 'kick']
 
 # ga is short for goal adversary (where we don't want the ball to go)
 # go is short for goal own (where we want the ball to go)

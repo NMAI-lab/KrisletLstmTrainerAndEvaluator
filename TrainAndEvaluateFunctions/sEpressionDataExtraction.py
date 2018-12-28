@@ -35,6 +35,9 @@ def loadData(testType, depth, actionIncludeList, featureIncludeList):
         # Get the run table from the current file
         (xCurrent,yCurrent) = getRunTable(data, actionIncludeList, featureCheckActionList, featureIncludeList, goalSide)
         
+        # Handle turn direction special case
+        (yCurrent, _) = convertRunTableTurnDirection(yCurrent, actionIncludeList)
+        
         # Convert to 1 hot categorical (need to revisit this)
         yCurrent = convertToBinaryCategoricalFromAnalog(yCurrent)
         
@@ -91,9 +94,35 @@ include list
 """
 def addTurnDirectionInActionList(includeList):
     if (('turn+' in includeList) or ('turn-' in includeList)):
-        if ('turn' in includeList == False):
+        if not ('turn' in includeList):
             includeList.append('turn')
     return includeList
+
+
+"""
+If the turn directions are in the action list, deal with them.
+"""
+def convertRunTableTurnDirection(runTable, actionList):
+    
+    # Check fot the turn direction case
+    if ('turn+' in actionList) and ('turn-' in actionList):
+        turnIndex = actionList.index('turn')
+        positiveIndex = actionList.index('turn+')
+        negativeIndex = actionList.index('turn-')
+        numElements = np.shape(runTable)[0]
+        
+        for i in range(numElements):
+            if runTable[i,turnIndex] > 0:
+                runTable[i,positiveIndex] = runTable[i,turnIndex]
+            elif runTable[i,turnIndex] < 0:
+                runTable[i,negativeIndex] = runTable[i,turnIndex]
+
+        runTable = np.delete(runTable,turnIndex,1)
+        actionList.remove('turn')
+        
+    # Return the result
+    return (runTable, actionList)
+
 
 """
 Removes any top lever S-Expressions (related to actions for robocup) that are 
@@ -220,12 +249,6 @@ def getRunTable(data, actionList, featureActionList, featureList, goalSide):
     numElements = len(data)
     numActions = len(actionList)
     numFeatures = len(featureNameList)
-    
-    # Correct number of actions in case of turn direction scenario
-    if 'turn+' in actionList:
-        numActions = numActions - 1
-    if 'turn-' in actionList:
-        numActions = numActions - 1
     
     # Build a placeholder for the run table. The headdings of each column
     # correspond to the items in feature List (x) and action list (y)
