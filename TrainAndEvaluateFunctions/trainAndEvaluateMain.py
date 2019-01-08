@@ -26,9 +26,9 @@ featureIncludeList = ['b','ga']#['b','go','ga']
 configurations = list()
 
 # List of model configurations with an LSTM layer
-runDepthOptions = [150, 120, 100, 75, 50, 40]
-numLSTMnodeOptions = [150, 120, 100, 75, 50, 40]
-numHiddenNodeOptions = [150, 120, 100, 75, 50, 40, 10, 0]
+runDepthOptions = [120, 100, 75]
+numLSTMnodeOptions = [120, 100, 75]
+numHiddenNodeOptions = [50, 0]
 useConvolutionOptions = [False]
 activationOptions = ['relu']#, 'sigmoid']
 embeddingOptions = [False]
@@ -51,7 +51,7 @@ configurations.extend(buildConfigurationList(runDepthOptions,
 # List of model configurations with NO LSTM layer
 runDepthOptions = [0]
 numLSTMnodeOptions = [0]
-numHiddenNodeOptions = [150, 120, 100, 75, 50, 40, 10, 0]
+numHiddenNodeOptions = [75, 50, 40]
 useConvolutionOptions = [False]
 activationOptions = ['relu']#, 'sigmoid']
 embeddingOptions = [False]
