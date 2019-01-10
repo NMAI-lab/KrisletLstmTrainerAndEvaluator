@@ -4,3 +4,7 @@ Krislet/\.project
 Krislet/\.classpath
 
 TrainAndEvaluateFunctions/__pycache__/
+
+*.class
+
+Krislet_dl4j/\.idea/
