@@ -8,3 +8,7 @@ TrainAndEvaluateFunctions/__pycache__/
 *.class
 
 Krislet_dl4j/\.idea/
+
+Krislet_dl4j/target/
+
+*.iml
