@@ -25,7 +25,7 @@
         <dependency>
             <groupId>org.deeplearning4j</groupId>
             <artifactId>deeplearning4j-modelimport</artifactId>
-            <version>1.0.0-beta</version>
+            <version>1.0.0-beta3</version>
         </dependency>
 
         <dependency>
@@ -33,7 +33,7 @@
             <artifactId>cassandra-all</artifactId>
             <version>0.8.1</version>
 
-            <exclusions>
+<!--            <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-log4j12</artifactId>
@@ -42,7 +42,7 @@
                     <groupId>log4j</groupId>
                     <artifactId>log4j</artifactId>
                 </exclusion>
-            </exclusions>
+            </exclusions>-->
 
         </dependency>
 

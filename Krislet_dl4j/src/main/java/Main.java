@@ -54,7 +54,7 @@ public class Main {
 
         //String simpleMlp = new ClassPathResource("model.h5").getFile().getPath();
         //MultiLayerNetwork model = KerasModelImport.importKerasSequentialModelAndWeights(simpleMlp);
-        MultiLayerNetwork model = KerasModelImport.importKerasSequentialModelAndWeights("C:\\Users\\Patrick\\Documents\\GitHub\\KrisletLstmTrainerAndEvaluator\\Krislet_dl4j\\models\\model.h5");
+        MultiLayerNetwork model = KerasModelImport.importKerasSequentialModelAndWeights("C:\\Users\\patrickgavigan\\Documents\\GitHub\\KrisletLstmTrainerAndEvaluator\\Krislet_dl4j\\models\\model.h5");
         //System.out.println(model.getInput());
         System.out.println(model.summary());
         System.out.println("Example completed.");
