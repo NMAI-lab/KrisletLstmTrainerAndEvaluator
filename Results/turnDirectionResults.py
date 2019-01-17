@@ -5,6 +5,9 @@ Created on Wed Jan 16 19:05:27 2019
 @author: Patrick
 """
 
+def getTurnDirectionBalance():
+    return (11431, 11770, 198854, 452)
+
 def getLstmTurnDirectionRaw():
     result = list()
     error = list()

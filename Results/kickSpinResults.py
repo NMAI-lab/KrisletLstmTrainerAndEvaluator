@@ -5,6 +5,9 @@ Created on Wed Jan 16 19:05:27 2019
 @author: Patrick
 """
 
+def getKickSpinClassBalance():
+    return (33756, 12067, 273581, 427)
+
 def getLstmKickSpinRaw():
     result = list()
     error = list()

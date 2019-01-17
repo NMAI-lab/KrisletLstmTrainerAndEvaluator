@@ -5,9 +5,9 @@ Created on Wed Jan 16 12:09:11 2019
 @author: Patrick
 """
 
-from finiteTurnResults import getLstmFiniteTurnRaw, getBaselineFiniteTurnRaw
-from kickSpinResults import getLstmKickSpinRaw, getBaselineKickSpinRaw
-from turnDirectionResults import getLstmTurnDirectionRaw, getBaselineTurnDirectionRaw
+from finiteTurnResults import getLstmFiniteTurnRaw, getBaselineFiniteTurnRaw, getFiniteTurnClassBalance
+from kickSpinResults import getLstmKickSpinRaw, getBaselineKickSpinRaw, getKickSpinClassBalance
+from turnDirectionResults import getLstmTurnDirectionRaw, getBaselineTurnDirectionRaw, getTurnDirectionBalance
 
 
 """
@@ -82,4 +82,37 @@ def formatResult(data):
     return results
 
 
+def getClassBalance():
+    finiteTurn = getFiniteTurnClassBalance()
+    kickSpin = getKickSpinClassBalance()
+    turnDirection = getTurnDirectionBalance()
     
+    # Set index locations (these are constants)
+    turnPindex = 0
+    turnMindex = 1
+    dashIndex = 2
+    kickIndex = 3
+    
+    # Convert everything to a percentage
+    finiteTurn = convertToPercentage(finiteTurn)
+    kickSpin = convertToPercentage(kickSpin)
+    turnDirection = convertToPercentage(turnDirection)
+    
+    # Make lists for the results
+    turnP = (finiteTurn[turnPindex], kickSpin[turnPindex], turnDirection[turnPindex])
+    turnM = (finiteTurn[turnMindex], kickSpin[turnMindex], turnDirection[turnMindex])
+    dash = (finiteTurn[dashIndex], kickSpin[dashIndex], turnDirection[dashIndex])
+    kick = (finiteTurn[kickIndex], kickSpin[kickIndex], turnDirection[kickIndex]) 
+    
+    balance = (turnP, turnM, dash, kick)
+    labels = ('Reactive','Kick Spin','Turn Direction')
+    categories = ('turn+', 'turn-', 'dash', 'kick')
+    
+    return (balance, labels, categories)
+
+def convertToPercentage(data):
+    total = sum(data)
+    percentage = list()
+    for i in range(len(data)):
+        percentage.append((data[i] * 100) / total)
+    return tuple(percentage)

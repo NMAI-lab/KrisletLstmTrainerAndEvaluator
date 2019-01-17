@@ -5,6 +5,10 @@ Created on Wed Jan 16 19:05:27 2019
 @author: Patrick
 """
 
+def getFiniteTurnClassBalance():
+    return (33152, 6579, 304791, 708)
+    
+
 def getLstmFiniteTurnRaw():
     result = list()
     error = list()

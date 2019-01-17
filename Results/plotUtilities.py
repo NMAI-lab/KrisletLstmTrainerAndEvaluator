@@ -8,6 +8,52 @@ Created on Wed Jan 16 12:02:52 2019
 import numpy as np
 import matplotlib.pyplot as plt
 
+def plotBalance(results, labels, categories, fileName, testType):
+    
+    # Unpack the results
+    (turnP, turnM, dash, kick) = results
+
+
+    # Set parameters for the plot window
+    numCategories = len(categories)             # Get the number of categories
+    groupLocation = np.arange(len(turnP))       # the x locations for the groups
+    width = 0.9                                 # the width of the bars (max is 1)
+    subBarWidth = width / numCategories         # Width of the sub bars
+
+    # Generate the plot
+    fig, ax = plt.subplots()
+    barLocation = groupLocation - (2 * subBarWidth) + (0.5 * subBarWidth)
+    rects0 = ax.bar(barLocation, turnP, subBarWidth, label = categories[0])
+    
+    barLocation = groupLocation - (0.5 * subBarWidth)
+    rects1 = ax.bar(barLocation, turnM, subBarWidth, label = categories[1])
+    
+    barLocation = groupLocation + (0.5 * subBarWidth)
+    rects2 = ax.bar(barLocation, dash, subBarWidth, label = categories[2])
+    
+    barLocation = groupLocation + (2 * subBarWidth) - (0.5 * subBarWidth)
+    rects3 = ax.bar(barLocation, kick, subBarWidth, label = categories[3])
+
+    autoLabel(ax, rects0, turnP, "center")
+    autoLabel(ax, rects1, turnM, "center")
+    autoLabel(ax, rects2, dash, "center")
+    autoLabel(ax, rects3, kick, "center")
+
+    # Add some text for labels, title and custom x-axis tick labels, etc.
+    yLabel = '% of data'
+    xLabel = 'Behaviour'
+    fullFileName = testType + ' ' + fileName
+
+    ax.set_ylabel(yLabel)
+    ax.set_xlabel(xLabel)
+    ax.set_xticks(groupLocation)
+    ax.set_xticklabels(labels)
+    plt.grid(which = 'both', axis = 'y')
+    plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+
+    # Save the plot
+    plt.savefig(fullFileName, bbox_inches='tight')
+
 """
 Generate the plot
 """
@@ -41,9 +87,12 @@ def generatePlot(results, labels, categories, fileName, testType):
     rects3 = ax.bar(barLocation, kick_means, subBarWidth, yerr = kick_std, label = categories[3])
 
     # Add some text for labels, title and custom x-axis tick labels, etc.
-    ax.set_ylabel('F measure')
-    ax.set_xlabel('Model type')
-    ax.set_title('Results for ' + testType + ' scenario')
+    yLabel = 'F measure'
+    xLabel = 'Model type'
+    fullFileName = testType + ' ' + fileName
+    
+    ax.set_ylabel(yLabel)
+    ax.set_xlabel(xLabel)
     ax.set_xticks(groupLocation)
     ax.set_xticklabels(labels)
     plt.grid(which = 'both', axis = 'y')
@@ -55,7 +104,6 @@ def generatePlot(results, labels, categories, fileName, testType):
     #autoLabel(ax, rects3, kick, "center")
 
     # Save the plot
-    fullFileName = testType + ' ' + fileName
     plt.savefig(fullFileName, bbox_inches='tight')
     
 
@@ -69,12 +117,12 @@ def autoLabel(ax, rects, data, xpos='center'):
     xpos = xpos.lower()     # normalize the case of the parameter
     ha = {'center': 'center', 'right': 'left', 'left': 'right'}
     offset = {'center': 0.5, 'right': 0.57, 'left': 0.43}  # x_txt = x + w*off
-    (mean, std) = data
+    data
 
     for i in range(len(rects)):
         rect = rects[i]
         height = rect.get_height()
-        label = str(mean[i]) + '\n±\n' + str(std[i])
+        label = str(round(data[i], 2))
         xPosition = rect.get_x() + rect.get_width()*offset[xpos]
         yPosition = 1.01*height
         ax.text(xPosition, yPosition, label, ha=ha[xpos], va='bottom')
