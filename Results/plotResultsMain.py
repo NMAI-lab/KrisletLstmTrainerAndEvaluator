@@ -13,8 +13,8 @@ fileName = 'results.pdf'
 
 # Set the types of tests that need to be plotted
 testType = list()
-testType.append('finite turn LSTM')
-testType.append('finite turn baseline')
+testType.append('reactive LSTM')
+testType.append('reactive baseline')
 testType.append('kick spin LSTM')
 testType.append('kick spin baseline')
 testType.append('turn direction LSTM')

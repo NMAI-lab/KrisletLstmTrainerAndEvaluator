@@ -15,10 +15,10 @@ Get the test results that need to be plotted
 """
 def getResults(testType):
     # Get the data
-    if testType == 'finite turn LSTM':
+    if testType == 'reactive LSTM':
         result = getLstmFiniteTurnRaw()
         labels = ('LSTM 1', 'LSTM 2', 'LSTM 3', 'LSTM 4', 'LSTM 5', 'LSTM 6')
-    elif testType == 'finite turn baseline':
+    elif testType == 'reactive baseline':
         result = getBaselineFiniteTurnRaw()
         labels = ('Dense 1', 'Dense 2', 'Dense 3', 'jLOAF 1', 'jLOAF 2', 'jLOAF 3', 'jLOAF 4')
     elif testType == 'kick spin LSTM':
