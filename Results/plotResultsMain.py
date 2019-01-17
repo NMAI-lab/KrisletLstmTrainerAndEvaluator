@@ -8,16 +8,21 @@ Created on Wed Jan 16 11:47:16 2019
 from resultsUtility import getResults
 from plotUtilities import generatePlot
 
+
 fileName = 'results.pdf'
 
-# Get the results that need to be plotted
-testType = 'finie turn LSTM'
-#testType = 'finie turn baseline'
-#testType = 'kick spin LSTM'
-#testType = 'kick spin baseline'
-#testType = 'turn direction LSTM'
-#testType = 'turn direction baseline'
-(results, resultLabels, categories) = getResults(testType)
+# Set the types of tests that need to be plotted
+testType = list()
+testType.append('finite turn LSTM')
+testType.append('finite turn baseline')
+testType.append('kick spin LSTM')
+testType.append('kick spin baseline')
+testType.append('turn direction LSTM')
+testType.append('turn direction baseline')
 
-# Generate the plot
-generatePlot(results, resultLabels, categories, fileName, testType)
+for test in testType:
+    # Get specific results
+    (results, resultLabels, categories) = getResults(test)
+    
+    # Generate the plot
+    generatePlot(results, resultLabels, categories, fileName, test)

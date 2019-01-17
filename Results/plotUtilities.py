@@ -43,7 +43,7 @@ def generatePlot(results, labels, categories, fileName, testType):
     # Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel('F measure')
     ax.set_xlabel('Model type')
-    ax.set_title('Results for finite turn scenario')
+    ax.set_title('Results for ' + testType + ' scenario')
     ax.set_xticks(groupLocation)
     ax.set_xticklabels(labels)
     plt.grid(which = 'both', axis = 'y')
@@ -55,7 +55,7 @@ def generatePlot(results, labels, categories, fileName, testType):
     #autoLabel(ax, rects3, kick, "center")
 
     # Save the plot
-    fullFileName = testType + fileName
+    fullFileName = testType + ' ' + fileName
     plt.savefig(fullFileName, bbox_inches='tight')
     
 

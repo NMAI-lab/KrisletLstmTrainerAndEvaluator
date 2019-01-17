@@ -1,0 +1,177 @@
+--------------------------------
+Configuration:  0
+ Run depth:  120
+ Number of LSTM nodes:  120
+ Number of hidden nodes:  50
+ Using convolution:  False
+ Activation option:  relu
+ Using embedding layer:  False
+ Balance option:  randomUndersample
+ Number of epochs:  10
+ Batch size:  64
+ Early Stop Min Delta:  0.01
+ Early Stop Patience:  10
+ Reduce LR factor:  0.2
+ Reduce LR patience:  5
+ Reduce LR min LR:  0.001
+Balanced results
+Summary Statistics
+ F-Measure:  [ 0.87083069  0.9175893   0.88383731  0.88274466]  +/-  [ 0.01980862  0.03022737  0.02652221  0.02979861]
+--------------------------------
+Summary of FiniteTurnKrislet test
+Summary of configuration
+Configuration parameters
+ Configuration:  1
+ Run depth:  120
+ Number of LSTM nodes:  120
+ Number of hidden nodes:  0
+ Using convolution:  False
+ Activation option:  relu
+ Using embedding layer:  False
+ Balance option:  randomUndersample
+ Number of epochs:  10
+ Batch size:  64
+ Early Stop Min Delta:  0.01
+ Early Stop Patience:  10
+ Reduce LR factor:  0.2
+ Reduce LR patience:  5
+ Reduce LR min LR:  0.001
+Balanced results
+Summary Statistics
+ F-Measure:  [ 0.84387518  0.90788048  0.86028083  0.85490484]  +/-  [ 0.02833899  0.01990184  0.03829741  0.0281164 ]
+--------------------------------
+Configuration:  8
+ Run depth:  100
+ Number of LSTM nodes:  100
+ Number of hidden nodes:  50
+ Using convolution:  False
+ Activation option:  relu
+ Using embedding layer:  False
+ Balance option:  randomUndersample
+ Number of epochs:  10
+ Batch size:  64
+ Early Stop Min Delta:  0.01
+ Early Stop Patience:  10
+ Reduce LR factor:  0.2
+ Reduce LR patience:  5
+ Reduce LR min LR:  0.001
+Balanced results
+Summary Statistics
+ F-Measure:  [ 0.85614084  0.92165794  0.87688846  0.871467  ]  +/-  [ 0.03468272  0.02680434  0.01921031  0.03054636]
+--------------------------------
+Configuration:  9
+ Run depth:  100
+ Number of LSTM nodes:  100
+ Number of hidden nodes:  0
+ Using convolution:  False
+ Activation option:  relu
+ Using embedding layer:  False
+ Balance option:  randomUndersample
+ Number of epochs:  10
+ Batch size:  64
+ Early Stop Min Delta:  0.01
+ Early Stop Patience:  10
+ Reduce LR factor:  0.2
+ Reduce LR patience:  5
+ Reduce LR min LR:  0.001
+Balanced results
+Summary Statistics
+ F-Measure:  [ 0.84124102  0.89894676  0.85107035  0.85244408]  +/-  [ 0.03718095  0.02883121  0.03990398  0.04291536]
+--------------------------------
+Summary of FiniteTurnKrislet test
+Summary of configuration
+Configuration parameters
+ Configuration:  16
+ Run depth:  75
+ Number of LSTM nodes:  75
+ Number of hidden nodes:  50
+ Using convolution:  False
+ Activation option:  relu
+ Using embedding layer:  False
+ Balance option:  randomUndersample
+ Number of epochs:  10
+ Batch size:  64
+ Early Stop Min Delta:  0.01
+ Early Stop Patience:  10
+ Reduce LR factor:  0.2
+ Reduce LR patience:  5
+ Reduce LR min LR:  0.001
+Balanced results
+Summary Statistics
+ F-Measure:  [ 0.85582497  0.90474791  0.87049702  0.86141296]  +/-  [ 0.02860074  0.02597261  0.02603006  0.04743948]
+--------------------------------
+Configuration:  17
+ Run depth:  75
+ Number of LSTM nodes:  75
+ Number of hidden nodes:  0
+ Using convolution:  False
+ Activation option:  relu
+ Using embedding layer:  False
+ Balance option:  randomUndersample
+ Number of epochs:  10
+ Batch size:  64
+ Early Stop Min Delta:  0.01
+ Early Stop Patience:  10
+ Reduce LR factor:  0.2
+ Reduce LR patience:  5
+ Reduce LR min LR:  0.001
+Balanced results
+Summary Statistics
+ F-Measure:  [ 0.8310409   0.89770945  0.854827    0.84943868]  +/-  [ 0.03049783  0.03074598  0.02824458  0.04344169]
+--------------------------------
+Configuration:  18
+ Run depth:  0
+ Number of LSTM nodes:  0
+ Number of hidden nodes:  75
+ Using convolution:  False
+ Activation option:  relu
+ Using embedding layer:  False
+ Balance option:  randomUndersample
+ Number of epochs:  10
+ Batch size:  64
+ Early Stop Min Delta:  0.01
+ Early Stop Patience:  10
+ Reduce LR factor:  0.2
+ Reduce LR patience:  5
+ Reduce LR min LR:  0.001
+Balanced results
+Summary Statistics
+ F-Measure:  [ 0.57718012  0.7685821   0.61390177  0.59331321]  +/-  [ 0.11369669  0.0664304   0.1091725   0.127984  ]
+--------------------------------
+Configuration:  19
+ Run depth:  0
+ Number of LSTM nodes:  0
+ Number of hidden nodes:  50
+ Using convolution:  False
+ Activation option:  relu
+ Using embedding layer:  False
+ Balance option:  randomUndersample
+ Number of epochs:  10
+ Batch size:  64
+ Early Stop Min Delta:  0.01
+ Early Stop Patience:  10
+ Reduce LR factor:  0.2
+ Reduce LR patience:  5
+ Reduce LR min LR:  0.001
+Balanced results
+Summary Statistics
+ F-Measure:  [ 0.55171031  0.74590409  0.57808061  0.52585505]  +/-  [ 0.08274479  0.07613574  0.05389955  0.1177689 ]
+--------------------------------
+Configuration:  20
+ Run depth:  0
+ Number of LSTM nodes:  0
+ Number of hidden nodes:  40
+ Using convolution:  False
+ Activation option:  relu
+ Using embedding layer:  False
+ Balance option:  randomUndersample
+ Number of epochs:  10
+ Batch size:  64
+ Early Stop Min Delta:  0.01
+ Early Stop Patience:  10
+ Reduce LR factor:  0.2
+ Reduce LR patience:  5
+ Reduce LR min LR:  0.001
+Balanced results
+Summary Statistics
+ F-Measure:  [ 0.62853111  0.74019206  0.57616003  0.50548766]  +/-  [ 0.02192822  0.05842302  0.07025348  0.17584641]

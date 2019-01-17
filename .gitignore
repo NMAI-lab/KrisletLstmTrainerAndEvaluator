@@ -12,3 +12,5 @@ Krislet_dl4j/\.idea/
 Krislet_dl4j/target/
 
 *.iml
+
+Results/__pycache__/
