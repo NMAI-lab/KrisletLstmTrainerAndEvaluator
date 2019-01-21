@@ -7,7 +7,7 @@ package KrisletDemo;
  */
 public class Tester {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         BehaviourModel model = new BehaviourModel();
         double ballDistance = Math.random() * 20;

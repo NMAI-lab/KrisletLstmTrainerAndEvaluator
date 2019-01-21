@@ -39,8 +39,12 @@ public class BehaviourModel {
     /**
      * Load the behaviour model
      */
-    public BehaviourModel() throws Exception {
-        this.model = KerasModelImport.importKerasSequentialModelAndWeights(modelFile);
+    public BehaviourModel() {
+        try {
+            this.model = KerasModelImport.importKerasSequentialModelAndWeights(modelFile);
+        } catch (Exception e) {
+            System.out.println("Exception occured: " + e.toString());
+        }
 
         if (this.depth != 0) {
             this.numFeatures = this.numFeatures + 1;
