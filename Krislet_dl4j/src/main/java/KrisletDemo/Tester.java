@@ -1,4 +1,4 @@
-package org.deeplearning4j.examples.modelimport.keras;
+package KrisletDemo;
 
 //import org.apache.commons.io.FileUtils;
 //import org.apache.commons.io.FilenameUtils;
@@ -22,7 +22,7 @@ package org.deeplearning4j.examples.modelimport.keras;
  *
  * @author Max Pumperla
  */
-public class ImportDeepMoji {
+public class Tester {
 
     public static void main(String[] args) throws Exception {
 
@@ -33,5 +33,6 @@ public class ImportDeepMoji {
         double goalDirection = Math.random() * 20;
         int action = model.getAction(ballDistance, ballDirection, goalDistance, goalDirection);
         // actions correspond to ['turn+','turn-', 'dash', 'kick']
+        System.out.println(action);
     }
 }

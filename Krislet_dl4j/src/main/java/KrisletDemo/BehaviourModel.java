@@ -1,4 +1,4 @@
-package org.deeplearning4j.examples.modelimport.keras;
+package KrisletDemo;
 
 
 //import org.apache.commons.io.FileUtils;
@@ -21,7 +21,7 @@ import org.nd4j.linalg.util.ArrayUtil;
 
 public class BehaviourModel {
     // Finite Turn LSTM
-    private String modelFile = "C:\\Users\\Patrick\\Documents\\GitHub\\KrisletLstmTrainerAndEvaluator\\Krislet_dl4j\\models\\FiniteTurn\\LSTM1.h5";
+    private String modelFile = "models\\FiniteTurn\\LSTM1.h5";
     private final int depth = 120;
 
     // Finite Turn Dense
