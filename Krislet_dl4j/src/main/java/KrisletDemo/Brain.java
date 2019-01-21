@@ -62,15 +62,13 @@ class Brain extends Thread implements SensorInput
 
     public void run() {
     	ObjectInfo object;
-    	int lastGoalDirection = -1;
-    	int lastBallDirection = -1;
-    	boolean seeGoal = false;
-    	boolean seeBall = false;
-    	boolean ballClose = false;
     	int turnAngle = 10;
-    	float ballDistance = 0;
-    	float ballDirection = 0;
-    	float goalDirection = 0;
+    	double ballDistance = 0;
+    	double ballDirection = 0;
+    	double goalDistance = 0;
+    	double goalDirection = 0;
+		BehaviourModel model = new BehaviourModel();
+		int action;
 
     	// first put it somewhere on my side
     	if (Pattern.matches("^before_kick_off.*",m_playMode)) {
@@ -88,74 +86,45 @@ class Brain extends Thread implements SensorInput
     			object = m_memory.getObject("goal l");
     		}
 
+    		// Get the goal parameters
     		if (object != null) {
-    			seeGoal = true;
     			goalDirection = object.m_direction;
-    			if (goalDirection > 0) {
-    				lastGoalDirection = 1;
-    			} else {
-    				lastGoalDirection = -1;
-    			}
+    			goalDistance = object.m_distance;
     		} else {
-    			seeGoal = false;
+    			goalDistance = 0;
+    			goalDirection = 0;
+
     		}
     		
-    		// Check to see if the ball is visible. 
-    		// If so, record if the direction is positive or negative
-    		// Used for the state based behaviour.
-    		// Also record if ball is visible, far or close.
+    		// Get the ball parameters
     		object = m_memory.getObject("ball");
     		if (object != null) {
-    			seeBall = true;
-    			
-    			// Check the distance to the ball
     			ballDistance = object.m_distance;
-    			if (ballDistance > 1.0) {
-    				ballClose = false;
-    			} else {
-    				ballClose = true;
-    			}
-    			
     			ballDirection = object.m_direction;
-    			if (ballDirection > 0) {
-    				lastBallDirection = 1;
-    			} else {
-    				lastBallDirection = -1;
-    			}
     		} else {
-    			seeBall = false;
-    			ballClose = false;
+				ballDistance = 0;
+				ballDirection = 0;
     		}
-    		
 
+    		// Determine what action to take.
+    		action = model.getAction(ballDistance, ballDirection, goalDistance, goalDirection);
+			// actions correspond to ['turn+','turn-', 'dash', 'kick']
     		// Perform the action
-    		if (seeBall) {
-    			if (ballClose) {
-    				if (seeGoal) {
-    					// seeBall && ballClose && seeGoal -> kick
-    					m_krislet.kick(100, goalDirection);
-    				} else {
-    					// seeBall && ballClose && !seeGoal -> turn last known goal direction
-    					m_krislet.turn(lastGoalDirection * turnAngle);
-    				}
-    			} else {
-    				
-    				if (Math.abs(ballDirection) > turnAngle) {
-    					// Ball is visible but not close... but it's also outside of the turning angle. Turn
-    					// to face it more head on.
-    					m_krislet.turn(lastBallDirection * turnAngle);
-    				} else {
-    					// seeBall && !ballClose -> dash
-    					m_krislet.dash(10 * ballDistance);
-    				}
-    			}
-    		} else {
-    			// !seeBall -> turn last known ball direction
-    			m_krislet.turn(lastBallDirection * turnAngle);
-    		}
+    		if (action == 0) {
+				// turn+
+				m_krislet.turn(turnAngle);
+			} else if (action == 1) {
+				// turn-
+				m_krislet.turn(-1 * turnAngle);
+			} else if (action == 2) {
+				// dash
+				m_krislet.dash(10 * ballDistance);
+			} else { // action == 4
+				// kick
+				m_krislet.kick(100, goalDirection);
+			}
     		m_memory.waitForNewInfo();
 
-		
     		// sleep one step to ensure that we will not send
     		// two commands in one cycle.
     		try {
