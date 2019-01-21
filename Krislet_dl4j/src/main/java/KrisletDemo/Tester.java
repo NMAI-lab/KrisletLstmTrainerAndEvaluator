@@ -1,22 +1,5 @@
 package KrisletDemo;
 
-//import org.apache.commons.io.FileUtils;
-//import org.apache.commons.io.FilenameUtils;
-//import org.deeplearning4j.nn.api.layers.LayerConstraint;
-//import org.deeplearning4j.nn.graph.ComputationGraph;
-//import org.deeplearning4j.nn.modelimport.keras.KerasLayer;
-//import org.deeplearning4j.nn.modelimport.keras.KerasModelImport;
-//import org.nd4j.linalg.api.ndarray.INDArray;
-//import org.nd4j.linalg.api.ndarray.SparseFormat;
-//import org.nd4j.linalg.factory.Nd4j;
-//import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
-
-//import java.io.File;
-//import java.net.URL;
-//import java.util.*;
-
-//import static java.io.File.createTempFile;
-
 /**
  * Test import of DeepMoji application
  *
