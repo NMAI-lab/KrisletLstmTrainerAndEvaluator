@@ -70,8 +70,6 @@
         </dependency>
     </dependencies>
 
-
-
     <build>
         <plugins>
             <!-- Maven compiler plugin: compile for Java 8 -->
@@ -85,6 +83,19 @@
                 </configuration>
             </plugin>
 
+            <!-- Maven jar plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>KrisletDemo.Krislet</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
 
             <!--
             Maven shade plugin configuration: this is required so that if you build a single JAR file (an "uber-jar")

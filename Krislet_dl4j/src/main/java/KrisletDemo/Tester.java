@@ -5,6 +5,7 @@ package KrisletDemo;
  *
  * @author Max Pumperla
  */
+/*
 public class Tester {
 
     public static void main(String[] args) {
@@ -19,3 +20,4 @@ public class Tester {
         System.out.println(action);
     }
 }
+*/
