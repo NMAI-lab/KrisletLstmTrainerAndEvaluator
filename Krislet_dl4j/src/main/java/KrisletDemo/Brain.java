@@ -10,8 +10,14 @@
 
 package KrisletDemo;
 
+import Behaviour.*;
+
 import java.lang.Math;
 import java.util.regex.*;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 class Brain extends Thread implements SensorInput
 {
@@ -25,14 +31,35 @@ class Brain extends Thread implements SensorInput
 		 int number, 
 		 String playMode)
     {
-	m_timeOver = false;
-	m_krislet = krislet;
-	m_memory = new Memory();
-	//m_team = team;
-	m_side = side;
-	// m_number = number;
-	m_playMode = playMode;
-	start();
+		m_timeOver = false;
+		m_krislet = krislet;
+		m_memory = new Memory();
+		//m_team = team;
+		m_side = side;
+		// m_number = number;
+		m_playMode = playMode;
+
+		// Setup the expert
+		this.expertAgent = new FiniteTurnOracle();
+		//this.expertAgent = new KickSpinOracle();
+		//this.expertAgent = new TurnDirectionOracle();
+
+		this.useExpert = true;
+
+		// Setup the action log file
+		this.actionLogFileName = "ActionLog.log";
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(this.actionLogFileName));
+			writer.append("Expert, Student");
+			writer.newLine();
+			writer.close();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		start();
     }
 
 
@@ -68,7 +95,11 @@ class Brain extends Thread implements SensorInput
     	double goalDistance = 0;
     	double goalDirection = 0;
 		BehaviourModel model = new BehaviourModel();
-		int action;
+		int studentAction = 0;
+		int expertAction = 0;
+		int action = 0;
+		boolean ballVisible = false;
+		boolean goalVisible = false;
 
     	// first put it somewhere on my side
     	if (Pattern.matches("^before_kick_off.*",m_playMode)) {
@@ -90,10 +121,11 @@ class Brain extends Thread implements SensorInput
     		if (object != null) {
     			goalDirection = object.m_direction;
     			goalDistance = object.m_distance;
+    			goalVisible = true;
     		} else {
     			goalDistance = 0;
     			goalDirection = 0;
-
+				goalVisible = false;
     		}
     		
     		// Get the ball parameters
@@ -101,14 +133,24 @@ class Brain extends Thread implements SensorInput
     		if (object != null) {
     			ballDistance = object.m_distance;
     			ballDirection = object.m_direction;
+    			ballVisible = true;
     		} else {
 				ballDistance = 0;
 				ballDirection = 0;
+				ballVisible = false;
     		}
 
     		// Determine what action to take.
-    		action = model.getAction(ballDistance, ballDirection, goalDistance, goalDirection);
-			// actions correspond to ['turn+','turn-', 'dash', 'kick']
+			studentAction = model.getAction(ballDistance, ballDirection, goalDistance, goalDirection);
+    		expertAction = expertAgent.getAction(ballVisible, ballDistance, ballDirection,
+					goalVisible, goalDistance, goalDirection);
+    		if (this.useExpert) {
+				action = expertAction;
+			} else {
+    			action = studentAction;
+			}
+
+    		// actions correspond to ['turn+','turn-', 'dash', 'kick']
     		// Perform the action
     		if (action == 0) {
 				// turn+
@@ -119,10 +161,24 @@ class Brain extends Thread implements SensorInput
 			} else if (action == 2) {
 				// dash
 				m_krislet.dash(10 * ballDistance);
-			} else { // action == 4
+			} else { // action == 3
 				// kick
 				m_krislet.kick(100, goalDirection);
 			}
+
+
+    		// Put action in the logfile
+			try {
+				BufferedWriter writer = new BufferedWriter(new FileWriter(this.actionLogFileName, true));
+				writer.append(expertAction + ", " + studentAction);
+				writer.newLine();
+				writer.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
     		m_memory.waitForNewInfo();
 
     		// sleep one step to ensure that we will not send
@@ -173,5 +229,7 @@ class Brain extends Thread implements SensorInput
     private char			m_side;
     volatile private boolean		m_timeOver;
     private String                      m_playMode;
-    
+    private Behaviour expertAgent;
+    private boolean useExpert;
+	private String actionLogFileName;
 }
