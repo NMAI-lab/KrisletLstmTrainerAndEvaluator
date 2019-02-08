@@ -9,8 +9,8 @@ import org.nd4j.linalg.util.ArrayUtil;
 
 public class BehaviourModel {
     // Finite Turn LSTM
-    //private String modelFile = "models\\FiniteTurn\\LSTM1.h5";
-    //private final int depth = 120;
+    private String modelFile = "models\\FiniteTurn\\LSTM1.h5";
+    private final int depth = 120;
 
     // Finite Turn Dense
     //private String modelFile = "models\\FiniteTurn\\Dense1.h5";
@@ -29,8 +29,8 @@ public class BehaviourModel {
     //private final int depth = 120;
 
     // State Based Turn Direction  Dense
-    private String modelFile = "models\\StateBasedTurnDirection\\Dense1.h5";
-    private final int depth = 0;
+    //private String modelFile = "models\\StateBasedTurnDirection\\Dense1.h5";
+    //private final int depth = 0;
 
     private double history[][];
     private int numFeatures = 4;

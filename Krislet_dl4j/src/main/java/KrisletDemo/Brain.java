@@ -47,7 +47,7 @@ class Brain extends Thread implements SensorInput
 		this.useExpert = true;
 
 		// Setup the action log file
-		this.actionLogFileName = "ActionLog.log";
+		this.actionLogFileName = "ActionLog" + team + ".log";
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(this.actionLogFileName));
 			writer.append("Expert,Student");
@@ -142,9 +142,10 @@ class Brain extends Thread implements SensorInput
 
     		// Determine what action to take.
 			studentAction = model.getAction(ballDistance, ballDirection, goalDistance, goalDirection);
-    		expertAction = expertAgent.getAction(ballVisible, ballDistance, ballDirection,
-					goalVisible, goalDistance, goalDirection);
-    		if (this.useExpert) {
+    		expertAction = expertAgent.getAction(ballVisible, ballDirection, ballDistance,
+					goalVisible, goalDirection, goalDistance);
+
+			if (this.useExpert) {
 				action = expertAction;
 			} else {
     			action = studentAction;
@@ -152,16 +153,16 @@ class Brain extends Thread implements SensorInput
 
     		// actions correspond to ['turn+','turn-', 'dash', 'kick']
     		// Perform the action
-    		if (action == 0) {
+    		if (action == Behaviour.turnP) {
 				// turn+
 				m_krislet.turn(turnAngle);
-			} else if (action == 1) {
+			} else if (action == Behaviour.turnN) {
 				// turn-
 				m_krislet.turn(-1 * turnAngle);
-			} else if (action == 2) {
+			} else if (action == Behaviour.dash) {
 				// dash
 				m_krislet.dash(10 * ballDistance);
-			} else { // action == 3
+			} else { // action == Behaviour.kick
 				// kick
 				m_krislet.kick(100, goalDirection);
 			}
