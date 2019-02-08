@@ -14,3 +14,27 @@ Krislet_dl4j/target/
 *.iml
 
 Results/__pycache__/
+
+Krislet_dl4j/executable/FiniteTurnDense1Expert\.jar
+
+Krislet_dl4j/executable/FiniteTurnDense1Student\.jar
+
+Krislet_dl4j/executable/FiniteTurnLSTM1Expert\.jar
+
+Krislet_dl4j/executable/FiniteTurnLSTM1Student\.jar
+
+Krislet_dl4j/executable/KickSpinDense1Student\.jar
+
+Krislet_dl4j/executable/TurnDirectionDense1Student\.jar
+
+Krislet_dl4j/executable/TurnDirectionLSTM1Student\.jar
+
+Krislet_dl4j/executable/KickSpinDense1Expert\.jar
+
+Krislet_dl4j/executable/KickSpinLSTM1Student\.jar
+
+Krislet_dl4j/executable/TurnDirectionLSTM1Expert\.jar
+
+Krislet_dl4j/executable/TurnDirectionDense1Expert\.jar
+
+Krislet_dl4j/executable/KickSpinLSTM1Expert\.jar
