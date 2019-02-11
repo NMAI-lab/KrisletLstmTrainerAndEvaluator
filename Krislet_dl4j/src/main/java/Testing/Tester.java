@@ -15,8 +15,8 @@ public class Tester {
     public static void main(String [] a) {
         System.out.println("This is the test routine");
 
-        BehaviourModel behaviourModel = new BehaviourModel("FiniteTurnDense");
-
+        //BehaviourModel behaviourModel = new BehaviourModel("FiniteTurnDense");
+        BehaviourModel behaviourModel = new BehaviourModel("FiniteTurnLSTM");
 
         String line;
         String cvsSplitBy = ",";
@@ -51,7 +51,7 @@ public class Tester {
         }
 
         Evaluation eval = new Evaluation(4);
-        double maxI = 0.2 * action.size();
+        double maxI = 0.025 * action.size();
         for (int i = 0; i < maxI; i++) {
 
             // Generate the prediction
@@ -70,11 +70,13 @@ public class Tester {
         double fTurnN = eval.f1(Behaviour.turnN);
         double fDash = eval.f1(Behaviour.dash);
         double fKick = eval.f1(Behaviour.kick);
+        System.out.println(eval.stats());
+
         System.out.println("F Measure Turn+: " + fTurnP);
         System.out.println("F Measure Turn-: " + fTurnN);
         System.out.println("F Measure Dash: " + fDash);
         System.out.println("F Measure Kick: " + fKick);
 
-        System.out.println(eval.stats());
+
     }
 }
