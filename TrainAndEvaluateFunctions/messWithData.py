@@ -23,9 +23,16 @@ featureIncludeList = ['b','ga']#['b','go','ga']
 
 for test in testType:
     data = loadData(test, depth, actionIncludeList, featureIncludeList)
-    (_,y) = data
-    unique, counts = np.unique(y, return_counts=True)
-    print(test)
-    print(actionIncludeList)
-    print(dict(zip(unique, counts)))
-    print('----------------------------')
+    (x,y) = data
+    fileName = test + ".csv"
+    dataFile = open(fileName,'w')
+    dataFile.write('ballDist,ballDir,goalDist,goalDir,action\n')
+    for i in range(len(y)):
+        dataFile.write(str(x[i][0]) + "," + str(x[i][1]) + "," + str(x[i][2]) + "," + str(x[i][3]) + "," + str(y[i]) + "\n")
+    dataFile.close()
+    
+    #unique, counts = np.unique(y, return_counts=True)
+    #print(test)
+    #print(actionIncludeList)
+    #print(dict(zip(unique, counts)))
+    #print('----------------------------')

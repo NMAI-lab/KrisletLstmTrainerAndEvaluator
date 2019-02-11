@@ -47,7 +47,7 @@ class Brain extends Thread implements SensorInput
 		this.useExpert = true;
 
 		// Setup the action log file
-		this.actionLogFileName = "ActionLog" + team + ".log";
+		this.actionLogFileName = "ActionLog" + team + number + ".log";
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(this.actionLogFileName));
 			writer.append("Expert,Student");
@@ -94,7 +94,14 @@ class Brain extends Thread implements SensorInput
     	double ballDirection = 0;
     	double goalDistance = 0;
     	double goalDirection = 0;
-		BehaviourModel model = new BehaviourModel();
+
+		//BehaviourModel model = new BehaviourModel("FiniteTurnLSTM");
+		BehaviourModel model = new BehaviourModel("FiniteTurnDense");
+		//BehaviourModel model = new BehaviourModel("StateBasedKickSpinLSTM");
+		//BehaviourModel model = new BehaviourModel("StateBasedKickSpinDense");
+		//BehaviourModel model = new BehaviourModel("StateBasedTurnDirectionLSTM");
+		//BehaviourModel model = new BehaviourModel("StateBasedTurnDirectionDense");
+
 		int studentAction = 0;
 		int expertAction = 0;
 		int action = 0;
