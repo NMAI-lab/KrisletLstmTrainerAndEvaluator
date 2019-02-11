@@ -5,7 +5,7 @@ Created on Thu Feb  7 14:33:31 2019
 @author: Patrick
 """
 
-from resultLoader import getResults, getFMeasure
+from resultLoader import loadResults, getFMeasure
 
-(expertAction, studentAction) = getResults("result.txt")
+(expertAction, studentAction) = loadResults("result.log")
 score = getFMeasure(expertAction, studentAction) 
