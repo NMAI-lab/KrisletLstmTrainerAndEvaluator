@@ -40,11 +40,19 @@ class Brain extends Thread implements SensorInput
 		m_playMode = playMode;
 
 		// Setup the expert
-		this.expertAgent = new FiniteTurnOracle();
+		//this.expertAgent = new FiniteTurnOracle();
 		//this.expertAgent = new KickSpinOracle();
-		//this.expertAgent = new TurnDirectionOracle();
+		this.expertAgent = new TurnDirectionOracle();
 
-		this.useExpert = true;
+		//this.model = new BehaviourModel("FiniteTurnLSTM");
+		//this.model = new BehaviourModel("FiniteTurnDense");
+		//this.model = new BehaviourModel("StateBasedKickSpinLSTM");
+		//this.model = new BehaviourModel("StateBasedKickSpinDense");
+		//this.model = new BehaviourModel("StateBasedTurnDirectionLSTM");
+		this.model = new BehaviourModel("StateBasedTurnDirectionDense");
+
+		//this.useExpert = true;
+		this.useExpert = false;
 
 		// Setup the action log file
 		this.actionLogFileName = "ActionLog" + team + number + ".log";
@@ -95,13 +103,6 @@ class Brain extends Thread implements SensorInput
     	double goalDistance = 0;
     	double goalDirection = 0;
 
-		//BehaviourModel model = new BehaviourModel("FiniteTurnLSTM");
-		BehaviourModel model = new BehaviourModel("FiniteTurnDense");
-		//BehaviourModel model = new BehaviourModel("StateBasedKickSpinLSTM");
-		//BehaviourModel model = new BehaviourModel("StateBasedKickSpinDense");
-		//BehaviourModel model = new BehaviourModel("StateBasedTurnDirectionLSTM");
-		//BehaviourModel model = new BehaviourModel("StateBasedTurnDirectionDense");
-
 		int studentAction = 0;
 		int expertAction = 0;
 		int action = 0;
@@ -148,7 +149,7 @@ class Brain extends Thread implements SensorInput
     		}
 
     		// Determine what action to take.
-			studentAction = model.getAction(ballDistance, ballDirection, goalDistance, goalDirection);
+			studentAction = this.model.getAction(ballDistance, ballDirection, goalDistance, goalDirection);
     		expertAction = expertAgent.getAction(ballVisible, ballDirection, ballDistance,
 					goalVisible, goalDirection, goalDistance);
 
@@ -240,4 +241,5 @@ class Brain extends Thread implements SensorInput
     private Behaviour expertAgent;
     private boolean useExpert;
 	private String actionLogFileName;
+	BehaviourModel model;
 }
