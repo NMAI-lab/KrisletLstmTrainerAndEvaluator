@@ -9,6 +9,40 @@ import csv
 from sklearn.metrics import f1_score
 from os import listdir
 
+
+def getAllScores(logPath):
+    files = listdir(logPath)
+    scores = list()
+    for name in files:
+        scores.append(getTestScore(logPath + "/" + name))
+        
+    return (files,scores)
+
+
+
+def getTestScore(path):
+    
+    # Initialize the data lists
+    true = list()
+    predicted = list()
+    
+    # Get the file names in this directory
+    fileNames = listdir(path)
+    
+    # Get scores from each file
+    for currentFileName in fileNames:
+        currentPath = path + "/" + currentFileName
+        (currentTrue, currentPredicted) = loadResults(currentPath)
+        
+        true.extend(currentTrue)
+        predicted.extend(currentPredicted)
+        
+    scores = getFMeasure(true, predicted)
+    
+    # Return result
+    return scores
+    
+
 def loadResults(fileName):
     
     with open(fileName, mode='r') as csv_file:
@@ -28,20 +62,3 @@ def getFMeasure(true, predicted):
     labels = [i for i in range(minLabel,maxLabel)]
     return f1_score(true, predicted, labels = labels, average = None)
 
-
-def getAllScores(path):
-    
-    # Initialize the output list
-    scores = list()
-    
-    # Get the file names in this directory
-    fileNames = listdir(path)
-    
-    # Get scores from each file
-    for currentFileName in fileNames:
-        currentPath = path + "/" + currentFileName
-        (true, predicted) = loadResults(currentPath)
-        scores.append(getFMeasure(true, predicted))
-    
-    # Return result
-    return scores

@@ -5,7 +5,9 @@ Created on Thu Feb  7 14:33:31 2019
 @author: Patrick
 """
 
-from resultLoader import loadResults, getFMeasure
+from resultLoader import getAllScores
 
-(expertAction, studentAction) = loadResults("result.log")
-score = getFMeasure(expertAction, studentAction) 
+(scenarios,scores) = getAllScores("logs")
+
+#(expertAction, studentAction) = loadResults("result.log")
+#score = getFMeasure(expertAction, studentAction) 
