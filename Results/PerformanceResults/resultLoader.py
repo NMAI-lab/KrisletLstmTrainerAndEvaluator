@@ -19,7 +19,6 @@ def getAllScores(logPath):
     return (files,scores)
 
 
-
 def getTestScore(path):
     
     # Initialize the data lists
