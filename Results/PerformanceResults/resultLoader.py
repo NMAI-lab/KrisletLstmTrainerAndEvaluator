@@ -55,9 +55,9 @@ def loadResults(fileName):
             
     return (expertAction, studentAction)
 
-def getFMeasure(true, predicted):
+def getFMeasure(true, predicted, numClasses = 4):
     minLabel = int(min(true))
     maxLabel = int(max(true)) + 1
-    labels = [i for i in range(minLabel,maxLabel)]
+    labels = [i for i in range(numClasses)]
     return f1_score(true, predicted, labels = labels, average = None)
 
