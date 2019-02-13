@@ -39,7 +39,7 @@ def generatePlot(results, labels, categories, fileName):
     # Add some text for labels, title and custom x-axis tick labels, etc.
     yLabel = 'F measure'
     xLabel = 'Model type'
-    fullFileName = fileName + ".pdf"
+    fullFileName = "OracleTest" + fileName + ".pdf"
     
     ax.set_ylabel(yLabel)
     ax.set_xlabel(xLabel)
