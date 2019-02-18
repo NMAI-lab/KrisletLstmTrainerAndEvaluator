@@ -169,10 +169,18 @@ class Brain extends Thread implements SensorInput
 				m_krislet.turn(-1 * turnAngle);
 			} else if (action == Behaviour.dash) {
 				// dash
-				m_krislet.dash(10 * ballDistance);
+				if (ballVisible) {
+					m_krislet.dash(10 * ballDistance);
+				} else {
+					m_krislet.dash(100);
+				}
 			} else { // action == Behaviour.kick
 				// kick
-				m_krislet.kick(100, goalDirection);
+				if (goalVisible) {
+					m_krislet.kick(100, goalDirection);
+				} else {
+					m_krislet.kick(100,0);
+				}
 			}
 
 
