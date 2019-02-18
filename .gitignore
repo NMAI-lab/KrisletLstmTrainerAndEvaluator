@@ -38,3 +38,7 @@ Krislet_dl4j/executable/TurnDirectionLSTM1Expert\.jar
 Krislet_dl4j/executable/TurnDirectionDense1Expert\.jar
 
 Krislet_dl4j/executable/KickSpinLSTM1Expert\.jar
+
+Results/ClassificationResults/__pycache__/
+
+Results/PerformanceResults/__pycache__/
